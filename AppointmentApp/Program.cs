@@ -16,7 +16,9 @@ namespace AppointmentApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            DbConnection.OpenConnection();
             Application.Run(new MainView());
+            DbConnection.CloseConnection();
         }
     }
 }
