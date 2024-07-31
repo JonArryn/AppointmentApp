@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\DbConnection.cs" />
+    <Compile Include="Database\DbHelper.cs" />
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
     </Compile>
