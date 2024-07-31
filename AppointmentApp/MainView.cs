@@ -18,12 +18,6 @@ namespace AppointmentApp
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DataTable table = DbConnection.connection.GetSchema("Databases");
-            DbHelper.ResetAndSeedDatabase();
-        }
-
         private void dbResetAndSeed_Click(object sender, EventArgs e)
         {
             DbHelper.ResetAndSeedDatabase();
