@@ -12,7 +12,7 @@ namespace AppointmentApp
     
     public class DbConnection
     {
-       public static MySqlConnection connection { get; set; }
+       public static MySqlConnection Connection { get; set; }
 
 
 
@@ -21,8 +21,8 @@ namespace AppointmentApp
            string connectionString = ConfigurationManager.ConnectionStrings["localdb"].ConnectionString;
             try
             {
-                connection = new MySqlConnection(connectionString);
-                connection.Open();
+                Connection = new MySqlConnection(connectionString);
+                Connection.Open();
 
             }
             catch (MySqlException ex)
@@ -40,11 +40,11 @@ namespace AppointmentApp
         {
             try
             {
-                if (connection != null)
+                if (Connection != null)
                 {
-                    connection.Close();
+                    Connection.Close();
                 }
-                connection = null;
+                Connection = null;
             }
             catch (Exception ex)
             {

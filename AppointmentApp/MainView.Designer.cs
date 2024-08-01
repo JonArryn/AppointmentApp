@@ -28,47 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dbResetAndSeed = new System.Windows.Forms.Button();
-            this.dbResetTables = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // dbResetAndSeed
+            // label1
             // 
-            this.dbResetAndSeed.Location = new System.Drawing.Point(12, 12);
-            this.dbResetAndSeed.Name = "dbResetAndSeed";
-            this.dbResetAndSeed.Size = new System.Drawing.Size(154, 23);
-            this.dbResetAndSeed.TabIndex = 0;
-            this.dbResetAndSeed.Text = "Reset And Seed DB";
-            this.dbResetAndSeed.UseVisualStyleBackColor = true;
-            this.dbResetAndSeed.Click += new System.EventHandler(this.dbResetAndSeed_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(301, 188);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(323, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "You Have Successfully Reached The App - Congrats";
             // 
-            // dbResetTables
+            // button1
             // 
-            this.dbResetTables.Location = new System.Drawing.Point(634, 12);
-            this.dbResetTables.Name = "dbResetTables";
-            this.dbResetTables.Size = new System.Drawing.Size(154, 23);
-            this.dbResetTables.TabIndex = 0;
-            this.dbResetTables.Text = "Reset DB Tables";
-            this.dbResetTables.UseVisualStyleBackColor = true;
-            this.dbResetTables.Click += new System.EventHandler(this.dbResetTables_Click);
+            this.button1.Location = new System.Drawing.Point(359, 249);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(193, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Exit Application";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dbResetTables);
-            this.Controls.Add(this.dbResetAndSeed);
+            this.ClientSize = new System.Drawing.Size(957, 527);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainView";
-            this.Text = "Form1";
+            this.Text = "Appointment App by Vale Software";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button dbResetAndSeed;
-        private System.Windows.Forms.Button dbResetTables;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

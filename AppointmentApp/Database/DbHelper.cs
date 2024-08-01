@@ -15,26 +15,26 @@ namespace AppointmentApp.Database
             try
             {
                 // Wipe the database
-                MySqlCommand dropDatabase = new MySqlCommand("DROP DATABASE IF EXISTS appointment_app", DbConnection.connection);
+                MySqlCommand dropDatabase = new MySqlCommand("DROP DATABASE IF EXISTS appointment_app", DbConnection.Connection);
                 dropDatabase.ExecuteNonQuery();
 
                 // Create the database
-                MySqlCommand createDatabase = new MySqlCommand("CREATE DATABASE appointment_app", DbConnection.connection);
+                MySqlCommand createDatabase = new MySqlCommand("CREATE DATABASE appointment_app", DbConnection.Connection);
                 createDatabase.ExecuteNonQuery();
 
                 // create the tables
-                MySqlCommand createTables = new MySqlCommand(SeedTablesQuery(), DbConnection.connection);
+                MySqlCommand createTables = new MySqlCommand(SeedTablesQuery(), DbConnection.Connection);
                 createTables.ExecuteNonQuery();
 
                 // Seed the database
-                MySqlCommand seedDatabase = new MySqlCommand(SeedDataQuery(), DbConnection.connection);
+                MySqlCommand seedDatabase = new MySqlCommand(SeedDataQuery(), DbConnection.Connection);
                 seedDatabase.ExecuteNonQuery();
 
-                MessageBox.Show("Database reset and seeded successfully!");
+                Messages.ShowInfo("Database Seeder","Database reset and seeded successfully!");
             }
             catch (Exception ex)
             {
-               MessageBox.Show(ex.Message);
+               Messages.ShowError("Database Seeder",ex.Message);
             }
 
 
@@ -45,21 +45,21 @@ namespace AppointmentApp.Database
             try
             {
                 // Wipe the database
-                MySqlCommand dropDatabase = new MySqlCommand("DROP DATABASE IF EXISTS appointment_app", DbConnection.connection);
+                MySqlCommand dropDatabase = new MySqlCommand("DROP DATABASE IF EXISTS appointment_app", DbConnection.Connection);
                 dropDatabase.ExecuteNonQuery();
 
                 // Create the database
-                MySqlCommand createDatabase = new MySqlCommand("CREATE DATABASE appointment_app", DbConnection.connection);
+                MySqlCommand createDatabase = new MySqlCommand("CREATE DATABASE appointment_app", DbConnection.Connection);
                 createDatabase.ExecuteNonQuery();
 
                 // create the tables
-                MySqlCommand createTables = new MySqlCommand(SeedTablesQuery(), DbConnection.connection);
+                MySqlCommand createTables = new MySqlCommand(SeedTablesQuery(), DbConnection.Connection);
                 createTables.ExecuteNonQuery();
 
-                MessageBox.Show("Database reset with tables successfully!");
+                Messages.ShowInfo("Database Seeder", "Database reset with tables successfully!");
             }catch(Exception ex) 
             {                     
-                MessageBox.Show(ex.Message);
+                Messages.ShowError("Database Seeder", ex.Message);
             }
 
         }
