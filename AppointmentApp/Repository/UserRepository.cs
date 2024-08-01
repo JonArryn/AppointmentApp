@@ -52,8 +52,7 @@ namespace AppointmentApp.Repository
 
             } catch (MySqlException ex)
             {
-                Messages.ShowError("MySql Error", ex.Message);
-                return null;
+                throw new Exception($"MySql Error: {ex.Message}", ex);
             }
 
 

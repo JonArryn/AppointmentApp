@@ -10,8 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// TODO: Handle exceptions properly - the repo and service both do some exceptions, but we need to ensure we have a consistent way of understanding where exceptions are caught
-// TODO: handle showing the login error message
+
 // TODO: add translations and culture detection junk
 
 namespace AppointmentApp
@@ -22,6 +21,7 @@ namespace AppointmentApp
         public LoginForm(UserService userService)
         {
             InitializeComponent();
+            this.invalidLoginLabel.Visible = false;
             _userService = userService;
         }
 
@@ -46,11 +46,10 @@ namespace AppointmentApp
             {
                 Hide();
                 new MainView().Show();
-          
             }
             else
             {
-                MessageBox.Show("Invalid username or password");
+                this.invalidLoginLabel.Visible = true;
             }
 
             

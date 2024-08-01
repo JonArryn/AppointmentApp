@@ -15,27 +15,28 @@ namespace AppointmentApp.Service
 
         private readonly UserRepository _userRepo;
 
+        public bool IsLoggedIn => UserID > 0;
+
         public UserService()
         {
             _userRepo = new UserRepository();
         }
 
-        public bool IsLoggedIn => UserID > 0;
 
         public void StartSession(string userName, string password)
         {
 
             UserModel user = _userRepo.Login(userName, password);
-            if (user == null)
+            if(user != null)
             {
-                throw new Exception("Invalid username or password");
+                UserID = user.UserId;
+                Username = user.UserName;
             }
+     
 
-            UserID = user.UserId;
-            Username = user.UserName;
         }
 
-        public void EndSession()
+        private void EndSession()
         {
             UserID = 0;
             Username = string.Empty;
