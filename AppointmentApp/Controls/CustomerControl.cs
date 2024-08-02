@@ -1,4 +1,5 @@
-﻿using AppointmentApp.Model;
+﻿using AppointmentApp.Helper;
+using AppointmentApp.Model;
 using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,10 @@ namespace AppointmentApp.Controls
     public partial class CustomerControl : UserControl
     {
         private CustomerService _customerService;
-        public CustomerControl(CustomerService customerService)
+        public CustomerControl()
         {
             InitializeComponent();          
-            _customerService = customerService;
+            _customerService = ServiceLocator.Instance.CustomerService;
             PopulateCustomers();
 
         }

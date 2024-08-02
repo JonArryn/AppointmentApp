@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AppointmentApp { 
-    public class Translations
+    public class TranslationService
     {
         public string CurrentCulture { get; set; }
-        public Translations()
+        public TranslationService()
         {
             CurrentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
         }

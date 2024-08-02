@@ -15,11 +15,12 @@ namespace AppointmentApp.Helper
 
         public UserService UserService { get; }
         public CustomerService CustomerService { get; }
+        public TranslationService TranslationService { get; }
 
         private ServiceLocator()
         {
-            // Initialize your services and repositories here
             UserService = new UserService();
+            TranslationService = new TranslationService();
             CustomerService = new CustomerService(UserService);
         }
     }

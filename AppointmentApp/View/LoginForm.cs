@@ -1,4 +1,5 @@
 ﻿using AppointmentApp.Database;
+using AppointmentApp.Helper;
 using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;
@@ -20,16 +21,14 @@ namespace AppointmentApp
     public partial class LoginForm : Form
     {
         private readonly UserService _userService;
-        private readonly Translations _translations;
-        private readonly CustomerService _customerService;
-        public LoginForm(UserService userService, Translations tranlations, CustomerService customerService)
+        private readonly TranslationService _translations;
+        public LoginForm()
         {
             InitializeComponent();
+            _userService = ServiceLocator.Instance.UserService;
+            _translations = ServiceLocator.Instance.TranslationService;
             this.invalidLoginLabel.Visible = false;
-            _userService = userService;
-            _translations = tranlations;       
-            _customerService = customerService;
-
+                 
             TranslateLoginForm();
         }
 
@@ -74,7 +73,7 @@ namespace AppointmentApp
             if (_userService.IsLoggedIn)
             {
                 Hide();
-                new MainView(_customerService).Show();
+                new MainView().Show();
             }
             else
             {

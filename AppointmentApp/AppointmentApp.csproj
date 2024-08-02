@@ -112,7 +112,7 @@
     <Compile Include="Database\DbConnection.cs" />
     <Compile Include="Database\DbHelper.cs" />
     <Compile Include="Helper\Messages.cs" />
-    <Compile Include="Helper\Translations.cs" />
+    <Compile Include="Service\TranslationService.cs" />
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
     </Compile>

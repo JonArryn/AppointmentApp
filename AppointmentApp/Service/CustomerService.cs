@@ -21,12 +21,13 @@ namespace AppointmentApp.Service
         {
 
             List<CustomerModel> customers = new List<CustomerModel>();
-            string query = $@"SELECT * FROM {TableConstant.CUSTOMER} WHERE {CustomerColumns.CREATED_BY} = {_userService.Username}";
+            string query = $@"SELECT * FROM {TableConstant.CUSTOMER} WHERE {CustomerColumns.CREATED_BY} = @Username";
 
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
+                    command.Parameters.AddWithValue("@Username", _userService.Username);
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
