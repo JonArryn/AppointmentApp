@@ -51,7 +51,7 @@
             // 
             // dbResetTables
             // 
-            this.dbResetTables.Location = new System.Drawing.Point(229, 15);
+            this.dbResetTables.Location = new System.Drawing.Point(379, 15);
             this.dbResetTables.Margin = new System.Windows.Forms.Padding(4);
             this.dbResetTables.Name = "dbResetTables";
             this.dbResetTables.Size = new System.Drawing.Size(205, 28);
@@ -62,7 +62,7 @@
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(179, 144);
+            this.loginButton.Location = new System.Drawing.Point(244, 221);
             this.loginButton.Margin = new System.Windows.Forms.Padding(4);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(100, 28);
@@ -73,23 +73,26 @@
             // 
             // usernameInputText
             // 
-            this.usernameInputText.Location = new System.Drawing.Point(144, 87);
+            this.usernameInputText.Location = new System.Drawing.Point(206, 127);
             this.usernameInputText.Name = "usernameInputText";
             this.usernameInputText.Size = new System.Drawing.Size(188, 22);
             this.usernameInputText.TabIndex = 2;
+            this.usernameInputText.TextChanged += new System.EventHandler(this.usernameInputText_TextChanged);
             // 
             // passwordInputText
             // 
-            this.passwordInputText.Location = new System.Drawing.Point(144, 115);
+            this.passwordInputText.Location = new System.Drawing.Point(206, 171);
             this.passwordInputText.Name = "passwordInputText";
             this.passwordInputText.PasswordChar = '*';
             this.passwordInputText.Size = new System.Drawing.Size(188, 22);
             this.passwordInputText.TabIndex = 3;
+            this.passwordInputText.TextChanged += new System.EventHandler(this.passwordInputText_TextChanged);
             // 
             // usernameInputLabel
             // 
+            this.usernameInputLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.usernameInputLabel.AutoSize = true;
-            this.usernameInputLabel.Location = new System.Drawing.Point(68, 90);
+            this.usernameInputLabel.Location = new System.Drawing.Point(203, 108);
             this.usernameInputLabel.Name = "usernameInputLabel";
             this.usernameInputLabel.Size = new System.Drawing.Size(70, 16);
             this.usernameInputLabel.TabIndex = 4;
@@ -98,7 +101,7 @@
             // passwordInputLabel
             // 
             this.passwordInputLabel.AutoSize = true;
-            this.passwordInputLabel.Location = new System.Drawing.Point(71, 118);
+            this.passwordInputLabel.Location = new System.Drawing.Point(203, 152);
             this.passwordInputLabel.Name = "passwordInputLabel";
             this.passwordInputLabel.Size = new System.Drawing.Size(67, 16);
             this.passwordInputLabel.TabIndex = 4;
@@ -108,7 +111,7 @@
             // 
             this.invalidLoginLabel.AutoSize = true;
             this.invalidLoginLabel.ForeColor = System.Drawing.Color.Firebrick;
-            this.invalidLoginLabel.Location = new System.Drawing.Point(155, 208);
+            this.invalidLoginLabel.Location = new System.Drawing.Point(12, 363);
             this.invalidLoginLabel.Name = "invalidLoginLabel";
             this.invalidLoginLabel.Size = new System.Drawing.Size(149, 16);
             this.invalidLoginLabel.TabIndex = 5;
@@ -118,7 +121,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(446, 256);
+            this.ClientSize = new System.Drawing.Size(597, 388);
             this.Controls.Add(this.invalidLoginLabel);
             this.Controls.Add(this.passwordInputLabel);
             this.Controls.Add(this.usernameInputLabel);

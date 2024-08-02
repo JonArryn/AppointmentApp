@@ -11,18 +11,43 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-// TODO: add translations and culture detection junk
+
+
+// TODO: BONUS add logout functionality
 
 namespace AppointmentApp
 {
     public partial class LoginForm : Form
     {
         private readonly UserService _userService;
-        public LoginForm(UserService userService)
+        private readonly Translations _translations;
+        public LoginForm(UserService userService, Translations tranlations)
         {
             InitializeComponent();
             this.invalidLoginLabel.Visible = false;
             _userService = userService;
+            _translations = tranlations;
+            TranslateLoginForm();
+        }
+
+        private void TranslateLoginForm()
+        {
+            Dictionary<string, string> formTranslations;
+
+
+            
+            if (_translations.CurrentCulture != "en" ) {
+            formTranslations = _translations.SpanishLogin;
+            }
+            else
+            {
+                formTranslations = _translations.EnglishLogin;
+            }
+            
+            this.usernameInputLabel.Text = formTranslations["Username"];
+            this.passwordInputLabel.Text = formTranslations["Password"];
+            this.invalidLoginLabel.Text = formTranslations["InvalidLogin"];
+            this.loginButton.Text = formTranslations["Login"];
         }
 
         private void dbResetAndSeed_Click(object sender, EventArgs e)
@@ -53,6 +78,16 @@ namespace AppointmentApp
             }
 
             
+        }
+
+        private void usernameInputText_TextChanged(object sender, EventArgs e)
+        {
+            this.invalidLoginLabel.Visible = false;
+        }
+
+        private void passwordInputText_TextChanged(object sender, EventArgs e)
+        {
+            this.invalidLoginLabel.Visible = false;
         }
     }
 }
