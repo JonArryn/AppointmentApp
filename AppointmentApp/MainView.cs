@@ -29,7 +29,6 @@ namespace AppointmentApp
 
         private void LoadControl(UserControl control)
         {
-            // Clear existing controls
             mainPanel.Controls.Clear();
             control.Dock = DockStyle.Fill;
             mainPanel.Controls.Add(control);
@@ -42,7 +41,6 @@ namespace AppointmentApp
 
         private void MainView_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            // Show confirmation dialog
             var result = Messages.ShowQuestion("Exit Application", "Are you sure you want to exit the application? All unsaved work will be lost.");
 
             if (result == DialogResult.No)
