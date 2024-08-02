@@ -49,7 +49,7 @@ namespace AppointmentApp
             }
             else
             {
-                Application.Exit();
+                Application.ExitThread();
             }
         }
     }
