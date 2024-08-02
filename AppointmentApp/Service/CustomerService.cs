@@ -1,6 +1,5 @@
 ﻿using AppointmentApp.Constant;
 using AppointmentApp.Model;
-using AppointmentApp.Repository;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;

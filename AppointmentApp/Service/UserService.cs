@@ -1,5 +1,4 @@
-﻿using AppointmentApp.Repository;
-using AppointmentApp.Model;
+﻿using AppointmentApp.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
