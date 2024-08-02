@@ -21,12 +21,15 @@ namespace AppointmentApp
     {
         private readonly UserService _userService;
         private readonly Translations _translations;
-        public LoginForm(UserService userService, Translations tranlations)
+        private readonly CustomerService _customerService;
+        public LoginForm(UserService userService, Translations tranlations, CustomerService customerService)
         {
             InitializeComponent();
             this.invalidLoginLabel.Visible = false;
             _userService = userService;
-            _translations = tranlations;
+            _translations = tranlations;       
+            _customerService = customerService;
+
             TranslateLoginForm();
         }
 
@@ -36,8 +39,9 @@ namespace AppointmentApp
 
 
             
-            if (_translations.CurrentCulture != "en" ) {
-            formTranslations = _translations.SpanishLogin;
+            if (_translations.CurrentCulture != "en" ) 
+            {
+                formTranslations = _translations.SpanishLogin;
             }
             else
             {
@@ -70,7 +74,7 @@ namespace AppointmentApp
             if (_userService.IsLoggedIn)
             {
                 Hide();
-                new MainView().Show();
+                new MainView(_customerService).Show();
             }
             else
             {

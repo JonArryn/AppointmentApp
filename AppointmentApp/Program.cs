@@ -11,6 +11,7 @@ namespace AppointmentApp
     {
         private static UserService _userService;
         private static Translations _translations;
+        private static CustomerService _customerService;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -18,11 +19,12 @@ namespace AppointmentApp
         static void Main()
         {
             _userService = new Service.UserService();
+            _customerService = new CustomerService(_userService);
             _translations = new Translations();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnection.OpenConnection();
-            Application.Run(new LoginForm(_userService, _translations));
+            Application.Run(new LoginForm(_userService, _translations, _customerService));
             DbConnection.CloseConnection();
         }
         public static UserService Session => _userService;

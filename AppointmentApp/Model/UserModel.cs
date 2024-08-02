@@ -17,4 +17,9 @@ namespace AppointmentApp.Model
         public DateTime LastUpdate { get; set; }
         public string LastUpdateBy { get; set; } 
     }
+    public class UserDTO
+    {
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+    }
 }

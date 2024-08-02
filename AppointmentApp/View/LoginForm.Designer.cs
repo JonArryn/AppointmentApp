@@ -66,7 +66,7 @@
             this.loginButton.Margin = new System.Windows.Forms.Padding(4);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(100, 28);
-            this.loginButton.TabIndex = 1;
+            this.loginButton.TabIndex = 3;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
@@ -76,7 +76,7 @@
             this.usernameInputText.Location = new System.Drawing.Point(206, 127);
             this.usernameInputText.Name = "usernameInputText";
             this.usernameInputText.Size = new System.Drawing.Size(188, 22);
-            this.usernameInputText.TabIndex = 2;
+            this.usernameInputText.TabIndex = 1;
             this.usernameInputText.TextChanged += new System.EventHandler(this.usernameInputText_TextChanged);
             // 
             // passwordInputText
@@ -85,7 +85,7 @@
             this.passwordInputText.Name = "passwordInputText";
             this.passwordInputText.PasswordChar = '*';
             this.passwordInputText.Size = new System.Drawing.Size(188, 22);
-            this.passwordInputText.TabIndex = 3;
+            this.passwordInputText.TabIndex = 2;
             this.passwordInputText.TextChanged += new System.EventHandler(this.passwordInputText_TextChanged);
             // 
             // usernameInputLabel
