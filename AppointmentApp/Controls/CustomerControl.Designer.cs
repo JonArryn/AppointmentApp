@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.customerGridView = new System.Windows.Forms.DataGridView();
+            this.customerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customerAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customerPhone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.customerGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -38,11 +41,33 @@
             this.customerGridView.AllowUserToDeleteRows = false;
             this.customerGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.customerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.customerGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.customerName,
+            this.customerAddress,
+            this.customerPhone});
             this.customerGridView.Location = new System.Drawing.Point(3, 65);
             this.customerGridView.Name = "customerGridView";
             this.customerGridView.ReadOnly = true;
             this.customerGridView.Size = new System.Drawing.Size(994, 432);
             this.customerGridView.TabIndex = 0;
+            // 
+            // customerName
+            // 
+            this.customerName.HeaderText = "Name";
+            this.customerName.Name = "customerName";
+            this.customerName.ReadOnly = true;
+            // 
+            // customerAddress
+            // 
+            this.customerAddress.HeaderText = "Address";
+            this.customerAddress.Name = "customerAddress";
+            this.customerAddress.ReadOnly = true;
+            // 
+            // customerPhone
+            // 
+            this.customerPhone.HeaderText = "Phone Number";
+            this.customerPhone.Name = "customerPhone";
+            this.customerPhone.ReadOnly = true;
             // 
             // CustomerControl
             // 
@@ -59,5 +84,8 @@
         #endregion
 
         private System.Windows.Forms.DataGridView customerGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customerName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customerAddress;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customerPhone;
     }
 }

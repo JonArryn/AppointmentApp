@@ -1,13 +1,13 @@
-﻿namespace AppointmentApp
+﻿namespace AppointmentApp.Controls
 {
-    partial class LoginForm
+    partial class LoginControl
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,10 +20,10 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -40,10 +40,10 @@
             // 
             // dbResetAndSeed
             // 
-            this.dbResetAndSeed.Location = new System.Drawing.Point(16, 15);
-            this.dbResetAndSeed.Margin = new System.Windows.Forms.Padding(4);
+            this.dbResetAndSeed.Location = new System.Drawing.Point(5, 5);
+            this.dbResetAndSeed.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.dbResetAndSeed.Name = "dbResetAndSeed";
-            this.dbResetAndSeed.Size = new System.Drawing.Size(205, 28);
+            this.dbResetAndSeed.Size = new System.Drawing.Size(273, 34);
             this.dbResetAndSeed.TabIndex = 0;
             this.dbResetAndSeed.Text = "Reset And Seed DB";
             this.dbResetAndSeed.UseVisualStyleBackColor = true;
@@ -51,10 +51,10 @@
             // 
             // dbResetTables
             // 
-            this.dbResetTables.Location = new System.Drawing.Point(379, 15);
-            this.dbResetTables.Margin = new System.Windows.Forms.Padding(4);
+            this.dbResetTables.Location = new System.Drawing.Point(722, 5);
+            this.dbResetTables.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.dbResetTables.Name = "dbResetTables";
-            this.dbResetTables.Size = new System.Drawing.Size(205, 28);
+            this.dbResetTables.Size = new System.Drawing.Size(273, 34);
             this.dbResetTables.TabIndex = 0;
             this.dbResetTables.Text = "Reset DB Tables";
             this.dbResetTables.UseVisualStyleBackColor = true;
@@ -62,10 +62,10 @@
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(244, 221);
-            this.loginButton.Margin = new System.Windows.Forms.Padding(4);
+            this.loginButton.Location = new System.Drawing.Point(416, 279);
+            this.loginButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(100, 28);
+            this.loginButton.Size = new System.Drawing.Size(133, 34);
             this.loginButton.TabIndex = 3;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
@@ -73,26 +73,28 @@
             // 
             // usernameInputText
             // 
-            this.usernameInputText.Location = new System.Drawing.Point(206, 127);
+            this.usernameInputText.Location = new System.Drawing.Point(365, 164);
+            this.usernameInputText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.usernameInputText.Name = "usernameInputText";
-            this.usernameInputText.Size = new System.Drawing.Size(188, 22);
+            this.usernameInputText.Size = new System.Drawing.Size(249, 22);
             this.usernameInputText.TabIndex = 1;
             this.usernameInputText.TextChanged += new System.EventHandler(this.usernameInputText_TextChanged);
             // 
             // passwordInputText
             // 
-            this.passwordInputText.Location = new System.Drawing.Point(206, 171);
+            this.passwordInputText.Location = new System.Drawing.Point(365, 218);
+            this.passwordInputText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.passwordInputText.Name = "passwordInputText";
             this.passwordInputText.PasswordChar = '*';
-            this.passwordInputText.Size = new System.Drawing.Size(188, 22);
+            this.passwordInputText.Size = new System.Drawing.Size(249, 22);
             this.passwordInputText.TabIndex = 2;
             this.passwordInputText.TextChanged += new System.EventHandler(this.passwordInputText_TextChanged);
             // 
             // usernameInputLabel
             // 
-            this.usernameInputLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.usernameInputLabel.AutoSize = true;
-            this.usernameInputLabel.Location = new System.Drawing.Point(203, 108);
+            this.usernameInputLabel.Location = new System.Drawing.Point(362, 144);
+            this.usernameInputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.usernameInputLabel.Name = "usernameInputLabel";
             this.usernameInputLabel.Size = new System.Drawing.Size(70, 16);
             this.usernameInputLabel.TabIndex = 4;
@@ -101,7 +103,8 @@
             // passwordInputLabel
             // 
             this.passwordInputLabel.AutoSize = true;
-            this.passwordInputLabel.Location = new System.Drawing.Point(203, 152);
+            this.passwordInputLabel.Location = new System.Drawing.Point(361, 195);
+            this.passwordInputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.passwordInputLabel.Name = "passwordInputLabel";
             this.passwordInputLabel.Size = new System.Drawing.Size(67, 16);
             this.passwordInputLabel.TabIndex = 4;
@@ -111,29 +114,29 @@
             // 
             this.invalidLoginLabel.AutoSize = true;
             this.invalidLoginLabel.ForeColor = System.Drawing.Color.Firebrick;
-            this.invalidLoginLabel.Location = new System.Drawing.Point(12, 363);
+            this.invalidLoginLabel.Location = new System.Drawing.Point(362, 108);
+            this.invalidLoginLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.invalidLoginLabel.Name = "invalidLoginLabel";
             this.invalidLoginLabel.Size = new System.Drawing.Size(149, 16);
             this.invalidLoginLabel.TabIndex = 5;
             this.invalidLoginLabel.Text = "User Credentials Invalid";
             // 
-            // LoginForm
+            // LoginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(597, 388);
             this.Controls.Add(this.invalidLoginLabel);
+            this.Controls.Add(this.dbResetTables);
             this.Controls.Add(this.passwordInputLabel);
+            this.Controls.Add(this.dbResetAndSeed);
             this.Controls.Add(this.usernameInputLabel);
+            this.Controls.Add(this.loginButton);
             this.Controls.Add(this.passwordInputText);
             this.Controls.Add(this.usernameInputText);
-            this.Controls.Add(this.loginButton);
-            this.Controls.Add(this.dbResetTables);
-            this.Controls.Add(this.dbResetAndSeed);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "LoginForm";
-            this.Text = "Appointment App by Vale Software";
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "LoginControl";
+            this.Size = new System.Drawing.Size(1000, 500);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,4 +154,3 @@
         private System.Windows.Forms.Label invalidLoginLabel;
     }
 }
-

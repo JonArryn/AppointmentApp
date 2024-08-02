@@ -1,5 +1,4 @@
-﻿using AppointmentApp.Helper;
-using AppointmentApp.Model;
+﻿using AppointmentApp.Model;
 using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;

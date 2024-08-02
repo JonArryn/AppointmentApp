@@ -1,5 +1,4 @@
 ﻿using AppointmentApp.Database;
-using AppointmentApp.Helper;
 using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;
@@ -11,24 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-
-
-// TODO: BONUS add logout functionality
-
-namespace AppointmentApp
+namespace AppointmentApp.Controls
 {
-    public partial class LoginForm : Form
+    public partial class LoginControl : UserControl
     {
         private readonly UserService _userService;
         private readonly TranslationService _translations;
-        public LoginForm()
+        private readonly MainView _mainView;
+
+        public LoginControl(MainView mainView)
         {
             InitializeComponent();
             _userService = ServiceLocator.Instance.UserService;
             _translations = ServiceLocator.Instance.TranslationService;
+            _mainView = mainView;
             this.invalidLoginLabel.Visible = false;
-                 
             TranslateLoginForm();
         }
 
@@ -37,8 +33,8 @@ namespace AppointmentApp
             Dictionary<string, string> formTranslations;
 
 
-            
-            if (_translations.CurrentCulture != "en" ) 
+
+            if (_translations.CurrentCulture != "en")
             {
                 formTranslations = _translations.SpanishLogin;
             }
@@ -46,7 +42,7 @@ namespace AppointmentApp
             {
                 formTranslations = _translations.EnglishLogin;
             }
-            
+
             this.usernameInputLabel.Text = formTranslations["Username"];
             this.passwordInputLabel.Text = formTranslations["Password"];
             this.invalidLoginLabel.Text = formTranslations["InvalidLogin"];
@@ -67,20 +63,18 @@ namespace AppointmentApp
         {
             string userName = usernameInputText.Text;
             string password = passwordInputText.Text;
- 
+
             _userService.StartSession(userName, password);
 
             if (_userService.IsLoggedIn)
             {
-                Hide();
-                new MainView().Show();
+                _mainView.LoadMainPanelControl();
             }
             else
             {
                 this.invalidLoginLabel.Visible = true;
             }
 
-            
         }
 
         private void usernameInputText_TextChanged(object sender, EventArgs e)

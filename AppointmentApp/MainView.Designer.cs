@@ -28,22 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.appointmentsButton = new System.Windows.Forms.Button();
-            this.resportsButton = new System.Windows.Forms.Button();
+            this.reportsButton = new System.Windows.Forms.Button();
             this.customersButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(689, 590);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(323, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "You Have Successfully Reached The App - Congrats";
             // 
             // button1
             // 
@@ -72,14 +62,14 @@
             this.appointmentsButton.Text = "Appointments";
             this.appointmentsButton.UseVisualStyleBackColor = true;
             // 
-            // resportsButton
+            // reportsButton
             // 
-            this.resportsButton.Location = new System.Drawing.Point(231, 52);
-            this.resportsButton.Name = "resportsButton";
-            this.resportsButton.Size = new System.Drawing.Size(107, 23);
-            this.resportsButton.TabIndex = 5;
-            this.resportsButton.Text = "Reports";
-            this.resportsButton.UseVisualStyleBackColor = true;
+            this.reportsButton.Location = new System.Drawing.Point(231, 52);
+            this.reportsButton.Name = "reportsButton";
+            this.reportsButton.Size = new System.Drawing.Size(107, 23);
+            this.reportsButton.TabIndex = 5;
+            this.reportsButton.Text = "Reports";
+            this.reportsButton.UseVisualStyleBackColor = true;
             // 
             // customersButton
             // 
@@ -97,28 +87,24 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1034, 625);
             this.Controls.Add(this.customersButton);
-            this.Controls.Add(this.resportsButton);
+            this.Controls.Add(this.reportsButton);
             this.Controls.Add(this.appointmentsButton);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainView";
             this.Text = "Appointment App by Vale Software";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing_1);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.Button appointmentsButton;
-        private System.Windows.Forms.Button resportsButton;
+        private System.Windows.Forms.Button reportsButton;
         private System.Windows.Forms.Button customersButton;
     }
 }

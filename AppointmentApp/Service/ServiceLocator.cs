@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppointmentApp.Helper
+namespace AppointmentApp.Service
 {
     public class ServiceLocator
     {

@@ -11,20 +11,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// TODO: by closing the window via the "X" the applicaiton is still running but all windows are closed
-// TODO: add database reset and seed buttons to main form
-// TODO: Inject the singleton userService to this form and figure out how to do that with a form that's not in the Program.cs file
+// TODO: Migrate LoginForm to MainView panel
 
 namespace AppointmentApp
 {
 
     public partial class MainView : Form
     {
-       
+        private readonly UserService _userService;
+
         public MainView()
         {
             InitializeComponent();
-            LoadControl(new CustomerControl());
+            _userService = ServiceLocator.Instance.UserService;
+            ShowNavigation(false);
+            LoadControl(new LoginControl(this));
+
         }
 
         private void LoadControl(UserControl control)
@@ -32,6 +34,21 @@ namespace AppointmentApp
             mainPanel.Controls.Clear();
             control.Dock = DockStyle.Fill;
             mainPanel.Controls.Add(control);
+        }
+
+
+        public void LoadMainPanelControl()
+        {
+            var customerControl = new CustomerControl();
+            LoadControl(customerControl);
+            ShowNavigation(true);
+        }
+
+        private void ShowNavigation(bool showNavigation)
+        {
+            this.customersButton.Visible = showNavigation;
+            this.appointmentsButton.Visible = showNavigation;
+            this.reportsButton.Visible = showNavigation;
         }
 
         private void button1_Click(object sender, EventArgs e)

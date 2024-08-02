@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AppointmentApp.Helper;
 using AppointmentApp.Service;
 
 namespace AppointmentApp
@@ -21,7 +20,7 @@ namespace AppointmentApp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             DbConnection.OpenConnection();
-            Application.Run(new LoginForm());
+            Application.Run(new MainView());
             DbConnection.CloseConnection();
         }
 
