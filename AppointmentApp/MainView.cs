@@ -35,28 +35,24 @@ namespace AppointmentApp
             mainPanel.Controls.Add(control);
         }
 
-        private void MainView_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Show confirmation dialog
-            var result = Messages.ShowQuestion("Exit Application", "Are you sure you want to exit the application? ALl unsaved work will be lost.");
-
-            if (result == DialogResult.No)
-            {
-                // Cancel the close event
-                e.Cancel = true;
-            }
-            else
-            {
-                // Close the application
-                Application.Exit();
-            }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        private void MainView_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            // Show confirmation dialog
+            var result = Messages.ShowQuestion("Exit Application", "Are you sure you want to exit the application? All unsaved work will be lost.");
 
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                Application.Exit();
+            }
+        }
     }
 }

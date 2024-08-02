@@ -106,6 +106,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainView";
             this.Text = "Appointment App by Vale Software";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
