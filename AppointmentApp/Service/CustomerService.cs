@@ -17,12 +17,33 @@ namespace AppointmentApp.Service
             _userService = userService;
         }
 
-        public List<CustomerModel> GetAll()
+        public List<CustomerReadDTO> GetAll()
         {
 
-            List<CustomerModel> customers = new List<CustomerModel>();
-            string query = $@"SELECT * FROM {TableConstant.CUSTOMER} WHERE {CustomerColumns.CREATED_BY} = @Username";
+            List<CustomerReadDTO> customers = new List<CustomerReadDTO>();
+            /*string query = $@"SELECT * FROM {TABLES.CUSTOMER} WHERE {CUSTOMER.CREATED_BY} = @Username";*/
 
+            string query = $@"SELECT 
+                            {CUSTOMER.CUSTOMER_ID},
+                            {CUSTOMER.CUSTOMER_NAME},
+                            CONCAT(a.{ADDRESS.ADDRESS1}, ',', 
+                                   a.{ADDRESS.ADDRESS2}, ', ', 
+                                   ci.{CITY.CITY_NAME}, ', ',
+                                   a.{ADDRESS.POSTAL_CODE}, ', ',
+                                   co.{COUNTRY.COUNTRY_NAME}
+                                  ) AS fullAddress,                          
+                            {ADDRESS.PHONE},
+
+                       FROM {TABLES.CUSTOMER} c
+
+                       JOIN {TABLES.ADDRESS} a ON c.{CUSTOMER.ADDRESS_ID} = a.{ADDRESS.ADDRESSS_ID}
+
+                       JOIN {TABLES.CITY} ci ON a.{ADDRESS.CITY_ID} = ci.{CITY.CITY_ID}
+
+                       JOIN {TABLES.COUNTRY} co ON ci.{CITY.COUNTRY_ID} = co.{COUNTRY.COUNTRY_ID}
+
+                       WHERE c.{CUSTOMER.CREATED_BY} = @Username
+                                                    ";
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
@@ -32,16 +53,13 @@ namespace AppointmentApp.Service
                     {
                         while (reader.Read())
                         {
-                            CustomerModel customer = new CustomerModel
+                            CustomerReadDTO customer = new CustomerReadDTO
                             {
-                                CustomerId = reader.GetInt32(CustomerColumns.CUSTOMER_ID),
-                                CustomerName = reader.GetString(CustomerColumns.CUSTOMER_NAME),
-                                AddressId = reader.GetInt32(CustomerColumns.ADDRESS_ID),
-                                Active = reader.GetBoolean(CustomerColumns.ACTIVE),
-                                CreateDate = reader.GetDateTime(CustomerColumns.CREATE_DATE),
-                                CreatedBy = reader.GetString(CustomerColumns.CREATED_BY),
-                                LastUpdate = reader.GetDateTime(CustomerColumns.LAST_UPDATE),
-                                LastUpdateBy = reader.GetString(CustomerColumns.LAST_UPDATE_BY)
+                                CustomerId = reader.GetInt32(CUSTOMER.CUSTOMER_ID),
+                                CustomerName = reader.GetString(CUSTOMER.CUSTOMER_NAME),
+                                Address = reader.GetString("fullAddress"),
+                                Phone = reader.GetString(ADDRESS.PHONE)
+                            
                             };
                             customers.Add(customer);
                         }

@@ -98,8 +98,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constant\TableColumnConstant.cs" />
-    <Compile Include="Constant\TableConstant.cs" />
+    <Compile Include="Constant\TABLE_COLUMNS.cs" />
+    <Compile Include="Constant\TABLES.cs" />
     <Compile Include="Controls\CustomerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

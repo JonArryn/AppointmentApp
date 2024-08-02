@@ -25,7 +25,7 @@ namespace AppointmentApp.Controls
 
         private void PopulateCustomers()
         {
-            List<CustomerModel> customers = _customerService.GetAll();
+            List<CustomerReadDTO> customers = _customerService.GetAll();
             customerGridView.DataSource = customers;
            
         }

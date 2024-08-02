@@ -53,18 +53,21 @@
             // 
             // customerName
             // 
+            this.customerName.DataPropertyName = "customerName";
             this.customerName.HeaderText = "Name";
             this.customerName.Name = "customerName";
             this.customerName.ReadOnly = true;
             // 
             // customerAddress
             // 
+            this.customerAddress.DataPropertyName = "fullAddress";
             this.customerAddress.HeaderText = "Address";
             this.customerAddress.Name = "customerAddress";
             this.customerAddress.ReadOnly = true;
             // 
             // customerPhone
             // 
+            this.customerPhone.DataPropertyName = "phone";
             this.customerPhone.HeaderText = "Phone Number";
             this.customerPhone.Name = "customerPhone";
             this.customerPhone.ReadOnly = true;

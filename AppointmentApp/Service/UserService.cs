@@ -40,7 +40,7 @@ namespace AppointmentApp.Service
             try
             {
 
-                string sql = $@"SELECT * FROM {TableConstant.USER} WHERE {UserColumns.USER_NAME} = @Username AND {UserColumns.PASSWORD} = @Password";
+                string sql = $@"SELECT * FROM {TABLES.USER} WHERE {USER.USER_NAME} = @Username AND {USER.PASSWORD} = @Password";
 
                 using (MySqlCommand loginCommand = new MySqlCommand(sql, DbConnection.Connection))
                 {

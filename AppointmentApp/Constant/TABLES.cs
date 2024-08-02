@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AppointmentApp.Constant
 {
-    public static class TableConstant
+    public static class TABLES
     {
         public static readonly string  USER = "user";
         public static readonly string  APPOINTMENT = "appointment";
