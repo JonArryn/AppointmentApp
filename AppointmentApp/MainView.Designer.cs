@@ -53,6 +53,7 @@
             this.mainTabControl.SelectedIndex = 0;
             this.mainTabControl.Size = new System.Drawing.Size(994, 530);
             this.mainTabControl.TabIndex = 2;
+            this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // customersTab
             // 

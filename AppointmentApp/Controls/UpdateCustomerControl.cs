@@ -22,8 +22,19 @@ namespace AppointmentApp.Controls
         {
             InitializeComponent();          
             _customerService = ServiceLocator.Instance.CustomerService;
-            customerFormPanel.Controls.Add(new CustomerFormControl());
+            var customerFormControl = new CustomerFormControl();
+            customerFormControl.Dock = DockStyle.Fill;
+            customerFormPanel.Controls.Add(customerFormControl);
         }
+
+        // DATA ACCESS //
+
+        public CustomerModel GetCustomer(int Id) 
+        {
+            return null;
+        }
+
+        // LOCAL EVENTS //
 
         private void cancelUpdateCustomerButton_Click(object sender, EventArgs e)
         {

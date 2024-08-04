@@ -18,12 +18,14 @@ namespace AppointmentApp.Service
         public TranslationService TranslationService { get; }
         public CountryService CountryService { get; }
         public CityService CityService { get; }
+        public AddressService AddressService { get; }
 
         private ServiceLocator()
         {
             UserService = new UserService();
             TranslationService = new TranslationService();
             CustomerService = new CustomerService(UserService);
+            AddressService = new AddressService();
             CountryService = new CountryService();
             CityService = new CityService();
         }

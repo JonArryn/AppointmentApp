@@ -18,13 +18,18 @@ namespace AppointmentApp.Controls
     {
         CountryService _countryService;
         CityService _cityService;
+        CityReadDTO _selectedCity;
+        CountryReadDTO _selectedCountry;
+
         public CustomerFormControl()
         {
             InitializeComponent();
             _countryService = ServiceLocator.Instance.CountryService;
             _cityService = ServiceLocator.Instance.CityService;
             PopulateCities();
+            _selectedCity = (CityReadDTO)cityComboBox.SelectedItem;
             PopulateCountries();
+            _selectedCountry = (CountryReadDTO)countryComboBox.SelectedItem;
         }
 
         private void PopulateCountries()
@@ -64,6 +69,21 @@ namespace AppointmentApp.Controls
                 Messages.ShowError("Error Getting Cities", $"{innerExMessage} - Exception {ex.Message}");
                
             }
+        }
+
+        private void editCityLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            
+        }
+
+        private void cityComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedCity = (CityReadDTO)cityComboBox.SelectedItem;
+        }
+
+        private void countryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _selectedCountry = (CountryReadDTO)countryComboBox.SelectedItem;
         }
     }
 }

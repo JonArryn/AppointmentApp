@@ -64,6 +64,7 @@ namespace AppointmentApp
            
             this.customersTab.Controls.Clear();
             _updateCustomerControl = new UpdateCustomerControl(_customerControl.GetSelectedCustomerId());
+            _updateCustomerControl.Dock = DockStyle.Fill;
             _customerControl = null;
             this.customersTab.Controls.Add(_updateCustomerControl);
             _updateCustomerControl.CustomerUpdated += UpdateCustomerControl_CustomerUpdated;
