@@ -52,7 +52,7 @@ namespace AppointmentApp.Constant
     {
         public static readonly string ADDRESSS_ID = "addressId";
         public static readonly string ADDRESS1 = "address";
-        public static readonly string ADDRESS2 = "address";
+        public static readonly string ADDRESS2 = "address2";
         public static readonly string CITY_ID = "cityId";
         public static readonly string POSTAL_CODE = "postalCode";
         public static readonly string PHONE = "phone";

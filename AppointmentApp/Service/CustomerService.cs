@@ -21,29 +21,28 @@ namespace AppointmentApp.Service
         {
 
             List<CustomerReadDTO> customers = new List<CustomerReadDTO>();
-            /*string query = $@"SELECT * FROM {TABLES.CUSTOMER} WHERE {CUSTOMER.CREATED_BY} = @Username";*/
 
             string query = $@"SELECT 
-                            {CUSTOMER.CUSTOMER_ID},
-                            {CUSTOMER.CUSTOMER_NAME},
-                            CONCAT(a.{ADDRESS.ADDRESS1}, ',', 
-                                   a.{ADDRESS.ADDRESS2}, ', ', 
-                                   ci.{CITY.CITY_NAME}, ', ',
-                                   a.{ADDRESS.POSTAL_CODE}, ', ',
-                                   co.{COUNTRY.COUNTRY_NAME}
-                                  ) AS fullAddress,                          
-                            {ADDRESS.PHONE},
+                                        c.{CUSTOMER.CUSTOMER_ID},
+                                        c.{CUSTOMER.CUSTOMER_NAME},
+                                        CONCAT(a.{ADDRESS.ADDRESS1}, ', ', 
+                                               a.{ADDRESS.ADDRESS2}, ', ', 
+                                               ci.{CITY.CITY_NAME}, ', ',
+                                               a.{ADDRESS.POSTAL_CODE}, ', ',
+                                               co.{COUNTRY.COUNTRY_NAME}
+                                              ) AS fullAddress,                          
+                                        a.{ADDRESS.PHONE}
 
-                       FROM {TABLES.CUSTOMER} c
+                                   FROM {TABLES.CUSTOMER} c
 
-                       JOIN {TABLES.ADDRESS} a ON c.{CUSTOMER.ADDRESS_ID} = a.{ADDRESS.ADDRESSS_ID}
+                                   JOIN {TABLES.ADDRESS} a ON c.{CUSTOMER.ADDRESS_ID} = a.{ADDRESS.ADDRESSS_ID}
 
-                       JOIN {TABLES.CITY} ci ON a.{ADDRESS.CITY_ID} = ci.{CITY.CITY_ID}
+                                   JOIN {TABLES.CITY} ci ON a.{ADDRESS.CITY_ID} = ci.{CITY.CITY_ID}
 
-                       JOIN {TABLES.COUNTRY} co ON ci.{CITY.COUNTRY_ID} = co.{COUNTRY.COUNTRY_ID}
+                                   JOIN {TABLES.COUNTRY} co ON ci.{CITY.COUNTRY_ID} = co.{COUNTRY.COUNTRY_ID}
 
-                       WHERE c.{CUSTOMER.CREATED_BY} = @Username
-                                                    ";
+                                   WHERE c.{CUSTOMER.CREATED_BY} = @Username
+                                          ";
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
@@ -72,6 +71,21 @@ namespace AppointmentApp.Service
                 throw new Exception($"MySql Error: {ex.Message}", ex);
             }
             return customers;
+        }
+
+        public CustomerModel GetById(int customerId) 
+        { 
+            return null; 
+        }
+
+        public bool Update(CustomerModel customer) 
+        { 
+            return false; 
+        }
+
+        public bool Delete(int customerId) 
+        { 
+            return false; 
         }
     }
 }

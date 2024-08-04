@@ -16,16 +16,39 @@ namespace AppointmentApp.Controls
     {
         private readonly UserService _userService;
         private readonly TranslationService _translations;
-        private readonly MainView _mainView;
 
-        public LoginControl(MainView mainView)
+        public event EventHandler LoginSuccessful;
+
+
+        public LoginControl()
         {
             InitializeComponent();
             _userService = ServiceLocator.Instance.UserService;
             _translations = ServiceLocator.Instance.TranslationService;
-            _mainView = mainView;
             this.invalidLoginLabel.Visible = false;
             TranslateLoginForm();
+        }
+
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+            string userName = usernameInputText.Text;
+            string password = passwordInputText.Text;
+
+            _userService.StartSession(userName, password);
+
+            if (_userService.IsLoggedIn)
+            {
+                LoginSuccessful?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (!_userService.IsLoggedIn)
+            {
+                this.invalidLoginLabel.Visible = true;
+                return;
+            }
+
+            
+
         }
 
         private void TranslateLoginForm()
@@ -49,33 +72,7 @@ namespace AppointmentApp.Controls
             this.loginButton.Text = formTranslations["Login"];
         }
 
-        private void dbResetAndSeed_Click(object sender, EventArgs e)
-        {
-            DbHelper.ResetAndSeedDatabase();
-        }
-
-        private void dbResetTables_Click(object sender, EventArgs e)
-        {
-            DbHelper.ResetDatabaseTables();
-        }
-
-        private void loginButton_Click(object sender, EventArgs e)
-        {
-            string userName = usernameInputText.Text;
-            string password = passwordInputText.Text;
-
-            _userService.StartSession(userName, password);
-
-            if (_userService.IsLoggedIn)
-            {
-                _mainView.LoadMainPanelControl();
-            }
-            else
-            {
-                this.invalidLoginLabel.Visible = true;
-            }
-
-        }
+        // INVALID LOGIN LABEL
 
         private void usernameInputText_TextChanged(object sender, EventArgs e)
         {
@@ -85,6 +82,17 @@ namespace AppointmentApp.Controls
         private void passwordInputText_TextChanged(object sender, EventArgs e)
         {
             this.invalidLoginLabel.Visible = false;
+        }
+
+        // DB SEEDERS
+        private void dbResetAndSeed_Click(object sender, EventArgs e)
+        {
+            DbHelper.ResetAndSeedDatabase();
+        }
+
+        private void dbResetTables_Click(object sender, EventArgs e)
+        {
+            DbHelper.ResetDatabaseTables();
         }
     }
 }

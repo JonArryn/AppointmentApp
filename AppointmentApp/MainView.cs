@@ -18,38 +18,65 @@ namespace AppointmentApp
 
     public partial class MainView : Form
     {
-        private readonly UserService _userService;
+
+        private LoginControl _loginControl;
+        private CustomerControl _customerControl;
+        private UpdateCustomerControl _updateCustomerControl;
+
+
 
         public MainView()
         {
             InitializeComponent();
-            _userService = ServiceLocator.Instance.UserService;
-            ShowNavigation(false);
-            LoadControl(new LoginControl(this));
-
+            this.mainLayoutPanel.Visible = false;
+            InitializeLoginControl();
         }
-
-        private void LoadControl(UserControl control)
+        // INITIALIZE CONTROLS //
+        private void InitializeLoginControl()
         {
-            mainPanel.Controls.Clear();
-            control.Dock = DockStyle.Fill;
-            mainPanel.Controls.Add(control);
+            _loginControl = new LoginControl();
+            _loginControl.Dock = DockStyle.Fill;
+            this.Controls.Add(_loginControl);
+            _loginControl.LoginSuccessful += LoginControl_LoginSuccessful;
         }
 
-
-        public void LoadMainPanelControl()
+        private void LoadCustomerControl()
         {
-            var customerControl = new CustomerControl();
-            LoadControl(customerControl);
-            ShowNavigation(true);
+            if (this.customersTab.Controls.Count == 0)
+            {
+                _customerControl = new CustomerControl { Dock = DockStyle.Fill };
+                this.customersTab.Controls.Add(_customerControl);
+                _customerControl.UpdateCustomer += CustomerControl_UpdateCustomer;
+                
+            }
         }
 
-        private void ShowNavigation(bool showNavigation)
+        // EVENT HANDLERS //
+        private void LoginControl_LoginSuccessful(object sender, EventArgs e)
         {
-            this.customersButton.Visible = showNavigation;
-            this.appointmentsButton.Visible = showNavigation;
-            this.reportsButton.Visible = showNavigation;
+            _loginControl.Visible = false;
+            this.mainLayoutPanel.Visible = true;
+            LoadCustomerControl();
         }
+
+        private void CustomerControl_UpdateCustomer(object sender, EventArgs e)
+        {
+           
+            this.customersTab.Controls.Clear();
+            _updateCustomerControl = new UpdateCustomerControl(_customerControl.GetSelectedCustomerId());
+            _customerControl = null;
+            this.customersTab.Controls.Add(_updateCustomerControl);
+            _updateCustomerControl.CustomerUpdated += UpdateCustomerControl_CustomerUpdated;
+        }
+
+        private void UpdateCustomerControl_CustomerUpdated(object sender, EventArgs e)
+        {
+            this.customersTab.Controls.Clear();
+            _updateCustomerControl = null;
+            LoadCustomerControl();
+        }
+
+        // LOCAL EVENTS //
 
         private void button1_Click(object sender, EventArgs e)
         {
