@@ -187,6 +187,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CustomerFormControl";
             this.Size = new System.Drawing.Size(704, 417);
+            this.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -33,7 +33,7 @@
             this.appointmentsTab = new System.Windows.Forms.TabPage();
             this.reportsTab = new System.Windows.Forms.TabPage();
             this.mainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.exitAppButton = new System.Windows.Forms.Button();
             this.mainAppLabel = new System.Windows.Forms.Label();
             this.mainTabControl.SuspendLayout();
             this.mainLayoutPanel.SuspendLayout();
@@ -69,7 +69,7 @@
             this.appointmentsTab.Location = new System.Drawing.Point(4, 25);
             this.appointmentsTab.Name = "appointmentsTab";
             this.appointmentsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.appointmentsTab.Size = new System.Drawing.Size(966, 461);
+            this.appointmentsTab.Size = new System.Drawing.Size(986, 501);
             this.appointmentsTab.TabIndex = 1;
             this.appointmentsTab.Text = "Appointments";
             this.appointmentsTab.UseVisualStyleBackColor = true;
@@ -78,7 +78,7 @@
             // 
             this.reportsTab.Location = new System.Drawing.Point(4, 25);
             this.reportsTab.Name = "reportsTab";
-            this.reportsTab.Size = new System.Drawing.Size(966, 461);
+            this.reportsTab.Size = new System.Drawing.Size(986, 501);
             this.reportsTab.TabIndex = 2;
             this.reportsTab.Text = "Reports";
             this.reportsTab.UseVisualStyleBackColor = true;
@@ -93,7 +93,7 @@
             this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 589F));
             this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 205F));
             this.mainLayoutPanel.Controls.Add(this.mainTabControl, 0, 1);
-            this.mainLayoutPanel.Controls.Add(this.button1, 2, 0);
+            this.mainLayoutPanel.Controls.Add(this.exitAppButton, 2, 0);
             this.mainLayoutPanel.Controls.Add(this.mainAppLabel, 0, 0);
             this.mainLayoutPanel.Location = new System.Drawing.Point(12, 12);
             this.mainLayoutPanel.Name = "mainLayoutPanel";
@@ -104,16 +104,16 @@
             this.mainLayoutPanel.Size = new System.Drawing.Size(1000, 601);
             this.mainLayoutPanel.TabIndex = 4;
             // 
-            // button1
+            // exitAppButton
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.Location = new System.Drawing.Point(874, 21);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(123, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Exit Application";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.exitAppButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.exitAppButton.Location = new System.Drawing.Point(874, 21);
+            this.exitAppButton.Name = "exitAppButton";
+            this.exitAppButton.Size = new System.Drawing.Size(123, 23);
+            this.exitAppButton.TabIndex = 1;
+            this.exitAppButton.Text = "Exit Application";
+            this.exitAppButton.UseVisualStyleBackColor = true;
+            this.exitAppButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // mainAppLabel
             // 
@@ -151,7 +151,7 @@
         private System.Windows.Forms.TabPage appointmentsTab;
         private System.Windows.Forms.TabPage reportsTab;
         private System.Windows.Forms.TableLayoutPanel mainLayoutPanel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button exitAppButton;
         private System.Windows.Forms.Label mainAppLabel;
     }
 }
