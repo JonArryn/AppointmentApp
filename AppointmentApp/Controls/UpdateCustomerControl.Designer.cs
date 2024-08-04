@@ -2,15 +2,8 @@
 {
     partial class UpdateCustomerControl
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +15,6 @@
 
         #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.saveUpdateCustomerButton = new System.Windows.Forms.Button();
@@ -37,8 +26,8 @@
             // 
             // saveUpdateCustomerButton
             // 
-            this.saveUpdateCustomerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.saveUpdateCustomerButton.Location = new System.Drawing.Point(847, 13);
+            this.saveUpdateCustomerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveUpdateCustomerButton.Location = new System.Drawing.Point(843, 8);
             this.saveUpdateCustomerButton.Name = "saveUpdateCustomerButton";
             this.saveUpdateCustomerButton.Size = new System.Drawing.Size(109, 23);
             this.saveUpdateCustomerButton.TabIndex = 2;
@@ -53,21 +42,22 @@
             this.customerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.5F));
             this.customerLayoutPanel.Controls.Add(this.saveUpdateCustomerButton, 2, 0);
             this.customerLayoutPanel.Controls.Add(this.cancelUpdateCustomerButton, 0, 0);
-            this.customerLayoutPanel.Controls.Add(this.customerFormPanel, 1, 1);
+            this.customerLayoutPanel.Controls.Add(this.customerFormPanel, 0, 1);
             this.customerLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.customerLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.customerLayoutPanel.Name = "customerLayoutPanel";
             this.customerLayoutPanel.RowCount = 2;
             this.customerLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.customerLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.customerLayoutPanel.Size = new System.Drawing.Size(989, 462);
+            this.customerLayoutPanel.Size = new System.Drawing.Size(986, 462);
             this.customerLayoutPanel.TabIndex = 3;
+
             // 
             // cancelUpdateCustomerButton
             // 
             this.cancelUpdateCustomerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cancelUpdateCustomerButton.ForeColor = System.Drawing.Color.Firebrick;
-            this.cancelUpdateCustomerButton.Location = new System.Drawing.Point(3, 13);
+            this.cancelUpdateCustomerButton.Location = new System.Drawing.Point(3, 8);
             this.cancelUpdateCustomerButton.Name = "cancelUpdateCustomerButton";
             this.cancelUpdateCustomerButton.Size = new System.Drawing.Size(91, 23);
             this.cancelUpdateCustomerButton.TabIndex = 2;
@@ -77,11 +67,13 @@
             // 
             // customerFormPanel
             // 
-            this.customerFormPanel.AutoSize = true;
-            this.customerFormPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.customerFormPanel.Location = new System.Drawing.Point(135, 42);
+            this.customerFormPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.customerLayoutPanel.SetColumnSpan(this.customerFormPanel, 3);
+            this.customerFormPanel.Location = new System.Drawing.Point(3, 43);
             this.customerFormPanel.Name = "customerFormPanel";
-            this.customerFormPanel.Size = new System.Drawing.Size(706, 417);
+            this.customerFormPanel.Size = new System.Drawing.Size(980, 416);
             this.customerFormPanel.TabIndex = 3;
             // 
             // UpdateCustomerControl
@@ -91,10 +83,10 @@
             this.AutoSize = true;
             this.Controls.Add(this.customerLayoutPanel);
             this.Name = "UpdateCustomerControl";
-            this.Size = new System.Drawing.Size(989, 462);
+            this.Size = new System.Drawing.Size(992, 465);
             this.customerLayoutPanel.ResumeLayout(false);
-            this.customerLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
