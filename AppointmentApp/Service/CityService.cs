@@ -97,7 +97,7 @@ namespace AppointmentApp.Service
             }
         }
 
-        public int CreateCity(string cityName, int countryId)
+        public CityReadDTO CreateCity(string cityName, int countryId)
         {
             string query = $@"
                                 INSERT INTO {TABLES.CITY}
@@ -106,6 +106,7 @@ namespace AppointmentApp.Service
                                     (@CityName, @CountryId, @CreateDate, @CreatedBy, @LastUpdate, @LastUpdateBy);
                                 SELECT LAST_INSERT_ID();
                             ";
+            CityReadDTO city;
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
@@ -117,14 +118,21 @@ namespace AppointmentApp.Service
                     command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
                     command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
 
-                    return Convert.ToInt32(command.ExecuteScalar());
+                   city = new CityReadDTO
+                    {
+                        CityId = Convert.ToInt32(command.ExecuteScalar()),
+                        CityName = cityName,
+                        CountryId = countryId
+                    };
+
+                    return city;
                 }
             }
             catch (MySqlException ex)
             {
                 
                 Messages.ShowError("SqlError", ex.Message);
-                return -1;
+                return null;
             }
         }
 

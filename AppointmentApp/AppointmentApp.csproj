@@ -136,6 +136,7 @@
     <Compile Include="Dialogs\ManageEntityDialog.Designer.cs">
       <DependentUpon>ManageEntityDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\EventArgsHelper.cs" />
     <Compile Include="Model\AddressModel.cs" />
     <Compile Include="Model\CityModel.cs" />
     <Compile Include="Model\CountryModel.cs" />

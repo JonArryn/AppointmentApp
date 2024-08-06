@@ -1,6 +1,7 @@
 ﻿using AppointmentApp.Constant;
 using AppointmentApp.Database;
 using AppointmentApp.Dialogs;
+using AppointmentApp.Helper;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
 using System;
@@ -105,6 +106,18 @@ namespace AppointmentApp.Controls
             }
         }
 
+        private void RefreshCustomer()
+        {
+            CustomerUpdateDTO customer = _customerService.GetById(_customer.CustomerId);
+            if (_customer == null)
+            {
+                Messages.ShowError("Refresh Customer Error", "The customer was not found by the provided ID");
+                return;
+            }
+            _customer = customer;
+            PopulateForm();
+        }
+
 
         private void editCityLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -116,14 +129,15 @@ namespace AppointmentApp.Controls
 
         private void ManageCityControl_CityUpdated(object sender, EventArgs e)
         {
-            CustomerUpdateDTO customer = _customerService.GetById(_customer.CustomerId);
-            if(_customer == null)
-            {
-                Messages.ShowError("Refresh Customer Error", "The customer was not found by the provided ID");
-                return;
-            }
-            _customer = customer;
-            PopulateForm();
+            RefreshCustomer();
+        }
+
+        private void ManageCityControl_CityCreated(object sender, CityEventArgs e)
+        {
+            RefreshCustomer();
+            this.cityComboBox.SelectedValue = e.City.CityId;
+            this.countryComboBox.SelectedValue = e.City.CountryId;
+
         }
 
         private void cityComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -143,7 +157,7 @@ namespace AppointmentApp.Controls
         private void newCityLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _manageCityControl = new ManageCityControl();
-            _manageCityControl.CityUpdated += ManageCityControl_CityUpdated;
+            _manageCityControl.CityCreated += ManageCityControl_CityCreated;
             ManageEntityDialog dialog = new ManageEntityDialog("New City", _manageCityControl);
             dialog.Show();
         }

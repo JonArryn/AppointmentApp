@@ -2,6 +2,7 @@
 using AppointmentApp.Database;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
+using AppointmentApp.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +27,7 @@ namespace AppointmentApp.Controls
 
 
         public event EventHandler CityUpdated;
+        public event EventHandler<CityEventArgs> CityCreated;
 
         public ManageCityControl(int? cityId = null)
         {
@@ -95,11 +97,16 @@ namespace AppointmentApp.Controls
 
         private void saveEditCityButton_Click(object sender, EventArgs e)
         {
-            bool cityUpdated;
+            
             if (_isNewCity)
             {
-                int newCityId = _cityService.CreateCity(_city.CityName, _city.CountryId);
-                if (newCityId == -1)
+                CityReadDTO city;
+                city = _cityService.CreateCity(_city.CityName, _city.CountryId);
+                
+                if(city != null)
+                {
+                    CityCreated?.Invoke(this, new CityEventArgs(city));
+                }else
                 {
                     Messages.ShowError("Error Creating City", "There was an error creating the city");
                     return;
@@ -107,7 +114,9 @@ namespace AppointmentApp.Controls
             }
             else
             {
+                bool cityUpdated;
                 cityUpdated = _cityService.UpdateCity(_city);
+                CityUpdated?.Invoke(this, EventArgs.Empty);
                 if (!cityUpdated)
                 {
                     Messages.ShowError("Error Updating City", "There was an error updating the city");
@@ -115,8 +124,6 @@ namespace AppointmentApp.Controls
                 }
             }
 
-            
-            CityUpdated?.Invoke(this, EventArgs.Empty);
             this.ParentForm.Close();
             this.Dispose();
         }
