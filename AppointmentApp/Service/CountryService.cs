@@ -12,6 +12,12 @@ namespace AppointmentApp.Service
 {
     public class CountryService
     {
+        private readonly UserService _userService;
+
+        public CountryService(UserService userService)
+        {
+            _userService = userService;
+        }
         public List<CountryReadDTO> GetAllCountries()
         {
             List<CountryReadDTO> countries = new List<CountryReadDTO>();
@@ -64,9 +70,9 @@ namespace AppointmentApp.Service
                 {
                     command.Parameters.AddWithValue("@CountryName", countryName);
                     command.Parameters.AddWithValue("@CreateDate", DateTime.UtcNow);
-                    command.Parameters.AddWithValue("@CreatedBy", "test");
+                    command.Parameters.AddWithValue("@CreatedBy", _userService.Username);
                     command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
-                    command.Parameters.AddWithValue("@LastUpdateBy", "test");
+                    command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
 
                     return Convert.ToInt32(command.ExecuteScalar());
 
@@ -96,7 +102,7 @@ namespace AppointmentApp.Service
                 {
                     command.Parameters.AddWithValue("@CountryName", country.Country);
                     command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
-                    command.Parameters.AddWithValue("@LastUpdateBy", "test");
+                    command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
                     command.Parameters.AddWithValue("@CountryId", country.CountryId);
 
                     return command.ExecuteNonQuery() > 0;

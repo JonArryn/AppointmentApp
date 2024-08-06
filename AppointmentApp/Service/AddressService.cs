@@ -11,6 +11,12 @@ namespace AppointmentApp.Service
 {
     public class AddressService
     {
+        private readonly UserService _userService;
+
+        public AddressService(UserService userService)
+        {
+            _userService = userService;
+        }
         public AddressModel GetAddress(int addressId)
         {
             throw new NotImplementedException();
@@ -36,9 +42,9 @@ namespace AppointmentApp.Service
                     command.Parameters.AddWithValue("@PostalCode", address.PostalCode);
                     command.Parameters.AddWithValue("@Phone", address.Phone);
                     command.Parameters.AddWithValue("@CreateDate", address.CreateDate);
-                    command.Parameters.AddWithValue("@CreatedBy", address.CreatedBy);
+                    command.Parameters.AddWithValue("@CreatedBy", _userService.Username);
                     command.Parameters.AddWithValue("@LastUpdate", address.LastUpdate);
-                    command.Parameters.AddWithValue("@LastUpdateBy", address.LastUpdateBy);
+                    command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
 
                     return Convert.ToInt32(command.ExecuteScalar());
                 }

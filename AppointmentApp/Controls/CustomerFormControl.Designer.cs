@@ -39,7 +39,7 @@
             this.postalCodeTextBox = new System.Windows.Forms.TextBox();
             this.countryLabel = new System.Windows.Forms.Label();
             this.customerPhoneLabel = new System.Windows.Forms.Label();
-            this.customerPhoneText = new System.Windows.Forms.TextBox();
+            this.customerPhoneTextBox = new System.Windows.Forms.TextBox();
             this.countryComboBox = new System.Windows.Forms.ComboBox();
             this.cityComboBox = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -159,19 +159,19 @@
             this.customerPhoneLabel.TabIndex = 0;
             this.customerPhoneLabel.Text = "Phone Number";
             // 
-            // customerPhoneText
+            // customerPhoneTextBox
             // 
-            this.customerPhoneText.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.customerPhoneText.Location = new System.Drawing.Point(115, 58);
-            this.customerPhoneText.Name = "customerPhoneText";
-            this.customerPhoneText.Size = new System.Drawing.Size(152, 22);
-            this.customerPhoneText.TabIndex = 1;
+            this.customerPhoneTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.customerPhoneTextBox.Location = new System.Drawing.Point(115, 58);
+            this.customerPhoneTextBox.Name = "customerPhoneTextBox";
+            this.customerPhoneTextBox.Size = new System.Drawing.Size(152, 22);
+            this.customerPhoneTextBox.TabIndex = 1;
             // 
             // countryComboBox
             // 
             this.countryComboBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.countryComboBox.FormattingEnabled = true;
-            this.countryComboBox.Location = new System.Drawing.Point(115, 289);
+            this.countryComboBox.Location = new System.Drawing.Point(115, 287);
             this.countryComboBox.Name = "countryComboBox";
             this.countryComboBox.Size = new System.Drawing.Size(210, 24);
             this.countryComboBox.TabIndex = 2;
@@ -181,7 +181,7 @@
             // 
             this.cityComboBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cityComboBox.FormattingEnabled = true;
-            this.cityComboBox.Location = new System.Drawing.Point(115, 196);
+            this.cityComboBox.Location = new System.Drawing.Point(115, 195);
             this.cityComboBox.Name = "cityComboBox";
             this.cityComboBox.Size = new System.Drawing.Size(210, 24);
             this.cityComboBox.TabIndex = 2;
@@ -193,7 +193,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tableLayoutPanel1.Controls.Add(this.customerNameLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.countryComboBox, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.cityComboBox, 1, 4);
@@ -202,7 +202,7 @@
             this.tableLayoutPanel1.Controls.Add(this.customerNameTextBox, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.customerPhoneLabel, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.postalCodeLabel, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.customerPhoneText, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.customerPhoneTextBox, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.addressLabel, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.addressTextBox, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.cityLabel, 0, 4);
@@ -241,12 +241,13 @@
             // 
             this.newCityLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.newCityLabel.AutoSize = true;
-            this.newCityLabel.Location = new System.Drawing.Point(447, 199);
+            this.newCityLabel.Location = new System.Drawing.Point(458, 199);
             this.newCityLabel.Name = "newCityLabel";
             this.newCityLabel.Size = new System.Drawing.Size(59, 16);
             this.newCityLabel.TabIndex = 3;
             this.newCityLabel.TabStop = true;
             this.newCityLabel.Text = "New City";
+            this.newCityLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.newCityLabel_LinkClicked);
             // 
             // editCountryLabel
             // 
@@ -263,7 +264,7 @@
             // 
             this.newCountryLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.newCountryLabel.AutoSize = true;
-            this.newCountryLabel.Location = new System.Drawing.Point(436, 291);
+            this.newCountryLabel.Location = new System.Drawing.Point(447, 291);
             this.newCountryLabel.Name = "newCountryLabel";
             this.newCountryLabel.Size = new System.Drawing.Size(82, 16);
             this.newCountryLabel.TabIndex = 3;
@@ -298,7 +299,7 @@
         private System.Windows.Forms.TextBox postalCodeTextBox;
         private System.Windows.Forms.Label countryLabel;
         private System.Windows.Forms.Label customerPhoneLabel;
-        private System.Windows.Forms.TextBox customerPhoneText;
+        private System.Windows.Forms.TextBox customerPhoneTextBox;
         private System.Windows.Forms.ComboBox countryComboBox;
         private System.Windows.Forms.ComboBox cityComboBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;

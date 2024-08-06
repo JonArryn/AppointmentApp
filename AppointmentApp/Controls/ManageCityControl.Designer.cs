@@ -32,7 +32,7 @@
             this.cityNameTextbox = new System.Windows.Forms.TextBox();
             this.countryLabel = new System.Windows.Forms.Label();
             this.countryComboBox = new System.Windows.Forms.ComboBox();
-            this.editCityTItle = new System.Windows.Forms.Label();
+            this.manageCityTItle = new System.Windows.Forms.Label();
             this.saveEditCityButton = new System.Windows.Forms.Button();
             this.cancelEditCityButton = new System.Windows.Forms.Button();
             this.editCountryLink = new System.Windows.Forms.LinkLabel();
@@ -54,6 +54,7 @@
             this.cityNameTextbox.Name = "cityNameTextbox";
             this.cityNameTextbox.Size = new System.Drawing.Size(195, 22);
             this.cityNameTextbox.TabIndex = 1;
+            this.cityNameTextbox.TextChanged += new System.EventHandler(this.cityNameTextbox_TextChanged);
             // 
             // countryLabel
             // 
@@ -73,16 +74,17 @@
             this.countryComboBox.Name = "countryComboBox";
             this.countryComboBox.Size = new System.Drawing.Size(195, 24);
             this.countryComboBox.TabIndex = 2;
+            this.countryComboBox.SelectedValueChanged += new System.EventHandler(this.countryComboBox_SelectedValueChanged);
             // 
-            // editCityTItle
+            // manageCityTItle
             // 
-            this.editCityTItle.AutoSize = true;
-            this.editCityTItle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editCityTItle.Location = new System.Drawing.Point(4, 4);
-            this.editCityTItle.Name = "editCityTItle";
-            this.editCityTItle.Size = new System.Drawing.Size(77, 24);
-            this.editCityTItle.TabIndex = 3;
-            this.editCityTItle.Text = "Edit City";
+            this.manageCityTItle.AutoSize = true;
+            this.manageCityTItle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manageCityTItle.Location = new System.Drawing.Point(4, 4);
+            this.manageCityTItle.Name = "manageCityTItle";
+            this.manageCityTItle.Size = new System.Drawing.Size(114, 24);
+            this.manageCityTItle.TabIndex = 3;
+            this.manageCityTItle.Text = "Manage City";
             // 
             // saveEditCityButton
             // 
@@ -123,7 +125,7 @@
             this.Controls.Add(this.editCountryLink);
             this.Controls.Add(this.cancelEditCityButton);
             this.Controls.Add(this.saveEditCityButton);
-            this.Controls.Add(this.editCityTItle);
+            this.Controls.Add(this.manageCityTItle);
             this.Controls.Add(this.countryComboBox);
             this.Controls.Add(this.cityNameTextbox);
             this.Controls.Add(this.countryLabel);
@@ -143,7 +145,7 @@
         private System.Windows.Forms.TextBox cityNameTextbox;
         private System.Windows.Forms.Label countryLabel;
         private System.Windows.Forms.ComboBox countryComboBox;
-        private System.Windows.Forms.Label editCityTItle;
+        private System.Windows.Forms.Label manageCityTItle;
         private System.Windows.Forms.Button saveEditCityButton;
         private System.Windows.Forms.Button cancelEditCityButton;
         private System.Windows.Forms.LinkLabel editCountryLink;

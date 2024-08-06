@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AppointmentApp.Service
 {
@@ -22,12 +23,21 @@ namespace AppointmentApp.Service
 
         private ServiceLocator()
         {
-            UserService = new UserService();
-            TranslationService = new TranslationService();
-            CustomerService = new CustomerService(UserService);
-            AddressService = new AddressService();
-            CountryService = new CountryService();
-            CityService = new CityService();
+            try
+            {
+                UserService = new UserService();
+                TranslationService = new TranslationService();
+                CustomerService = new CustomerService(UserService);
+                AddressService = new AddressService(UserService);
+                CountryService = new CountryService(UserService);
+                CityService = new CityService(UserService);
+            }catch(StackOverflowException ex)
+            {
+                Console.WriteLine($"ServiceLocator initialization failed: {ex.Message}");
+                Console.WriteLine($"Stack Trace:\n{ex.StackTrace}");
+                throw;
+            }
+
         }
     }
 }
