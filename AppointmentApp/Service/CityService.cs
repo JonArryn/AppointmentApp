@@ -97,6 +97,45 @@ namespace AppointmentApp.Service
             }
         }
 
+        public List<CityReadDTO> GetCitiesByCountry(int countryId)
+        {
+            string query = $@"
+                                SELECT 
+                                    {CITY.CITY_ID} as CityId,
+                                    {CITY.CITY_NAME} as CityName,
+                                    {CITY.COUNTRY_ID} as CountryId
+                                FROM {TABLES.CITY}
+                                WHERE
+                                    {CITY.COUNTRY_ID} = @CountryId
+                            ";
+            List<CityReadDTO> cities = new List<CityReadDTO>();
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
+                {
+                    command.Parameters.AddWithValue("@CountryId", countryId);
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            CityReadDTO city = new CityReadDTO
+                            {
+                                CityId = reader.GetInt32("CityId"),
+                                CityName = reader.GetString("CityName"),
+                                CountryId = reader.GetInt32("CountryId")
+                            };
+                            cities.Add(city);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Messages.ShowError("SqlError", ex.Message);
+            }
+            return cities;
+        }
+
         public CityReadDTO CreateCity(string cityName, int countryId)
         {
             string query = $@"

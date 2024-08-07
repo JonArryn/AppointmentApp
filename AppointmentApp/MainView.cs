@@ -21,7 +21,7 @@ namespace AppointmentApp
 
         private LoginControl _loginControl;
         private CustomerControl _customerControl;
-        private UpdateCustomerControl _updateCustomerControl;
+        private ManageCustomerControl _manageCustomerControl;
 
 
 
@@ -47,11 +47,12 @@ namespace AppointmentApp
                 _customerControl = new CustomerControl { Dock = DockStyle.Fill };
                 this.customersTab.Controls.Add(_customerControl);
                 _customerControl.UpdateCustomer += CustomerControl_UpdateCustomer;
+                _customerControl.CreateCustomer += CustomerControl_CreateCustomer;
                 
             }
         }
 
-        // EVENT HANDLERS //
+        // EVENT SUBSCRIPTION HANDLERS //
         private void LoginControl_LoginSuccessful(object sender, EventArgs e)
         {
             _loginControl.Visible = false;
@@ -63,18 +64,37 @@ namespace AppointmentApp
         {
            
             this.customersTab.Controls.Clear();
-            _updateCustomerControl = new UpdateCustomerControl(_customerControl.GetSelectedCustomerId());
-            _updateCustomerControl.Dock = DockStyle.Fill;
+            _manageCustomerControl = new ManageCustomerControl(_customerControl.GetSelectedCustomerId());
+            this.customersTab.Controls.Add(_manageCustomerControl);
+            _manageCustomerControl.Dock = DockStyle.Fill;
             _customerControl = null;
-            this.customersTab.Controls.Add(_updateCustomerControl);
-            _updateCustomerControl.CustomerUpdated += UpdateCustomerControl_CustomerUpdated;
+            _manageCustomerControl.CustomerUpdated += ManageCustomerControl_CustomerUpdated;
+            _manageCustomerControl.CancelUpdateCustomer += ManageCustomerControl_CancelUpdateCustomer;
         }
 
-        private void UpdateCustomerControl_CustomerUpdated(object sender, EventArgs e)
+        private void ManageCustomerControl_CustomerUpdated(object sender, EventArgs e)
         {
             this.customersTab.Controls.Clear();
-            _updateCustomerControl = null;
+            _manageCustomerControl = null;
             LoadCustomerControl();
+        }
+
+        private void ManageCustomerControl_CancelUpdateCustomer(object sender, EventArgs e)
+        {
+            this.customersTab.Controls.Clear();
+            _manageCustomerControl = null;
+            LoadCustomerControl();
+        }
+
+        private void CustomerControl_CreateCustomer(object sender, EventArgs e)
+        {
+
+            this.customersTab.Controls.Clear();
+            _manageCustomerControl = new ManageCustomerControl(){Dock = DockStyle.Fill};
+            this.customersTab.Controls.Add(_manageCustomerControl);
+            _customerControl = null;
+            _manageCustomerControl.CustomerUpdated += ManageCustomerControl_CustomerUpdated;
+            _manageCustomerControl.CancelUpdateCustomer += ManageCustomerControl_CancelUpdateCustomer;
         }
 
         // LOCAL EVENTS //

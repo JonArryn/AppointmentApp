@@ -16,4 +16,14 @@ namespace AppointmentApp.Helper
             City = city;
         }
     }
+
+    public class CountryEventArgs : EventArgs
+    {
+        public CountryReadDTO Country { get; set; }
+
+        public CountryEventArgs(CountryReadDTO country)
+        {
+            Country = country;
+        }
+    }
 }

@@ -26,6 +26,7 @@ namespace AppointmentApp.Controls
             _userService = ServiceLocator.Instance.UserService;
             _translations = ServiceLocator.Instance.TranslationService;
             this.invalidLoginLabel.Visible = false;
+            this.currentLocationLabel.Text = $"Current Country: {_translations.CountryName}";
             TranslateLoginForm();
         }
 
@@ -57,7 +58,7 @@ namespace AppointmentApp.Controls
 
 
 
-            if (_translations.CurrentCulture != "en")
+            if (_translations.CurrentCultureAbv != "en")
             {
                 formTranslations = _translations.SpanishLogin;
             }

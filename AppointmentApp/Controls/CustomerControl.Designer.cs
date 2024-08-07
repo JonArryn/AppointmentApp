@@ -115,6 +115,7 @@
             this.newCustomerButton.TabIndex = 2;
             this.newCustomerButton.Text = "New Customer";
             this.newCustomerButton.UseVisualStyleBackColor = true;
+            this.newCustomerButton.Click += new System.EventHandler(this.newCustomerButton_Click);
             // 
             // customerLayoutPanel
             // 

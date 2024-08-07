@@ -17,7 +17,11 @@ namespace AppointmentApp.Controls
     {
         private CustomerService _customerService;
         private CustomerReadDTO _selectedCustomer;
+
         public event EventHandler UpdateCustomer;
+        public event EventHandler CreateCustomer;
+
+
         public CustomerControl()
         {
             InitializeComponent();          
@@ -27,6 +31,13 @@ namespace AppointmentApp.Controls
 
         }
 
+        public int GetSelectedCustomerId()
+        {
+            return _selectedCustomer.CustomerId;
+        }
+
+        // INITIALIZERS //
+
         private void PopulateCustomers()
         {
             List<CustomerReadDTO> customers = _customerService.GetAll();
@@ -35,15 +46,14 @@ namespace AppointmentApp.Controls
            
         }
 
-        public int GetSelectedCustomerId()
-        {
-            return _selectedCustomer.CustomerId;
-        }
+        // GRID VIEW EVENT HANDLERS //
 
         private void customerGridView_SelectionChanged(object sender, EventArgs e)
         {
             _selectedCustomer = (CustomerReadDTO)customerGridView.CurrentRow.DataBoundItem;
         }
+
+        // BUTTON CLICK EVENT HANDLERS //
 
         private void updateCustomerButton_Click(object sender, EventArgs e)
         {
@@ -52,7 +62,17 @@ namespace AppointmentApp.Controls
 
         private void deleteCustomerButton_Click(object sender, EventArgs e)
         {
-            Messages.ShowWarning("Delete Customer Pressed", _selectedCustomer.CustomerName);
+           var result = Messages.ShowQuestion("Confirm Customer Delete", $"Are you sure you want to delete this customer {_selectedCustomer.CustomerName}? ");
+            if(result == DialogResult.Yes)
+            {
+                _customerService.DeleteCustomer(_selectedCustomer.CustomerId);
+                PopulateCustomers();
+            }
+        }
+
+        private void newCustomerButton_Click(object sender, EventArgs e)
+        {
+            CreateCustomer?.Invoke(this, EventArgs.Empty);
         }
     }
 }

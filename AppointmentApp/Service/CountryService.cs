@@ -55,7 +55,41 @@ namespace AppointmentApp.Service
             return countries;
         }
 
-        public int CreateCountry(string countryName) 
+        public CountryReadDTO GetCountryById(int countryId)
+        {
+            string query = $@"
+                            SELECT 
+                                {COUNTRY.COUNTRY_ID} AS CountryId,
+                                {COUNTRY.COUNTRY_NAME} AS CountryName
+                            FROM
+                                {TABLES.COUNTRY}
+                            WHERE
+                                {COUNTRY.COUNTRY_ID} = @CountryId
+                            ";
+            CountryReadDTO country;
+            try
+            {
+                using(MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
+                {
+                    command.Parameters.AddWithValue("@CountryId", countryId);
+                    using(MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        country = new CountryReadDTO
+                        {
+                            CountryId = reader.GetInt32("CountryId"),
+                            CountryName = reader.GetString("CountryName")
+                        };
+                    }
+                }
+                return country;
+            }catch(MySqlException ex)
+            {
+                throw new Exception($"MySql Error: {ex.Message}", ex);
+            }
+        }
+
+        public CountryReadDTO CreateCountry(string countryName) 
         {
             string query = $@"
                                 INSERT INTO {TABLES.COUNTRY} 
@@ -64,6 +98,7 @@ namespace AppointmentApp.Service
                                     (@CountryName, @CreatedBy, @CreateDate, @LastUpdate, @LastUpdateBy);
                                 SELECT LAST_INSERT_ID();
                             ";
+            CountryReadDTO country;
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
@@ -74,7 +109,10 @@ namespace AppointmentApp.Service
                     command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
                     command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
 
-                    return Convert.ToInt32(command.ExecuteScalar());
+                    int countryId = Convert.ToInt32(command.ExecuteScalar());
+                    country = GetCountryById(countryId);
+
+                    return country;
 
                     
                 }
@@ -85,7 +123,7 @@ namespace AppointmentApp.Service
            
         }
 
-        public bool UpdateCountry(CountryModel country)
+        public bool UpdateCountry(CountryReadDTO country)
         {
             string query = $@"
                                 UPDATE {TABLES.COUNTRY}
@@ -100,7 +138,7 @@ namespace AppointmentApp.Service
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
-                    command.Parameters.AddWithValue("@CountryName", country.Country);
+                    command.Parameters.AddWithValue("@CountryName", country.CountryName);
                     command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
                     command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
                     command.Parameters.AddWithValue("@CountryId", country.CountryId);

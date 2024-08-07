@@ -20,6 +20,7 @@ namespace AppointmentApp.Controls
     public partial class ManageCityControl : UserControl
     {
         private readonly bool _isNewCity;
+        private readonly bool _isInitializing;
         private readonly CityReadDTO _city;
 
         private readonly CountryService _countryService;
@@ -32,6 +33,7 @@ namespace AppointmentApp.Controls
         public ManageCityControl(int? cityId = null)
         {
             InitializeComponent();
+            _isInitializing = true;
 
             _cityService = ServiceLocator.Instance.CityService;
             _countryService = ServiceLocator.Instance.CountryService;
@@ -51,8 +53,9 @@ namespace AppointmentApp.Controls
                 this.countryComboBox.Enabled = true;
                 this.editCountryLink.Visible = false;
             }
-
+            _isInitializing = false;
         }
+
         // INITIALIZERS //
         private CityReadDTO PopulateCity(int cityId)
         {
@@ -130,13 +133,20 @@ namespace AppointmentApp.Controls
 
         private void cityNameTextbox_TextChanged(object sender, EventArgs e)
         {
-            _city.CityName = cityNameTextbox.Text;
+            if (!_isInitializing)
+            {
+                _city.CityName = cityNameTextbox.Text;
+            }
+            
         }
 
         private void countryComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
-
-            _city.CountryId = (int)countryComboBox.SelectedValue;
+            if (!_isInitializing)
+            {
+                _city.CountryId = (int)countryComboBox.SelectedValue;
+            }
+           
            
         }
     }

@@ -27,8 +27,8 @@ namespace AppointmentApp.Service
             {
                 UserService = new UserService();
                 TranslationService = new TranslationService();
-                CustomerService = new CustomerService(UserService);
                 AddressService = new AddressService(UserService);
+                CustomerService = new CustomerService(UserService, AddressService);
                 CountryService = new CountryService(UserService);
                 CityService = new CityService(UserService);
             }catch(StackOverflowException ex)

@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 namespace AppointmentApp { 
     public class TranslationService
     {
-        public string CurrentCulture { get; set; }
+        public string CurrentCultureAbv { get; set; }
+        public string CountryName { get; set; }
         public TranslationService()
         {
-            CurrentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            CurrentCultureAbv = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            CountryName = RegionInfo.CurrentRegion.EnglishName;
         }
 
         public string GetCulture() {             
-            return CurrentCulture;
+            return CurrentCultureAbv;
         }
 
         public Dictionary<string, string> EnglishLogin = new Dictionary<string, string> { 

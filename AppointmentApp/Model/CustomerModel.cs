@@ -27,7 +27,7 @@ namespace AppointmentApp.Model
         public string Phone { get; set; }
     }
 
-    public class CustomerUpdateDTO {         
+    public class CustomerFullReadDTO {         
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public bool Active { get; set; }
@@ -43,4 +43,29 @@ namespace AppointmentApp.Model
         public DateTime LastUpdate { get; set; }
         public string LastUpdateBy { get; set; }
     }
+
+    public class CustomerUpdateDTO
+    {
+        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public bool Active { get; set; }
+        public int AddressId { get; set; }
+        public string Address { get; set; }
+        public string Address2 { get; set; }
+        public int CityId { get; set; }
+        public string PostalCode { get; set; }
+        public string Phone { get; set; }
+
+    }
+
+    public class CustomerCreateDTO
+    {
+        public string CustomerName { get; set; }
+        public string Address { get; set; }
+        public string Address2 { get; set; }
+        public int CityId { get; set; }
+        public string PostalCode { get; set; }
+        public string Phone { get; set; }
+    }
+
 }

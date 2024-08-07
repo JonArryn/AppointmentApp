@@ -62,9 +62,9 @@
             this.countryLabel.Location = new System.Drawing.Point(103, 116);
             this.countryLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.countryLabel.Name = "countryLabel";
-            this.countryLabel.Size = new System.Drawing.Size(48, 16);
+            this.countryLabel.Size = new System.Drawing.Size(52, 16);
             this.countryLabel.TabIndex = 0;
-            this.countryLabel.Text = "County";
+            this.countryLabel.Text = "Country";
             // 
             // countryComboBox
             // 

@@ -14,13 +14,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// TODO: Need to disable country because the country is directly related to the city - users shouldn't be able to indvidually change both city and country
+// TODO: Something weird is happening again with city and country population upon update customer
+// TODO: The customer's name is not being updated
+// TODO: Need to confirm customer save with a dialog and navigate back to Customers. (Event
 
 namespace AppointmentApp.Controls
 {
     public partial class CustomerFormControl : UserControl
     {
-        CustomerUpdateDTO _customer;
+        private bool _isNewCustomer;
+        CustomerFullReadDTO _customer;
+        List<CityReadDTO> _cities;
+        List<CountryReadDTO> _countries;
+        private bool _isInitializing;
 
         CountryService _countryService;
         CityService _cityService;
@@ -29,29 +35,48 @@ namespace AppointmentApp.Controls
         CityReadDTO _selectedCity;
         CountryReadDTO _selectedCountry;
         ManageCityControl _manageCityControl;
+        ManageCountryControl _manageCountryControl;
+
+        public event EventHandler CustomerUpdated;
+        public event EventHandler CancelUpdateCustomer;
 
 
 
-        public CustomerFormControl(CustomerUpdateDTO customer = null)
+        public CustomerFormControl(CustomerFullReadDTO customer = null)
         {
             InitializeComponent();
-
+            _isInitializing = true;
             _customer = customer;
+            _isNewCustomer = customer == null;
             _customerService = ServiceLocator.Instance.CustomerService;
             _countryService = ServiceLocator.Instance.CountryService;
             _cityService = ServiceLocator.Instance.CityService;
             PopulateForm();
-
-
+            _isInitializing = false;
         }
+
+        // INITIALIZERS //
 
         private void PopulateForm()
         {
-            PopulateCities();
-            _selectedCity = (CityReadDTO)cityComboBox.SelectedItem;
             PopulateCountries();
-            _selectedCountry = (CountryReadDTO)countryComboBox.SelectedItem;
-            PopulateCustomerData();
+
+            if (_isNewCustomer == false)
+            {
+                PopulateCustomerData();
+                _selectedCountry = new CountryReadDTO { CountryId = _customer.CountryId, CountryName = _customer.Country };
+                PopulateCities(_selectedCountry.CountryId);
+                _selectedCity = new CityReadDTO { CityId = _customer.CityId, CityName = _customer.City, CountryId = _customer.CountryId };
+            }
+            else
+            {
+                _customer = new CustomerFullReadDTO();
+                _selectedCountry = _countries[0];
+                this.countryComboBox.SelectedValue = _selectedCountry.CountryId;
+                PopulateCities(_selectedCountry.CountryId);
+                _selectedCity = _cities[0];
+                this.cityComboBox.SelectedValue = _selectedCity.CityId;
+            }
         }
 
 
@@ -71,8 +96,8 @@ namespace AppointmentApp.Controls
         {
             try
             {
-                List<CountryReadDTO> countries = _countryService.GetAllCountries();
-                countryComboBox.DataSource = countries;
+                _countries = _countryService.GetAllCountries();
+                countryComboBox.DataSource = _countries;
                 countryComboBox.DisplayMember = "CountryName";
                 countryComboBox.ValueMember = "CountryId";
             }
@@ -83,32 +108,31 @@ namespace AppointmentApp.Controls
 
         }
 
-        private void PopulateCities()
+        private void PopulateCities(int countryId)
         {
             try
             {
-                List<CityReadDTO> cities = _cityService.GetAllCities();
-                cityComboBox.DataSource = cities;
-                cityComboBox.DisplayMember = "CityName";
-                cityComboBox.ValueMember = "CityId";
+                _cities = _cityService.GetCitiesByCountry(countryId);
+                cityComboBox.DataSource = _cities;
+                this.cityComboBox.DisplayMember = "CityName";
+                this.cityComboBox.ValueMember = "CityId";
+                if (_cities.Count <= 0)
+                {
+                    _selectedCity = null;
+                }
+
             }
             catch (Exception ex)
             {
-                string innerExMessage = "";
 
-                if(ex.InnerException != null)
-                {
-                    innerExMessage =  $"Inner Exception {ex.InnerException.Message}";
-                }
-
-                Messages.ShowError("Error Getting Cities", $"{innerExMessage} - Exception {ex.Message}");
+                Messages.ShowError("Error Getting Cities",ex.Message);
                
             }
         }
 
         private void RefreshCustomer()
         {
-            CustomerUpdateDTO customer = _customerService.GetById(_customer.CustomerId);
+            CustomerFullReadDTO customer = _customerService.GetById(_customer.CustomerId);
             if (_customer == null)
             {
                 Messages.ShowError("Refresh Customer Error", "The customer was not found by the provided ID");
@@ -118,7 +142,73 @@ namespace AppointmentApp.Controls
             PopulateForm();
         }
 
+        // EVENT SUBSCRIPTION HANDLERS //
 
+        private void ManageCityControl_CityUpdated(object sender, EventArgs e)
+        {
+            _isInitializing = true;
+            PopulateCities(_selectedCountry.CountryId);
+            this.cityComboBox.SelectedValue = _selectedCity.CityId;
+            _isInitializing = false;
+        }
+
+
+
+        private void ManageCityControl_CityCreated(object sender, CityEventArgs e)
+        {
+            if(_isNewCustomer == false)
+            {
+                RefreshCustomer();
+            }
+            else
+            {
+                PopulateCities(_selectedCountry.CountryId);
+            }
+            this.cityComboBox.SelectedValue = e.City.CityId;
+            this.countryComboBox.SelectedValue = e.City.CountryId;
+
+        }
+
+        private void ManageCountryControl_CountryUpdated(object sender, EventArgs e) 
+        {
+            _isInitializing = true;
+            PopulateCountries();
+            this.countryComboBox.SelectedValue = _selectedCountry.CountryId;
+            _isInitializing = false;
+        }
+
+        private void ManageCountryControl_CountryCreated(object sender, CountryEventArgs e)
+        {
+            _isInitializing = true;
+            PopulateCountries();
+            this.cityComboBox.DataSource = null;
+            this.cityComboBox.Refresh(); 
+            this.countryComboBox.SelectedValue = e.Country.CountryId;
+            _isInitializing = false;
+        }
+
+        // COMBO BOX EVENT HANDLERS //
+        private void cityComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (_isInitializing == false)
+            {
+                _selectedCity = (CityReadDTO)cityComboBox.SelectedItem;
+            }
+
+        }
+
+        private void countryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isInitializing == false)
+            {
+                _selectedCountry = (CountryReadDTO)countryComboBox.SelectedItem;
+                PopulateCities(_selectedCountry.CountryId);
+            }
+
+        }
+
+        // LINK LABEL EVENT HANDLERS //
         private void editCityLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _manageCityControl = new ManageCityControl(_selectedCity.CityId);
@@ -127,31 +217,13 @@ namespace AppointmentApp.Controls
             dialog.ShowDialog();
         }
 
-        private void ManageCityControl_CityUpdated(object sender, EventArgs e)
-        {
-            RefreshCustomer();
-        }
 
-        private void ManageCityControl_CityCreated(object sender, CityEventArgs e)
+        private void newCountryLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            RefreshCustomer();
-            this.cityComboBox.SelectedValue = e.City.CityId;
-            this.countryComboBox.SelectedValue = e.City.CountryId;
-
-        }
-
-        private void cityComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-  
-         
-                _selectedCity = (CityReadDTO)cityComboBox.SelectedItem;  
-        }
-
-        private void countryComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           
-                _selectedCountry = (CountryReadDTO)countryComboBox.SelectedItem;
-         
+            _manageCountryControl = new ManageCountryControl();
+            _manageCountryControl.CountryCreated += ManageCountryControl_CountryCreated;
+            ManageEntityDialog dialog = new ManageEntityDialog("New Country", _manageCountryControl);
+            dialog.Show();
         }
 
         private void newCityLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -160,6 +232,109 @@ namespace AppointmentApp.Controls
             _manageCityControl.CityCreated += ManageCityControl_CityCreated;
             ManageEntityDialog dialog = new ManageEntityDialog("New City", _manageCityControl);
             dialog.Show();
+        }
+
+        private void editCountryLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            _manageCountryControl = new ManageCountryControl(_selectedCountry.CountryId);
+            _manageCountryControl.CountryUpdated += ManageCountryControl_CountryUpdated;
+            ManageEntityDialog dialog = new ManageEntityDialog("Edit Country", _manageCountryControl);
+            dialog.ShowDialog();
+        }
+
+        // BUTTON EVENT HANDLERS //
+
+        private void cancelSaveCustomerButton_Click(object sender, EventArgs e)
+        {
+                CancelUpdateCustomer?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void saveCustomerButton_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                if(_isNewCustomer)
+                {
+                    CustomerCreateDTO customer = new CustomerCreateDTO
+                    {
+                        CustomerName = _customer.CustomerName,
+                        Address = _customer.Address,
+                        Address2 = _customer.Address2,
+                        CityId = _selectedCity.CityId,
+                        PostalCode = _customer.PostalCode,
+                        Phone = _customer.Phone
+                    };
+                    int newCustomerId = _customerService.CreateCustomer(customer);
+                    if (newCustomerId > 0)
+                    {
+                        CustomerUpdated?.Invoke(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        Messages.ShowError("Error Creating Customer", "There was an error creating the customer");
+                    }
+                    return;
+                }
+                else
+                {
+                    CustomerUpdateDTO customer = new CustomerUpdateDTO
+                    {
+                        CustomerId = _customer.CustomerId,
+                        CustomerName = _customer.CustomerName,
+                        Active = _customer.Active,
+                        AddressId = _customer.AddressId,
+                        Address = _customer.Address,
+                        Address2 = _customer.Address2,
+                        CityId = _selectedCity.CityId,
+                        PostalCode = _customer.PostalCode,
+                        Phone = _customer.Phone
+
+                    };
+                    bool customerUpdated = _customerService.UpdateCustomerAndAddress(customer);
+                    if (customerUpdated)
+                    {
+                        CustomerUpdated?.Invoke(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        Messages.ShowError("Error Updating Customer", "There was an error updating the customer");
+                    }
+                }
+
+            }catch (Exception ex)
+            {
+
+                Messages.ShowError("Error Updating Customer", ex.Message);
+            }
+            
+        }
+
+        // FORM TEXT EVENT HANDLERS //
+
+        private void customerNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            _customer.CustomerName = this.customerNameTextBox.Text.Trim();
+        }
+
+        private void customerPhoneTextBox_TextChanged(object sender, EventArgs e)
+        {
+            _customer.Phone = this.customerPhoneTextBox.Text.Trim();
+        }
+
+        private void addressTextBox_TextChanged(object sender, EventArgs e)
+        {
+            _customer.Address = this.addressTextBox.Text.Trim();
+        }
+
+        private void address2TextBox_TextChanged(object sender, EventArgs e)
+        {
+            _customer.Address2 = this.address2TextBox.Text.Trim();
+        }
+
+        private void postalCodeTextBox_TextChanged(object sender, EventArgs e)
+        {
+            _customer.PostalCode = this.postalCodeTextBox.Text.Trim();
         }
     }
 }
