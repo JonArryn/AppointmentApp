@@ -54,11 +54,11 @@
             this.customerAddress,
             this.customerPhone});
             this.customerLayoutPanel.SetColumnSpan(this.customerGridView, 3);
-            this.customerGridView.Location = new System.Drawing.Point(3, 42);
+            this.customerGridView.Location = new System.Drawing.Point(3, 43);
             this.customerGridView.Name = "customerGridView";
             this.customerGridView.ReadOnly = true;
             this.customerGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.customerGridView.Size = new System.Drawing.Size(980, 417);
+            this.customerGridView.Size = new System.Drawing.Size(980, 416);
             this.customerGridView.TabIndex = 0;
             this.customerGridView.SelectionChanged += new System.EventHandler(this.customerGridView_SelectionChanged);
             // 
@@ -86,7 +86,7 @@
             // updateCustomerButton
             // 
             this.updateCustomerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.updateCustomerButton.Location = new System.Drawing.Point(3, 13);
+            this.updateCustomerButton.Location = new System.Drawing.Point(3, 14);
             this.updateCustomerButton.Name = "updateCustomerButton";
             this.updateCustomerButton.Size = new System.Drawing.Size(103, 23);
             this.updateCustomerButton.TabIndex = 1;
@@ -98,7 +98,7 @@
             // 
             this.deleteCustomerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.deleteCustomerButton.ForeColor = System.Drawing.Color.Firebrick;
-            this.deleteCustomerButton.Location = new System.Drawing.Point(135, 13);
+            this.deleteCustomerButton.Location = new System.Drawing.Point(135, 14);
             this.deleteCustomerButton.Name = "deleteCustomerButton";
             this.deleteCustomerButton.Size = new System.Drawing.Size(91, 23);
             this.deleteCustomerButton.TabIndex = 2;
@@ -109,7 +109,7 @@
             // newCustomerButton
             // 
             this.newCustomerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.newCustomerButton.Location = new System.Drawing.Point(874, 13);
+            this.newCustomerButton.Location = new System.Drawing.Point(874, 14);
             this.newCustomerButton.Name = "newCustomerButton";
             this.newCustomerButton.Size = new System.Drawing.Size(109, 23);
             this.newCustomerButton.TabIndex = 2;
@@ -120,9 +120,9 @@
             // customerLayoutPanel
             // 
             this.customerLayoutPanel.ColumnCount = 3;
-            this.customerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.38742F));
-            this.customerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.00811F));
-            this.customerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.5F));
+            this.customerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.40142F));
+            this.customerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.08341F));
+            this.customerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.51516F));
             this.customerLayoutPanel.Controls.Add(this.customerGridView, 0, 1);
             this.customerLayoutPanel.Controls.Add(this.newCustomerButton, 2, 0);
             this.customerLayoutPanel.Controls.Add(this.updateCustomerButton, 0, 0);
@@ -131,7 +131,7 @@
             this.customerLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.customerLayoutPanel.Name = "customerLayoutPanel";
             this.customerLayoutPanel.RowCount = 2;
-            this.customerLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.customerLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.customerLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.customerLayoutPanel.Size = new System.Drawing.Size(986, 462);
             this.customerLayoutPanel.TabIndex = 3;

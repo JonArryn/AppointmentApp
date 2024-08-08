@@ -20,6 +20,7 @@ namespace AppointmentApp.Service
         public CountryService CountryService { get; }
         public CityService CityService { get; }
         public AddressService AddressService { get; }
+        public AppointmentService AppointmentService { get; }
 
         private ServiceLocator()
         {
@@ -31,6 +32,7 @@ namespace AppointmentApp.Service
                 CustomerService = new CustomerService(UserService, AddressService);
                 CountryService = new CountryService(UserService);
                 CityService = new CityService(UserService);
+                AppointmentService = new AppointmentService(UserService);
             }catch(StackOverflowException ex)
             {
                 Console.WriteLine($"ServiceLocator initialization failed: {ex.Message}");

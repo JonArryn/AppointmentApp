@@ -22,6 +22,7 @@ namespace AppointmentApp
         private LoginControl _loginControl;
         private CustomerControl _customerControl;
         private ManageCustomerControl _manageCustomerControl;
+        private AppointmentControl _appointmentControl;
 
 
 
@@ -52,12 +53,22 @@ namespace AppointmentApp
             }
         }
 
+        private void LoadAppointmentControl()
+        {
+            if(this.appointmentsTab.Controls.Count == 0)
+            {
+                _appointmentControl = new AppointmentControl { Dock = DockStyle.Fill };
+                this.appointmentsTab.Controls.Add(_appointmentControl);
+            }
+        }
+
         // EVENT SUBSCRIPTION HANDLERS //
         private void LoginControl_LoginSuccessful(object sender, EventArgs e)
         {
             _loginControl.Visible = false;
             this.mainLayoutPanel.Visible = true;
             LoadCustomerControl();
+            
         }
 
         private void CustomerControl_UpdateCustomer(object sender, EventArgs e)
@@ -115,6 +126,14 @@ namespace AppointmentApp
             else
             {
                 Application.ExitThread();
+            }
+        }
+
+        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(this.mainTabControl.SelectedTab == this.appointmentsTab)
+            {
+                LoadAppointmentControl();
             }
         }
     }
