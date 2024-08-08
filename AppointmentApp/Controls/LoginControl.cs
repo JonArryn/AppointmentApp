@@ -88,12 +88,12 @@ namespace AppointmentApp.Controls
         // DB SEEDERS
         private void dbResetAndSeed_Click(object sender, EventArgs e)
         {
-            DbHelper.ResetAndSeedDatabase();
+            DbSeeder.ResetAndSeedDatabase();
         }
 
         private void dbResetTables_Click(object sender, EventArgs e)
         {
-            DbHelper.ResetDatabaseTables();
+            DbSeeder.ResetDatabaseTables();
         }
     }
 }

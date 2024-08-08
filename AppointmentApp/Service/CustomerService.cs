@@ -230,7 +230,6 @@ namespace AppointmentApp.Service
                             UPDATE {TABLES.CUSTOMER}
                             SET
                                 {CUSTOMER.CUSTOMER_NAME} = @CustomerName,
-                                {CUSTOMER.ACTIVE} = @Active,
                                 {CUSTOMER.LAST_UPDATE} = @LastUpdate,
                                 {CUSTOMER.LAST_UPDATE_BY} = @LastUpdateBy
                             WHERE
@@ -241,7 +240,6 @@ namespace AppointmentApp.Service
                 using(MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
                     command.Parameters.AddWithValue("@CustomerName", customer.CustomerName);
-                    command.Parameters.AddWithValue("@Active", customer.Active);
                     command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
                     command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
                     command.Parameters.AddWithValue("@CustomerId", customer.CustomerId);

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace AppointmentApp.Database
 {
-    internal class DbHelper
+    internal class DbSeeder
     {
         public static void ResetAndSeedDatabase()
         {

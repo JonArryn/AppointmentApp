@@ -1,4 +1,5 @@
 ﻿using AppointmentApp.Database;
+using AppointmentApp.Helper;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
 using System;
@@ -28,6 +29,7 @@ namespace AppointmentApp.Controls
             InitializeComponent();
             _isNewCustomer = customerId == null;
             _customerService = ServiceLocator.Instance.CustomerService;
+            this.formErrorListLabel.Visible = false;
             if(customerId.HasValue)
             {
                 _selectedCustomer = _customerService.GetById(customerId.Value);
@@ -42,6 +44,7 @@ namespace AppointmentApp.Controls
             customerFormPanel.Controls.Add(_customerFormControl);
             _customerFormControl.CustomerUpdated += _customerFormControl_CustomerUpdated;
             _customerFormControl.CancelUpdateCustomer += _customerFormControl_CancelUpdateCustomer;
+            _customerFormControl.CustomerFormError += _customerFormControl_CustomerFormError;
                     
         }
 
@@ -64,6 +67,12 @@ namespace AppointmentApp.Controls
         private void _customerFormControl_CancelUpdateCustomer(object sender, EventArgs e)
         {
             CancelAndClose();
+        }
+
+        private void _customerFormControl_CustomerFormError(object sender, CustomerFormErrorEventArgs e)
+        {
+            this.formErrorListLabel.Visible = true;
+            this.formErrorListLabel.Text = string.Join("\n", e.Errors);
         }
 
 

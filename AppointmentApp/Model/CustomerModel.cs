@@ -48,7 +48,6 @@ namespace AppointmentApp.Model
     {
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public bool Active { get; set; }
         public int AddressId { get; set; }
         public string Address { get; set; }
         public string Address2 { get; set; }

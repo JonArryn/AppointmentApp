@@ -23,10 +23,11 @@ namespace AppointmentApp.Controls
     public partial class CustomerFormControl : UserControl
     {
         private bool _isNewCustomer;
+        private bool _isInitializing;
+
         CustomerFullReadDTO _customer;
         List<CityReadDTO> _cities;
         List<CountryReadDTO> _countries;
-        private bool _isInitializing;
 
         CountryService _countryService;
         CityService _cityService;
@@ -34,11 +35,13 @@ namespace AppointmentApp.Controls
 
         CityReadDTO _selectedCity;
         CountryReadDTO _selectedCountry;
+
         ManageCityControl _manageCityControl;
         ManageCountryControl _manageCountryControl;
 
         public event EventHandler CustomerUpdated;
         public event EventHandler CancelUpdateCustomer;
+        public event EventHandler<CustomerFormErrorEventArgs> CustomerFormError;
 
 
 
@@ -53,6 +56,20 @@ namespace AppointmentApp.Controls
             _cityService = ServiceLocator.Instance.CityService;
             PopulateForm();
             _isInitializing = false;
+        }
+
+        private int ValidateForm(CustomerCreateDTO customer)
+        {
+            CustomerFormValidator validator = new CustomerFormValidator(customer);
+            List<string> errors = validator.ValidateCustomerForm();
+
+            if (errors.Count > 0)
+            {
+                CustomerFormErrorEventArgs errorArgs = new CustomerFormErrorEventArgs(errors);
+                CustomerFormError?.Invoke(this, errorArgs);
+                
+            }
+            return errors.Count;
         }
 
         // INITIALIZERS //
@@ -119,6 +136,15 @@ namespace AppointmentApp.Controls
                 if (_cities.Count <= 0)
                 {
                     _selectedCity = null;
+                    _customer.CityId = -1;
+                    this.cityComboBox.SelectedIndex = -1;
+                    this.cityComboBox.DisplayMember = "";
+                    this.cityComboBox.ValueMember = "";
+                }
+                else
+                {
+                    _selectedCity = _cities[0];
+                    _customer.CityId = _selectedCity.CityId;
                 }
 
             }
@@ -181,8 +207,10 @@ namespace AppointmentApp.Controls
         {
             _isInitializing = true;
             PopulateCountries();
+            PopulateCities(e.Country.CountryId);
             this.cityComboBox.DataSource = null;
-            this.cityComboBox.Refresh(); 
+            this.cityComboBox.Refresh();
+            _selectedCountry = e.Country;
             this.countryComboBox.SelectedValue = e.Country.CountryId;
             _isInitializing = false;
         }
@@ -198,14 +226,13 @@ namespace AppointmentApp.Controls
 
         }
 
-        private void countryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void countryComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
             if (_isInitializing == false)
             {
                 _selectedCountry = (CountryReadDTO)countryComboBox.SelectedItem;
                 PopulateCities(_selectedCountry.CountryId);
             }
-
         }
 
         // LINK LABEL EVENT HANDLERS //
@@ -228,7 +255,7 @@ namespace AppointmentApp.Controls
 
         private void newCityLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            _manageCityControl = new ManageCityControl();
+            _manageCityControl = new ManageCityControl(_selectedCountry.CountryId);
             _manageCityControl.CityCreated += ManageCityControl_CityCreated;
             ManageEntityDialog dialog = new ManageEntityDialog("New City", _manageCityControl);
             dialog.Show();
@@ -254,6 +281,7 @@ namespace AppointmentApp.Controls
 
             try
             {
+                
                 if(_isNewCustomer)
                 {
                     CustomerCreateDTO customer = new CustomerCreateDTO
@@ -261,10 +289,15 @@ namespace AppointmentApp.Controls
                         CustomerName = _customer.CustomerName,
                         Address = _customer.Address,
                         Address2 = _customer.Address2,
-                        CityId = _selectedCity.CityId,
+                        CityId = _customer.CityId,
                         PostalCode = _customer.PostalCode,
                         Phone = _customer.Phone
                     };
+                    int errorCount = ValidateForm(customer);
+                    if (errorCount > 0)
+                    {
+                        return;
+                    }
                     int newCustomerId = _customerService.CreateCustomer(customer);
                     if (newCustomerId > 0)
                     {
@@ -282,15 +315,25 @@ namespace AppointmentApp.Controls
                     {
                         CustomerId = _customer.CustomerId,
                         CustomerName = _customer.CustomerName,
-                        Active = _customer.Active,
                         AddressId = _customer.AddressId,
                         Address = _customer.Address,
                         Address2 = _customer.Address2,
-                        CityId = _selectedCity.CityId,
+                        CityId = _customer.CityId,
                         PostalCode = _customer.PostalCode,
                         Phone = _customer.Phone
 
                     };
+                    CustomerCreateDTO baseCustomer = new CustomerCreateDTO
+                    {
+                        CustomerName = customer.CustomerName,
+                        Address = customer.Address,
+                        Address2 = customer.Address2,
+                        CityId = customer.CityId,
+                        PostalCode = customer.PostalCode,
+                        Phone = customer.Phone
+                    };
+                    int errorCount = ValidateForm(baseCustomer);
+                    if (errorCount > 0) return;
                     bool customerUpdated = _customerService.UpdateCustomerAndAddress(customer);
                     if (customerUpdated)
                     {
@@ -336,5 +379,6 @@ namespace AppointmentApp.Controls
         {
             _customer.PostalCode = this.postalCodeTextBox.Text.Trim();
         }
+
     }
 }

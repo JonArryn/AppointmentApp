@@ -100,6 +100,12 @@
   <ItemGroup>
     <Compile Include="Constant\TABLE_COLUMNS.cs" />
     <Compile Include="Constant\TABLES.cs" />
+    <Compile Include="Controls\AppointmentControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AppointmentControl.Designer.cs">
+      <DependentUpon>AppointmentControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomerFormControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -142,6 +148,7 @@
     <Compile Include="Dialogs\ManageEntityDialog.Designer.cs">
       <DependentUpon>ManageEntityDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\CustomerFormValidator.cs" />
     <Compile Include="Helper\EventArgsHelper.cs" />
     <Compile Include="Model\AddressModel.cs" />
     <Compile Include="Model\CityModel.cs" />
@@ -153,7 +160,7 @@
     <Compile Include="Model\CustomerModel.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Database\DbConnection.cs" />
-    <Compile Include="Database\DbHelper.cs" />
+    <Compile Include="Database\DbSeeder.cs" />
     <Compile Include="Helper\Messages.cs" />
     <Compile Include="Service\TranslationService.cs" />
     <Compile Include="MainView.cs">

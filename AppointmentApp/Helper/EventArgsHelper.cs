@@ -26,4 +26,14 @@ namespace AppointmentApp.Helper
             Country = country;
         }
     }
+
+    public class CustomerFormErrorEventArgs : EventArgs
+    {
+        public List<string> Errors { get; set; }
+
+        public CustomerFormErrorEventArgs(List<string> errors)
+        {
+            Errors = errors;
+        }
+    }
 }

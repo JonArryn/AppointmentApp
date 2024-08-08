@@ -30,7 +30,7 @@ namespace AppointmentApp.Controls
         public event EventHandler CityUpdated;
         public event EventHandler<CityEventArgs> CityCreated;
 
-        public ManageCityControl(int? cityId = null)
+        public ManageCityControl(int? selectedCountryId = null, int? cityId = null)
         {
             InitializeComponent();
             _isInitializing = true;
@@ -46,9 +46,10 @@ namespace AppointmentApp.Controls
             }
             else
             {
-                _city = new CityReadDTO();
-                _city.CountryId = (int)this.countryComboBox.SelectedValue;
                 _isNewCity = true;
+                _city = new CityReadDTO();
+                this.countryComboBox.SelectedValue = selectedCountryId;
+                _city.CountryId = (int)selectedCountryId;
                 this.manageCityTItle.Text = "New City";
                 this.countryComboBox.Enabled = true;
                 this.editCountryLink.Visible = false;
