@@ -1,4 +1,6 @@
-﻿using AppointmentApp.Database;
+﻿using AppointmentApp.Constant;
+using AppointmentApp.Database;
+using AppointmentApp.EventManager;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
 using System;
@@ -17,9 +19,6 @@ namespace AppointmentApp.Controls
     {
         private CustomerService _customerService;
         private CustomerReadDTO _selectedCustomer;
-
-        public event EventHandler UpdateCustomer;
-        public event EventHandler CreateCustomer;
 
 
         public CustomerControl()
@@ -40,7 +39,7 @@ namespace AppointmentApp.Controls
 
         private void PopulateCustomers()
         {
-            List<CustomerReadDTO> customers = _customerService.GetAll();
+            List<CustomerReadDTO> customers = _customerService.GetAllCustomers();
             this.customerGridView.AutoGenerateColumns = false;
             customerGridView.DataSource = customers;
            
@@ -57,7 +56,7 @@ namespace AppointmentApp.Controls
 
         private void updateCustomerButton_Click(object sender, EventArgs e)
         {
-            UpdateCustomer?.Invoke(this, EventArgs.Empty);
+           EventMediator.Instance.Publish(CUSTOMER_EVENTS.MANAGE_CUSTOMER, this);
         }
 
         private void deleteCustomerButton_Click(object sender, EventArgs e)
@@ -72,7 +71,7 @@ namespace AppointmentApp.Controls
 
         private void newCustomerButton_Click(object sender, EventArgs e)
         {
-            CreateCustomer?.Invoke(this, EventArgs.Empty);
+            EventMediator.Instance.Publish(CUSTOMER_EVENTS.CREATE_CUSTOMER);
         }
     }
 }

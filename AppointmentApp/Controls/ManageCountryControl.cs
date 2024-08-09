@@ -1,4 +1,6 @@
-﻿using AppointmentApp.Database;
+﻿using AppointmentApp.Constant;
+using AppointmentApp.Database;
+using AppointmentApp.EventManager;
 using AppointmentApp.Helper;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
@@ -22,8 +24,6 @@ namespace AppointmentApp.Controls
 
         CountryService _countryService;
 
-        public event EventHandler CountryUpdated;
-        public event EventHandler<CountryEventArgs> CountryCreated;
 
         public ManageCountryControl(int? countryId = null)
         {
@@ -67,7 +67,7 @@ namespace AppointmentApp.Controls
                 country = _countryService.CreateCountry(_country.CountryName);
                 if (country != null)
                 {
-                    CountryCreated?.Invoke(this, new CountryEventArgs(country));
+                    EventMediator.Instance.Publish(COUNTRY_EVENTS.COUNTRY_CREATED, country); 
                 }
                 else
                 {
@@ -79,7 +79,7 @@ namespace AppointmentApp.Controls
             {
                 bool countryUpdated;
                 countryUpdated = _countryService.UpdateCountry(_country);
-                CountryUpdated?.Invoke(this, EventArgs.Empty);
+                EventMediator.Instance.Publish(COUNTRY_EVENTS.COUNTRY_UPDATED);
                 if (!countryUpdated)
                 {
                     Messages.ShowError("Error Updating Country", "There was an error updating the country.");

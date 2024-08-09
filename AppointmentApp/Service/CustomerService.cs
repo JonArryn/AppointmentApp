@@ -20,7 +20,7 @@ namespace AppointmentApp.Service
             _addressService = addressService;
         }
 
-        public List<CustomerReadDTO> GetAll()
+        public List<CustomerReadDTO> GetAllCustomers()
         {
 
             List<CustomerReadDTO> customers = new List<CustomerReadDTO>();
@@ -43,16 +43,13 @@ namespace AppointmentApp.Service
                                    JOIN {TABLES.CITY} ci ON a.{ADDRESS.CITY_ID} = ci.{CITY.CITY_ID}
 
                                    JOIN {TABLES.COUNTRY} co ON ci.{CITY.COUNTRY_ID} = co.{COUNTRY.COUNTRY_ID}
-
-                                   WHERE c.{CUSTOMER.CREATED_BY} = @Username
                                     
-                                   AND c.{CUSTOMER.ACTIVE} = 1
+                                   WHERE c.{CUSTOMER.ACTIVE} = 1
                                           ";
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
-                    command.Parameters.AddWithValue("@Username", _userService.Username);
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())

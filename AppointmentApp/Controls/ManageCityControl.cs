@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AppointmentApp.EventManager;
 
 // TODO: need to set up an event for city created so the CustomerFormControl can update the city in its combobox
 
@@ -25,11 +26,6 @@ namespace AppointmentApp.Controls
 
         private readonly CountryService _countryService;
         private readonly CityService _cityService;
-
-
-        public event EventHandler CityUpdated;
-        public event EventHandler<CityEventArgs> CityCreated;
-
         public ManageCityControl(int? selectedCountryId = null, int? cityId = null)
         {
             InitializeComponent();
@@ -56,6 +52,7 @@ namespace AppointmentApp.Controls
             }
             _isInitializing = false;
         }
+
 
         // INITIALIZERS //
         private CityReadDTO PopulateCity(int cityId)
@@ -109,8 +106,9 @@ namespace AppointmentApp.Controls
                 
                 if(city != null)
                 {
-                    CityCreated?.Invoke(this, new CityEventArgs(city));
-                }else
+                    EventMediator.Instance.Publish(CITY_EVENTS.CITY_CREATED, city);
+                }
+                else
                 {
                     Messages.ShowError("Error Creating City", "There was an error creating the city");
                     return;
@@ -120,7 +118,7 @@ namespace AppointmentApp.Controls
             {
                 bool cityUpdated;
                 cityUpdated = _cityService.UpdateCity(_city);
-                CityUpdated?.Invoke(this, EventArgs.Empty);
+                EventMediator.Instance.Publish(CITY_EVENTS.CITY_UPDATED);
                 if (!cityUpdated)
                 {
                     Messages.ShowError("Error Updating City", "There was an error updating the city");

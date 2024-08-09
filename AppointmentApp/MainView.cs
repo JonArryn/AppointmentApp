@@ -1,5 +1,7 @@
-﻿using AppointmentApp.Controls;
+﻿using AppointmentApp.Constant;
+using AppointmentApp.Controls;
 using AppointmentApp.Database;
+using AppointmentApp.EventManager;
 using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,7 @@ namespace AppointmentApp
         private CustomerControl _customerControl;
         private ManageCustomerControl _manageCustomerControl;
         private AppointmentControl _appointmentControl;
+        private ManageAppointmentControl _manageAppointmentControl;
 
 
 
@@ -31,14 +34,31 @@ namespace AppointmentApp
             InitializeComponent();
             this.mainLayoutPanel.Visible = false;
             InitializeLoginControl();
+            SubscribeToEvents();
         }
+
+        private void SubscribeToEvents()
+        {
+            EventMediator.Instance.Subscribe(LOGIN_EVENTS.LOGIN_SUCCESSFUL, HandleLoginSuccessful);
+
+            EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.MANAGE_CUSTOMER, HandleManageCustomer);
+            EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.CUSTOMER_UPDATED, HandleCustomerUpdated);
+            EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.CANCEL_MANAGE_CUSTOMER, HandleCustomerUpdated);
+            EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.CREATE_CUSTOMER, HandleCreateCustomer);
+            EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.CUSTOMER_CREATED, HandleCustomerUpdated);
+
+            EventMediator.Instance.Subscribe(APPT_EVENTS.APPT_UPDATED, HandleAppointmentUpdated);
+            EventMediator.Instance.Subscribe(APPT_EVENTS.CREATE_APPT, HandleCreateAppointment);
+            EventMediator.Instance.Subscribe(APPT_EVENTS.MANAGE_APPT, HandleManageAppointment);
+            EventMediator.Instance.Subscribe(APPT_EVENTS.CANCEL_MANAGE_APPT, HandleAppointmentUpdated);
+        }
+
         // INITIALIZE CONTROLS //
         private void InitializeLoginControl()
         {
             _loginControl = new LoginControl();
             _loginControl.Dock = DockStyle.Fill;
             this.Controls.Add(_loginControl);
-            _loginControl.LoginSuccessful += LoginControl_LoginSuccessful;
         }
 
         private void LoadCustomerControl()
@@ -47,8 +67,6 @@ namespace AppointmentApp
             {
                 _customerControl = new CustomerControl { Dock = DockStyle.Fill };
                 this.customersTab.Controls.Add(_customerControl);
-                _customerControl.UpdateCustomer += CustomerControl_UpdateCustomer;
-                _customerControl.CreateCustomer += CustomerControl_CreateCustomer;
                 
             }
         }
@@ -59,54 +77,68 @@ namespace AppointmentApp
             {
                 _appointmentControl = new AppointmentControl { Dock = DockStyle.Fill };
                 this.appointmentsTab.Controls.Add(_appointmentControl);
+
             }
         }
 
-        // EVENT SUBSCRIPTION HANDLERS //
-        private void LoginControl_LoginSuccessful(object sender, EventArgs e)
+        // EVENT MEDIATOR HANDLERS //
+
+        private void HandleLoginSuccessful(object data = null)
         {
             _loginControl.Visible = false;
             this.mainLayoutPanel.Visible = true;
             LoadCustomerControl();
-            
         }
 
-        private void CustomerControl_UpdateCustomer(object sender, EventArgs e)
+        private void HandleCreateCustomer(object data = null)
         {
-           
+            this.customersTab.Controls.Clear();
+            _manageCustomerControl = new ManageCustomerControl() { Dock = DockStyle.Fill };
+            this.customersTab.Controls.Add(_manageCustomerControl);
+            _customerControl = null;
+        }
+
+        private void HandleManageCustomer(object data = null)
+        {
             this.customersTab.Controls.Clear();
             _manageCustomerControl = new ManageCustomerControl(_customerControl.GetSelectedCustomerId());
             this.customersTab.Controls.Add(_manageCustomerControl);
             _manageCustomerControl.Dock = DockStyle.Fill;
             _customerControl = null;
-            _manageCustomerControl.CustomerUpdated += ManageCustomerControl_CustomerUpdated;
-            _manageCustomerControl.CancelUpdateCustomer += ManageCustomerControl_CancelUpdateCustomer;
         }
 
-        private void ManageCustomerControl_CustomerUpdated(object sender, EventArgs e)
+        private void HandleCustomerUpdated(object data = null)
         {
             this.customersTab.Controls.Clear();
             _manageCustomerControl = null;
             LoadCustomerControl();
         }
 
-        private void ManageCustomerControl_CancelUpdateCustomer(object sender, EventArgs e)
+        private void HandleAppointmentUpdated(object data = null)
         {
-            this.customersTab.Controls.Clear();
-            _manageCustomerControl = null;
-            LoadCustomerControl();
+            this.appointmentsTab.Controls.Clear();
+            _manageAppointmentControl = null;
+            LoadAppointmentControl();
+
         }
 
-        private void CustomerControl_CreateCustomer(object sender, EventArgs e)
+        private void HandleManageAppointment(object data = null)
         {
-
-            this.customersTab.Controls.Clear();
-            _manageCustomerControl = new ManageCustomerControl(){Dock = DockStyle.Fill};
-            this.customersTab.Controls.Add(_manageCustomerControl);
-            _customerControl = null;
-            _manageCustomerControl.CustomerUpdated += ManageCustomerControl_CustomerUpdated;
-            _manageCustomerControl.CancelUpdateCustomer += ManageCustomerControl_CancelUpdateCustomer;
+            var appointment = _appointmentControl.GetSelectedAppointment();
+            this.appointmentsTab.Controls.Clear();
+            _manageAppointmentControl = new ManageAppointmentControl(appointment) { Dock = DockStyle.Fill };
+            this.appointmentsTab.Controls.Add(_manageAppointmentControl);
+            _appointmentControl = null;
         }
+
+        private void HandleCreateAppointment(object data = null)
+        {
+            this.appointmentsTab.Controls.Clear();
+            _manageAppointmentControl = new ManageAppointmentControl() { Dock = DockStyle.Fill };
+            this.appointmentsTab.Controls.Add(_manageAppointmentControl);
+            _appointmentControl = null;
+        }
+
 
         // LOCAL EVENTS //
 

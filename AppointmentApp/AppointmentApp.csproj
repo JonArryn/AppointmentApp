@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constant\EVENTS.cs" />
     <Compile Include="Constant\TABLE_COLUMNS.cs" />
     <Compile Include="Constant\TABLES.cs" />
     <Compile Include="Controls\AppointmentControl.cs">
@@ -155,7 +156,6 @@
       <DependentUpon>ManageEntityDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\CustomerFormValidator.cs" />
-    <Compile Include="Helper\EventArgsHelper.cs" />
     <Compile Include="Model\AddressModel.cs" />
     <Compile Include="Model\AppointmentModel.cs" />
     <Compile Include="Model\CityModel.cs" />
@@ -164,6 +164,7 @@
     <Compile Include="Service\AppointmentService.cs" />
     <Compile Include="Service\CityService.cs" />
     <Compile Include="Service\CountryService.cs" />
+    <Compile Include="EventManager\EventMediator.cs" />
     <Compile Include="Service\ServiceLocator.cs" />
     <Compile Include="Model\CustomerModel.cs" />
     <Compile Include="Model\UserModel.cs" />

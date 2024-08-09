@@ -35,9 +35,7 @@ namespace AppointmentApp.Service
                 AppointmentService = new AppointmentService(UserService);
             }catch(StackOverflowException ex)
             {
-                Console.WriteLine($"ServiceLocator initialization failed: {ex.Message}");
-                Console.WriteLine($"Stack Trace:\n{ex.StackTrace}");
-                throw;
+                throw new Exception("ServiceLocator failed to initialize", ex);
             }
 
         }

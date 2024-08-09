@@ -1,4 +1,6 @@
-﻿using AppointmentApp.Database;
+﻿using AppointmentApp.Constant;
+using AppointmentApp.Database;
+using AppointmentApp.EventManager;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
 using Org.BouncyCastle.Ocsp;
@@ -37,6 +39,8 @@ namespace AppointmentApp.Controls
 
         private List<AppointmentReadDTO> _appointments;
 
+        private AppointmentReadDTO _selectedAppointment;
+
         public AppointmentControl()
         {
             InitializeComponent();
@@ -44,6 +48,14 @@ namespace AppointmentApp.Controls
 
             PopulateAppointments();
             
+        }
+
+        // INITIALIZERS //
+
+        public AppointmentReadDTO GetSelectedAppointment()
+        {
+
+           return _selectedAppointment;
         }
 
         private void PopulateAppointments() 
@@ -59,6 +71,23 @@ namespace AppointmentApp.Controls
             {
                 Messages.ShowError("Populate Appointments Error", $"There was an error retrieving appointment data: {ex.Message}");
             }
+        }
+
+        // LOCAL EVENTS //
+
+        private void updateAppointmentButton_Click(object sender, EventArgs e)
+        {
+            EventMediator.Instance.Publish(APPT_EVENTS.MANAGE_APPT);
+        }
+
+        private void newAppointmentButton_Click(object sender, EventArgs e)
+        {
+            EventMediator.Instance.Publish(APPT_EVENTS.CREATE_APPT);
+        }
+
+        private void appointmentGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            _selectedAppointment = (AppointmentReadDTO)this.appointmentGridView.CurrentRow.DataBoundItem;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace AppointmentApp.Service
 {
     public class AppointmentService
     {
-        private readonly UserService _userService;
+        private UserService _userService;
         public AppointmentService(UserService userService)
         {
             _userService = userService;
@@ -79,6 +79,102 @@ namespace AppointmentApp.Service
             }
            
             return appointments;
+        }
+        public bool UpdateAppointment(AppointmentUpdateDTO appointment)
+        {
+            string query = $@"
+                            UPDATE {TABLES.APPOINTMENT}
+                            SET
+                                {APPOINTMENT.CUSTOMER_ID} = @CustomerId,
+                                {APPOINTMENT.TITLE} = @Title,
+                                {APPOINTMENT.DESCRIPTION} @Description,
+                                {APPOINTMENT.TYPE} = @Type,
+                                {APPOINTMENT.START} = @Start,
+                                {APPOINTMENT.END} = @End,
+                                {APPOINTMENT.LAST_UPDATE} = @LastUpdate,
+                                {APPOINTMENT.LAST_UPDATE_BY} = @LastUpdateBy    
+,                           WHERE
+                                {APPOINTMENT.APPOINTMENT_ID} = @AppointmentId
+                            ";
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerId", appointment.CustomerId);
+                    command.Parameters.AddWithValue("@Title", appointment.Title);
+                    command.Parameters.AddWithValue("@Description", appointment.Description);
+                    command.Parameters.AddWithValue("@Type", appointment.Type);
+                    command.Parameters.AddWithValue("@Start", appointment.Start.ToUniversalTime());
+                    command.Parameters.AddWithValue("@End", appointment.End.ToUniversalTime());
+                    command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
+                    command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
+                    command.Parameters.AddWithValue("@AppointmentId", appointment.AppointmentId);
+
+                    return command.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception($"MySql Error: {ex.Message}", ex);
+            }
+        }
+
+        public int CreateAppointment(AppointmentCreateDTO appointment)
+        {
+            string query = $@"
+                            INSERT INTO {TABLES.APPOINTMENT}
+                                        
+                                 (
+                                    {APPOINTMENT.CUSTOMER_ID} @CustomerId,
+                                    {APPOINTMENT.USER_ID} @UserId,
+                                    {APPOINTMENT.TITLE} @Title,
+                                    {APPOINTMENT.DESCRIPTION} @Description,
+                                    {APPOINTMENT.TYPE} @Type,
+                                    {APPOINTMENT.START} @Start,
+                                    {APPOINTMENT.END} @End,
+                                    {APPOINTMENT.CREATE_DATE} @CreateDate,
+                                    {APPOINTMENT.CREATED_BY} @CreatedBy,
+                                    {APPOINTMENT.LAST_UPDATE} @LastUpdate,
+                                    {APPOINTMENT.LAST_UPDATE_BY} @LastUpdateBy,
+                                    {APPOINTMENT.CREATE_DATE} @CreateDate,
+                                    {APPOINTMENT.CREATED_BY} @CreatedBy
+                                 )
+                            VALUES                                        
+                                 (
+                                    @CustomerId,
+                                    @UserId,
+                                    @Title,
+                                    @Description,
+                                    @Type,
+                                    @Start,
+                                    @End,
+                                    @CreateDate,
+                                    @CreatedBy,
+                                    @LastUpdate,
+                                    @LastUpdateBy,
+                                    @CreateDate,
+                                    @CreatedBy
+                                 );
+                            SELECT LAST_INSERT_ID();
+                            ";
+            try
+            {
+                using(MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerId", appointment.CustomerId);
+                    command.Parameters.AddWithValue("@UserId", _userService.UserID);
+                    command.Parameters.AddWithValue("@Title", appointment.Title);
+                    command.Parameters.AddWithValue("@Description", appointment.Description);
+                    command.Parameters.AddWithValue("@Type", appointment.Type);
+                    command.Parameters.AddWithValue("@Start", appointment.Start.ToUniversalTime());
+                    command.Parameters.AddWithValue("@End", appointment.End.ToUniversalTime());
+                    command.Parameters.AddWithValue("@CreateDate", DateTime.UtcNow);
+                    command.Parameters.AddWithValue("@CreatedBy", _userService.Username);
+                    command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
+                    command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
+
+                    return Convert.ToInt32(command.ExecuteScalar());
+            }
         }
     }
 }

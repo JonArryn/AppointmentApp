@@ -28,10 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.appointmentLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.appointmentGridView = new System.Windows.Forms.DataGridView();
+            this.apptTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.apptCustomer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.apptDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.apptType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.apptStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.apptEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.newAppointmentButton = new System.Windows.Forms.Button();
             this.updateAppointmentButton = new System.Windows.Forms.Button();
             this.deleteAppointmentButton = new System.Windows.Forms.Button();
@@ -39,12 +45,6 @@
             this.allApptsButton = new System.Windows.Forms.Button();
             this.currentWeekApptsButton = new System.Windows.Forms.Button();
             this.currentMonthApptsButton = new System.Windows.Forms.Button();
-            this.apptTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.apptCustomer = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.apptDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.apptType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.apptStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.apptEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.appointmentLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentGridView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -92,6 +92,55 @@
             this.appointmentGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.appointmentGridView.Size = new System.Drawing.Size(980, 376);
             this.appointmentGridView.TabIndex = 0;
+            this.appointmentGridView.SelectionChanged += new System.EventHandler(this.appointmentGridView_SelectionChanged);
+            // 
+            // apptTitle
+            // 
+            this.apptTitle.DataPropertyName = "Title";
+            this.apptTitle.HeaderText = "Title";
+            this.apptTitle.Name = "apptTitle";
+            this.apptTitle.ReadOnly = true;
+            // 
+            // apptCustomer
+            // 
+            this.apptCustomer.DataPropertyName = "CustomerName";
+            this.apptCustomer.HeaderText = "Customer";
+            this.apptCustomer.Name = "apptCustomer";
+            this.apptCustomer.ReadOnly = true;
+            // 
+            // apptDescription
+            // 
+            this.apptDescription.DataPropertyName = "Description";
+            this.apptDescription.HeaderText = "Description";
+            this.apptDescription.Name = "apptDescription";
+            this.apptDescription.ReadOnly = true;
+            // 
+            // apptType
+            // 
+            this.apptType.DataPropertyName = "Type";
+            this.apptType.HeaderText = "Type";
+            this.apptType.Name = "apptType";
+            this.apptType.ReadOnly = true;
+            // 
+            // apptStart
+            // 
+            this.apptStart.DataPropertyName = "Start";
+            dataGridViewCellStyle3.Format = "g";
+            dataGridViewCellStyle3.NullValue = null;
+            this.apptStart.DefaultCellStyle = dataGridViewCellStyle3;
+            this.apptStart.HeaderText = "Start Time";
+            this.apptStart.Name = "apptStart";
+            this.apptStart.ReadOnly = true;
+            // 
+            // apptEnd
+            // 
+            this.apptEnd.DataPropertyName = "End";
+            dataGridViewCellStyle4.Format = "g";
+            dataGridViewCellStyle4.NullValue = null;
+            this.apptEnd.DefaultCellStyle = dataGridViewCellStyle4;
+            this.apptEnd.HeaderText = "End Time";
+            this.apptEnd.Name = "apptEnd";
+            this.apptEnd.ReadOnly = true;
             // 
             // newAppointmentButton
             // 
@@ -102,6 +151,7 @@
             this.newAppointmentButton.TabIndex = 2;
             this.newAppointmentButton.Text = "New Appointment";
             this.newAppointmentButton.UseVisualStyleBackColor = true;
+            this.newAppointmentButton.Click += new System.EventHandler(this.newAppointmentButton_Click);
             // 
             // updateAppointmentButton
             // 
@@ -112,6 +162,7 @@
             this.updateAppointmentButton.TabIndex = 1;
             this.updateAppointmentButton.Text = "Update Selected";
             this.updateAppointmentButton.UseVisualStyleBackColor = true;
+            this.updateAppointmentButton.Click += new System.EventHandler(this.updateAppointmentButton_Click);
             // 
             // deleteAppointmentButton
             // 
@@ -170,54 +221,6 @@
             this.currentMonthApptsButton.TabIndex = 0;
             this.currentMonthApptsButton.Text = "Current Month";
             this.currentMonthApptsButton.UseVisualStyleBackColor = true;
-            // 
-            // apptTitle
-            // 
-            this.apptTitle.DataPropertyName = "Title";
-            this.apptTitle.HeaderText = "Title";
-            this.apptTitle.Name = "apptTitle";
-            this.apptTitle.ReadOnly = true;
-            // 
-            // apptCustomer
-            // 
-            this.apptCustomer.DataPropertyName = "CustomerName";
-            this.apptCustomer.HeaderText = "Customer";
-            this.apptCustomer.Name = "apptCustomer";
-            this.apptCustomer.ReadOnly = true;
-            // 
-            // apptDescription
-            // 
-            this.apptDescription.DataPropertyName = "Description";
-            this.apptDescription.HeaderText = "Description";
-            this.apptDescription.Name = "apptDescription";
-            this.apptDescription.ReadOnly = true;
-            // 
-            // apptType
-            // 
-            this.apptType.DataPropertyName = "Type";
-            this.apptType.HeaderText = "Type";
-            this.apptType.Name = "apptType";
-            this.apptType.ReadOnly = true;
-            // 
-            // apptStart
-            // 
-            this.apptStart.DataPropertyName = "Start";
-            dataGridViewCellStyle1.Format = "g";
-            dataGridViewCellStyle1.NullValue = null;
-            this.apptStart.DefaultCellStyle = dataGridViewCellStyle1;
-            this.apptStart.HeaderText = "Start Time";
-            this.apptStart.Name = "apptStart";
-            this.apptStart.ReadOnly = true;
-            // 
-            // apptEnd
-            // 
-            this.apptEnd.DataPropertyName = "End";
-            dataGridViewCellStyle2.Format = "g";
-            dataGridViewCellStyle2.NullValue = null;
-            this.apptEnd.DefaultCellStyle = dataGridViewCellStyle2;
-            this.apptEnd.HeaderText = "End Time";
-            this.apptEnd.Name = "apptEnd";
-            this.apptEnd.ReadOnly = true;
             // 
             // AppointmentControl
             // 

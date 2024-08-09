@@ -1,4 +1,6 @@
-﻿using AppointmentApp.Database;
+﻿using AppointmentApp.Constant;
+using AppointmentApp.Database;
+using AppointmentApp.EventManager;
 using AppointmentApp.Helper;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
@@ -22,8 +24,6 @@ namespace AppointmentApp.Controls
         private CustomerFullReadDTO _selectedCustomer;
         private CustomerFormControl _customerFormControl;
 
-        public event EventHandler CustomerUpdated;
-        public event EventHandler CancelUpdateCustomer;
         public ManageCustomerControl(int? customerId = null)
         {
             InitializeComponent();
@@ -42,45 +42,31 @@ namespace AppointmentApp.Controls
 
             _customerFormControl.Dock = DockStyle.Fill;
             customerFormPanel.Controls.Add(_customerFormControl);
-            _customerFormControl.CustomerUpdated += _customerFormControl_CustomerUpdated;
-            _customerFormControl.CancelUpdateCustomer += _customerFormControl_CancelUpdateCustomer;
-            _customerFormControl.CustomerFormError += _customerFormControl_CustomerFormError;
+            SubscribeToEvents();
                     
         }
 
-        private void CancelAndClose()
+        private void SubscribeToEvents()
         {
-            var response = Messages.ShowQuestion("Cancel Manage Customer", "Are you sure you want to cancel managing the customer?");
-            if (response == DialogResult.Yes)
-            {
-                CancelUpdateCustomer?.Invoke(this, EventArgs.Empty);
-            }
+            EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.CUSTOMER_FORM_INVALID, HandleFormInvalid);
         }
 
-        // EVENT HANDLERS
-
-        private void _customerFormControl_CustomerUpdated(object sender, EventArgs e)
-        {
-            CustomerUpdated?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void _customerFormControl_CancelUpdateCustomer(object sender, EventArgs e)
-        {
-            CancelAndClose();
-        }
-
-        private void _customerFormControl_CustomerFormError(object sender, CustomerFormErrorEventArgs e)
-        {
-            this.formErrorListLabel.Visible = true;
-            this.formErrorListLabel.Text = string.Join("\n", e.Errors);
-        }
-
-
-        // LOCAL EVENTS //
+        // EVENT MEDIATOR PUBLISHERS //
 
         private void cancelUpdateCustomerButton_Click(object sender, EventArgs e)
         {
-            CancelAndClose();
+            EventMediator.Instance.Publish(CUSTOMER_EVENTS.CANCEL_MANAGE_CUSTOMER);
         }
+
+        // EVENT HANDLERS //
+
+        private void HandleFormInvalid(object data)
+        {
+            var errors = (List<string>)data;
+
+            this.formErrorListLabel.Visible = true;
+            this.formErrorListLabel.Text = string.Join("\n", errors);
+        }
+
     }
 }

@@ -40,4 +40,26 @@ namespace AppointmentApp.Model
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
     }
+
+    public class AppointmentUpdateDTO
+    {
+        public int AppointmentId { get; set; }
+        public int CustomerId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+    }
+
+    public class AppointmentCreateDTO 
+    {
+        public int CustomerId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+    }
+
 }

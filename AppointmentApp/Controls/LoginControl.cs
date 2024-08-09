@@ -1,4 +1,6 @@
-﻿using AppointmentApp.Database;
+﻿using AppointmentApp.Constant;
+using AppointmentApp.Database;
+using AppointmentApp.EventManager;
 using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;
@@ -16,8 +18,6 @@ namespace AppointmentApp.Controls
     {
         private readonly UserService _userService;
         private readonly TranslationService _translations;
-
-        public event EventHandler LoginSuccessful;
 
 
         public LoginControl()
@@ -39,7 +39,7 @@ namespace AppointmentApp.Controls
 
             if (_userService.IsLoggedIn)
             {
-                LoginSuccessful?.Invoke(this, EventArgs.Empty);
+                EventMediator.Instance.Publish(LOGIN_EVENTS.LOGIN_SUCCESSFUL, this);
             }
 
             if (!_userService.IsLoggedIn)

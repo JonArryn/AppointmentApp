@@ -1,6 +1,7 @@
 ﻿using AppointmentApp.Constant;
 using AppointmentApp.Database;
 using AppointmentApp.Dialogs;
+using AppointmentApp.EventManager;
 using AppointmentApp.Helper;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
@@ -39,10 +40,6 @@ namespace AppointmentApp.Controls
         ManageCityControl _manageCityControl;
         ManageCountryControl _manageCountryControl;
 
-        public event EventHandler CustomerUpdated;
-        public event EventHandler CancelUpdateCustomer;
-        public event EventHandler<CustomerFormErrorEventArgs> CustomerFormError;
-
 
 
         public CustomerFormControl(CustomerFullReadDTO customer = null)
@@ -55,7 +52,17 @@ namespace AppointmentApp.Controls
             _countryService = ServiceLocator.Instance.CountryService;
             _cityService = ServiceLocator.Instance.CityService;
             PopulateForm();
+            SubscribeToEvents();
             _isInitializing = false;
+
+        }
+
+        private void SubscribeToEvents()
+        {
+            EventMediator.Instance.Subscribe(COUNTRY_EVENTS.COUNTRY_CREATED, HandleCountryCreated);
+            EventMediator.Instance.Subscribe(COUNTRY_EVENTS.COUNTRY_UPDATED, HandleCountryUpdated);
+            EventMediator.Instance.Subscribe(CITY_EVENTS.CITY_CREATED, HandleCityCreated);
+            EventMediator.Instance.Subscribe(CITY_EVENTS.CITY_UPDATED, HandleCityUpdated);
         }
 
         private int ValidateForm(CustomerCreateDTO customer)
@@ -65,8 +72,7 @@ namespace AppointmentApp.Controls
 
             if (errors.Count > 0)
             {
-                CustomerFormErrorEventArgs errorArgs = new CustomerFormErrorEventArgs(errors);
-                CustomerFormError?.Invoke(this, errorArgs);
+                EventMediator.Instance.Publish(CUSTOMER_EVENTS.CUSTOMER_FORM_INVALID, errors);
                 
             }
             return errors.Count;
@@ -80,19 +86,18 @@ namespace AppointmentApp.Controls
 
             if (_isNewCustomer == false)
             {
+                PopulateCities(_customer.CountryId);
                 PopulateCustomerData();
-                _selectedCountry = new CountryReadDTO { CountryId = _customer.CountryId, CountryName = _customer.Country };
-                PopulateCities(_selectedCountry.CountryId);
-                _selectedCity = new CityReadDTO { CityId = _customer.CityId, CityName = _customer.City, CountryId = _customer.CountryId };
+                SetCurrentCountry(_countries.Find(c => c.CountryId == _customer.CountryId));
+                SetCurrentCity(_cities.Find(c => c.CityId == _customer.CityId));
+
             }
             else
             {
                 _customer = new CustomerFullReadDTO();
-                _selectedCountry = _countries[0];
-                this.countryComboBox.SelectedValue = _selectedCountry.CountryId;
+                SetCurrentCountry(_countries[0]);
                 PopulateCities(_selectedCountry.CountryId);
-                _selectedCity = _cities[0];
-                this.cityComboBox.SelectedValue = _selectedCity.CityId;
+                SetCurrentCity(_cities[0]);
             }
         }
 
@@ -141,11 +146,6 @@ namespace AppointmentApp.Controls
                     this.cityComboBox.DisplayMember = "";
                     this.cityComboBox.ValueMember = "";
                 }
-                else
-                {
-                    _selectedCity = _cities[0];
-                    _customer.CityId = _selectedCity.CityId;
-                }
 
             }
             catch (Exception ex)
@@ -168,34 +168,23 @@ namespace AppointmentApp.Controls
             PopulateForm();
         }
 
-        // EVENT SUBSCRIPTION HANDLERS //
-
-        private void ManageCityControl_CityUpdated(object sender, EventArgs e)
+        private void SetCurrentCity(CityReadDTO city)
         {
-            _isInitializing = true;
-            PopulateCities(_selectedCountry.CountryId);
-            this.cityComboBox.SelectedValue = _selectedCity.CityId;
-            _isInitializing = false;
+            this.cityComboBox.SelectedValue = city.CityId;
+            _selectedCity = city;
+            _customer.CityId = city.CityId;
         }
 
-
-
-        private void ManageCityControl_CityCreated(object sender, CityEventArgs e)
+        private void SetCurrentCountry(CountryReadDTO country)
         {
-            if(_isNewCustomer == false)
-            {
-                RefreshCustomer();
-            }
-            else
-            {
-                PopulateCities(_selectedCountry.CountryId);
-            }
-            this.cityComboBox.SelectedValue = e.City.CityId;
-            this.countryComboBox.SelectedValue = e.City.CountryId;
-
+            this.countryComboBox.SelectedValue = country.CountryId;
+            _selectedCountry = country;
+            _customer.CountryId = country.CountryId;
         }
 
-        private void ManageCountryControl_CountryUpdated(object sender, EventArgs e) 
+        // EVENT MEDIATOR HANDLERS //
+
+        private void HandleCountryUpdated(object data = null)
         {
             _isInitializing = true;
             PopulateCountries();
@@ -203,17 +192,45 @@ namespace AppointmentApp.Controls
             _isInitializing = false;
         }
 
-        private void ManageCountryControl_CountryCreated(object sender, CountryEventArgs e)
+        private void HandleCityUpdated(object data = null)
         {
             _isInitializing = true;
-            PopulateCountries();
-            PopulateCities(e.Country.CountryId);
-            this.cityComboBox.DataSource = null;
-            this.cityComboBox.Refresh();
-            _selectedCountry = e.Country;
-            this.countryComboBox.SelectedValue = e.Country.CountryId;
+            PopulateCities(_selectedCountry.CountryId);
+            this.cityComboBox.SelectedValue = _selectedCity.CityId;
             _isInitializing = false;
         }
+
+        private void HandleCityCreated(object data)
+        {
+            var city = data as CityReadDTO;
+
+            if (_isNewCustomer == false)
+            {
+                RefreshCustomer();
+            }
+            else
+            {
+                PopulateCities(_selectedCountry.CountryId);
+            }
+            SetCurrentCity(city);
+            SetCurrentCountry(_countries.Find(c => c.CountryId == city.CountryId));
+
+        }
+        private void HandleCountryCreated(object data)
+        {
+            var country = data as CountryReadDTO;
+
+            PopulateCountries();
+            PopulateCities(country.CountryId);
+            this.cityComboBox.DataSource = null;
+            this.cityComboBox.Refresh();
+            SetCurrentCountry(country);
+
+        }
+
+        // EVENT SUBSCRIPTION HANDLERS //
+
+
 
         // COMBO BOX EVENT HANDLERS //
         private void cityComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -238,8 +255,7 @@ namespace AppointmentApp.Controls
         // LINK LABEL EVENT HANDLERS //
         private void editCityLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            _manageCityControl = new ManageCityControl(_selectedCity.CityId);
-            _manageCityControl.CityUpdated += ManageCityControl_CityUpdated;
+            _manageCityControl = new ManageCityControl(_selectedCountry.CountryId, _selectedCity.CityId);
             ManageEntityDialog dialog = new ManageEntityDialog("Edit City", _manageCityControl);
             dialog.ShowDialog();
         }
@@ -248,7 +264,6 @@ namespace AppointmentApp.Controls
         private void newCountryLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _manageCountryControl = new ManageCountryControl();
-            _manageCountryControl.CountryCreated += ManageCountryControl_CountryCreated;
             ManageEntityDialog dialog = new ManageEntityDialog("New Country", _manageCountryControl);
             dialog.Show();
         }
@@ -256,7 +271,6 @@ namespace AppointmentApp.Controls
         private void newCityLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _manageCityControl = new ManageCityControl(_selectedCountry.CountryId);
-            _manageCityControl.CityCreated += ManageCityControl_CityCreated;
             ManageEntityDialog dialog = new ManageEntityDialog("New City", _manageCityControl);
             dialog.Show();
         }
@@ -264,7 +278,6 @@ namespace AppointmentApp.Controls
         private void editCountryLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _manageCountryControl = new ManageCountryControl(_selectedCountry.CountryId);
-            _manageCountryControl.CountryUpdated += ManageCountryControl_CountryUpdated;
             ManageEntityDialog dialog = new ManageEntityDialog("Edit Country", _manageCountryControl);
             dialog.ShowDialog();
         }
@@ -273,7 +286,7 @@ namespace AppointmentApp.Controls
 
         private void cancelSaveCustomerButton_Click(object sender, EventArgs e)
         {
-                CancelUpdateCustomer?.Invoke(this, EventArgs.Empty);
+                EventMediator.Instance.Publish(CUSTOMER_EVENTS.CANCEL_MANAGE_CUSTOMER);
         }
 
         private void saveCustomerButton_Click(object sender, EventArgs e)
@@ -301,7 +314,7 @@ namespace AppointmentApp.Controls
                     int newCustomerId = _customerService.CreateCustomer(customer);
                     if (newCustomerId > 0)
                     {
-                        CustomerUpdated?.Invoke(this, EventArgs.Empty);
+                        EventMediator.Instance.Publish(CUSTOMER_EVENTS.CUSTOMER_CREATED);
                     }
                     else
                     {
@@ -337,7 +350,7 @@ namespace AppointmentApp.Controls
                     bool customerUpdated = _customerService.UpdateCustomerAndAddress(customer);
                     if (customerUpdated)
                     {
-                        CustomerUpdated?.Invoke(this, EventArgs.Empty);
+                        EventMediator.Instance.Publish(CUSTOMER_EVENTS.CUSTOMER_UPDATED);
                     }
                     else
                     {
