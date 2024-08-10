@@ -9,6 +9,10 @@ namespace AppointmentApp.EventManager
     public class EventMediator
     {
         private static EventMediator _instance;
+
+        //  creates a new singleton instance of EventMediator if one did not already exist
+        //  without having to create a new instance of EventMediator in the class itself in any classes that use it
+        //  This gave me the benefits of a static class for a global state while staying alive during application run time to manage events
         public static EventMediator Instance => _instance ?? (_instance = new EventMediator());
 
         private readonly Dictionary<string, List<Action<object>>> _events;

@@ -29,7 +29,7 @@ namespace AppointmentApp.Service
                                         c.{CUSTOMER.CUSTOMER_ID},
                                         c.{CUSTOMER.CUSTOMER_NAME},
                                         CONCAT(a.{ADDRESS.ADDRESS1}, ', ', 
-                                               a.{ADDRESS.ADDRESS2}, ', ', 
+                                               IFNULL(a.{ADDRESS.ADDRESS2}, ''), ', ', 
                                                ci.{CITY.CITY_NAME}, ', ',
                                                a.{ADDRESS.POSTAL_CODE}, ', ',
                                                co.{COUNTRY.COUNTRY_NAME}

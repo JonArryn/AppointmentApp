@@ -1,4 +1,7 @@
-﻿using AppointmentApp.Model;
+﻿using AppointmentApp.Constant;
+using AppointmentApp.EventManager;
+using AppointmentApp.Model;
+using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +14,14 @@ namespace AppointmentApp.Helper
     {
         private List<string> _errors;
 
-        int CustomerId { get; set; }
-        string Title { get; set; }
-        string Description { get; set; }
-        string Type { get; set; }
-        DateTime Start { get; set; }
-        DateTime End { get; set; }
+        private int CustomerId { get; set; }
+        private string Title { get; set; }
+        private string Description { get; set; }
+        private string Type { get; set; }
+        private DateTime Start { get; set; }
+        private DateTime End { get; set; }
+
+       
 
         public AppointmentFormValidator(AppointmentCreateDTO appointment)
         {
@@ -28,6 +33,7 @@ namespace AppointmentApp.Helper
             Type = appointment.Type;
             Start = appointment.Start;
             End = appointment.End;
+
         }
 
         public List<string> ValidateApptForm()
@@ -64,9 +70,11 @@ namespace AppointmentApp.Helper
             {
                 _errors.Add("End date must be after start date.");
             }
-
             return _errors;
-
         }
+
+
+
+
     }
 }

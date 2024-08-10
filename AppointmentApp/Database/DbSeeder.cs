@@ -15,11 +15,11 @@ namespace AppointmentApp.Database
             try
             {
                 // Wipe the database
-                MySqlCommand dropDatabase = new MySqlCommand("DROP DATABASE IF EXISTS appointment_app", DbConnection.Connection);
+                MySqlCommand dropDatabase = new MySqlCommand("DROP DATABASE IF EXISTS client_schedule", DbConnection.Connection);
                 dropDatabase.ExecuteNonQuery();
 
                 // Create the database
-                MySqlCommand createDatabase = new MySqlCommand("CREATE DATABASE appointment_app", DbConnection.Connection);
+                MySqlCommand createDatabase = new MySqlCommand("CREATE DATABASE client_schedule", DbConnection.Connection);
                 createDatabase.ExecuteNonQuery();
 
                 // create the tables
@@ -45,11 +45,11 @@ namespace AppointmentApp.Database
             try
             {
                 // Wipe the database
-                MySqlCommand dropDatabase = new MySqlCommand("DROP DATABASE IF EXISTS appointment_app", DbConnection.Connection);
+                MySqlCommand dropDatabase = new MySqlCommand("DROP DATABASE IF EXISTS client_schedule", DbConnection.Connection);
                 dropDatabase.ExecuteNonQuery();
 
                 // Create the database
-                MySqlCommand createDatabase = new MySqlCommand("CREATE DATABASE appointment_app", DbConnection.Connection);
+                MySqlCommand createDatabase = new MySqlCommand("CREATE DATABASE client_schedule", DbConnection.Connection);
                 createDatabase.ExecuteNonQuery();
 
                 // create the tables
@@ -66,7 +66,7 @@ namespace AppointmentApp.Database
 
         private static string SeedTablesQuery() {
 
-            string selectDatabase = "USE appointment_app;";
+            string selectDatabase = "USE client_schedule;";
             string createCountryTable = @"create table country
                                             (
                                                 countryId    int auto_increment,
@@ -97,7 +97,7 @@ namespace AppointmentApp.Database
                                             (
                                                 addressId    int auto_increment,
                                                 address      varchar(50) not null,
-                                                address2     varchar(50) null,
+                                                address2     varchar(50) not null,
                                                 cityId       int         not null,
                                                 postalCode   varchar(10) not null,
                                                 phone        varchar(20) not null,
@@ -141,16 +141,16 @@ namespace AppointmentApp.Database
 
             string createAppointmentTable = @"create table appointment(
                                                appointmentId int auto_increment,
-                                               customerId int not null,
-                                               userId int not null,
-                                               title varchar(255) not null,
-                                               description text not null,
-                                               location text not null,
-                                               contact text not null,
-                                               type text not null,
-                                               url VARCHAR(255) not null,
-                                               start DATETIME not null,
-                                               end DATETIME not null,
+                                               customerId int           not null,
+                                               userId int               not null,
+                                               title varchar(255)       not null,
+                                               description text         not null,
+                                               location text            not null,
+                                               contact text             not null,
+                                               type text                not null,
+                                               url VARCHAR(255)         not null,
+                                               start DATETIME           not null,
+                                               end DATETIME             not null,
                                                createDate   DATETIME    not null,
                                                createdBy    VARCHAR(40) not null,
                                                lastUpdate   TIMESTAMP   not null,

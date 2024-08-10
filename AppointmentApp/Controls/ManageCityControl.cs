@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AppointmentApp.EventManager;
 
-// TODO: need to set up an event for city created so the CustomerFormControl can update the city in its combobox
 
 namespace AppointmentApp.Controls
 {

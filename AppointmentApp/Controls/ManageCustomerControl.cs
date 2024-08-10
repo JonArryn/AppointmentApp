@@ -73,18 +73,7 @@ namespace AppointmentApp.Controls
             EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.CUSTOMER_FORM_INVALID, HandleFormInvalid);
         }
 
-        private int ValidateForm(CustomerCreateDTO customer)
-        {
-            CustomerFormValidator validator = new CustomerFormValidator(customer);
-            List<string> errors = validator.ValidateCustomerForm();
 
-            if (errors.Count > 0)
-            {
-                EventMediator.Instance.Publish(CUSTOMER_EVENTS.CUSTOMER_FORM_INVALID, errors);
-                
-            }
-            return errors.Count;
-        }
 
         // INITIALIZERS //
 
@@ -306,23 +295,23 @@ namespace AppointmentApp.Controls
 
             try
             {
-                
-                if(_isNewCustomer)
+                CustomerCreateDTO customer = new CustomerCreateDTO
                 {
-                    CustomerCreateDTO customer = new CustomerCreateDTO
-                    {
-                        CustomerName = _customer.CustomerName,
-                        Address = _customer.Address,
-                        Address2 = _customer.Address2,
-                        CityId = _customer.CityId,
-                        PostalCode = _customer.PostalCode,
-                        Phone = _customer.Phone
-                    };
-                    int errorCount = ValidateForm(customer);
-                    if (errorCount > 0)
-                    {
-                        return;
-                    }
+                    CustomerName = _customer.CustomerName,
+                    Address = _customer.Address,
+                    Address2 = _customer.Address2 ?? string.Empty,
+                    CityId = _customer.CityId,
+                    PostalCode = _customer.PostalCode,
+                    Phone = _customer.Phone
+                };
+                int errorCount = ValidateForm(customer);
+                if (errorCount > 0)
+                {
+                    return;
+                }
+                if (_isNewCustomer)
+                {
+                   
                     int newCustomerId = _customerService.CreateCustomer(customer);
                     if (newCustomerId > 0)
                     {
@@ -336,30 +325,19 @@ namespace AppointmentApp.Controls
                 }
                 else
                 {
-                    CustomerUpdateDTO customer = new CustomerUpdateDTO
+                    CustomerUpdateDTO updateCustomer = new CustomerUpdateDTO
                     {
                         CustomerId = _customer.CustomerId,
                         CustomerName = _customer.CustomerName,
                         AddressId = _customer.AddressId,
                         Address = _customer.Address,
-                        Address2 = _customer.Address2,
+                        Address2 = _customer.Address2 ?? string.Empty,
                         CityId = _customer.CityId,
                         PostalCode = _customer.PostalCode,
                         Phone = _customer.Phone
 
                     };
-                    CustomerCreateDTO baseCustomer = new CustomerCreateDTO
-                    {
-                        CustomerName = customer.CustomerName,
-                        Address = customer.Address,
-                        Address2 = customer.Address2,
-                        CityId = customer.CityId,
-                        PostalCode = customer.PostalCode,
-                        Phone = customer.Phone
-                    };
-                    int errorCount = ValidateForm(baseCustomer);
-                    if (errorCount > 0) return;
-                    bool customerUpdated = _customerService.UpdateCustomerAndAddress(customer);
+                    bool customerUpdated = _customerService.UpdateCustomerAndAddress(updateCustomer);
                     if (customerUpdated)
                     {
                         EventMediator.Instance.Publish(CUSTOMER_EVENTS.CUSTOMER_UPDATED);
@@ -408,6 +386,21 @@ namespace AppointmentApp.Controls
         private void cancelUpdateCustomerButton_Click(object sender, EventArgs e)
         {
             EventMediator.Instance.Publish(CUSTOMER_EVENTS.CANCEL_MANAGE_CUSTOMER);
+        }
+
+        // HELPERS //
+
+        private int ValidateForm(CustomerCreateDTO customer)
+        {
+            CustomerFormValidator validator = new CustomerFormValidator(customer);
+            List<string> errors = validator.ValidateCustomerForm();
+
+            if (errors.Count > 0)
+            {
+                EventMediator.Instance.Publish(CUSTOMER_EVENTS.CUSTOMER_FORM_INVALID, errors);
+
+            }
+            return errors.Count;
         }
     }
 }

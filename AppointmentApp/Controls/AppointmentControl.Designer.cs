@@ -44,6 +44,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.apptRangeComboBox = new System.Windows.Forms.ComboBox();
             this.dateRangeLabel = new System.Windows.Forms.Label();
+            this.chooseCalendarDayPicker = new System.Windows.Forms.DateTimePicker();
+            this.chooseCalendarDayLabel = new System.Windows.Forms.Label();
             this.appointmentLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentGridView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -177,17 +179,20 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 153F));
             this.tableLayoutPanel1.Controls.Add(this.apptRangeComboBox, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.dateRangeLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.chooseCalendarDayPicker, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.chooseCalendarDayLabel, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(135, 43);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(704, 34);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
@@ -196,7 +201,7 @@
             this.apptRangeComboBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.apptRangeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.apptRangeComboBox.FormattingEnabled = true;
-            this.apptRangeComboBox.Location = new System.Drawing.Point(267, 6);
+            this.apptRangeComboBox.Location = new System.Drawing.Point(191, 6);
             this.apptRangeComboBox.Name = "apptRangeComboBox";
             this.apptRangeComboBox.Size = new System.Drawing.Size(167, 21);
             this.apptRangeComboBox.TabIndex = 0;
@@ -207,11 +212,32 @@
             this.dateRangeLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.dateRangeLabel.AutoSize = true;
             this.dateRangeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateRangeLabel.Location = new System.Drawing.Point(151, 9);
+            this.dateRangeLabel.Location = new System.Drawing.Point(100, 9);
             this.dateRangeLabel.Name = "dateRangeLabel";
             this.dateRangeLabel.Size = new System.Drawing.Size(80, 16);
             this.dateRangeLabel.TabIndex = 1;
             this.dateRangeLabel.Text = "Date Range";
+            // 
+            // chooseCalendarDayPicker
+            // 
+            this.chooseCalendarDayPicker.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chooseCalendarDayPicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.chooseCalendarDayPicker.Location = new System.Drawing.Point(560, 7);
+            this.chooseCalendarDayPicker.Name = "chooseCalendarDayPicker";
+            this.chooseCalendarDayPicker.Size = new System.Drawing.Size(132, 20);
+            this.chooseCalendarDayPicker.TabIndex = 2;
+            this.chooseCalendarDayPicker.ValueChanged += new System.EventHandler(this.chooseCalendarDayPicker_ValueChanged);
+            // 
+            // chooseCalendarDayLabel
+            // 
+            this.chooseCalendarDayLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.chooseCalendarDayLabel.AutoSize = true;
+            this.chooseCalendarDayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chooseCalendarDayLabel.Location = new System.Drawing.Point(468, 9);
+            this.chooseCalendarDayLabel.Name = "chooseCalendarDayLabel";
+            this.chooseCalendarDayLabel.Size = new System.Drawing.Size(78, 16);
+            this.chooseCalendarDayLabel.TabIndex = 3;
+            this.chooseCalendarDayLabel.Text = "Day to View";
             // 
             // AppointmentControl
             // 
@@ -244,5 +270,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn apptEnd;
         private System.Windows.Forms.ComboBox apptRangeComboBox;
         private System.Windows.Forms.Label dateRangeLabel;
+        private System.Windows.Forms.DateTimePicker chooseCalendarDayPicker;
+        private System.Windows.Forms.Label chooseCalendarDayLabel;
     }
 }

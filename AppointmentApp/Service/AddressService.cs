@@ -28,11 +28,26 @@ namespace AppointmentApp.Service
            
             string query = $@"
                             INSERT INTO {TABLES.ADDRESS} 
-                                ({ADDRESS.ADDRESS1}, {ADDRESS.ADDRESS2}, {ADDRESS.CITY_ID}, 
-                                {ADDRESS.POSTAL_CODE}, {ADDRESS.PHONE}, {ADDRESS.CREATE_DATE}, 
-                                {ADDRESS.CREATED_BY}, {ADDRESS.LAST_UPDATE}, {ADDRESS.LAST_UPDATE_BY})
+                                (       {ADDRESS.ADDRESS1}, 
+                                        {ADDRESS.ADDRESS2}, 
+                                        {ADDRESS.CITY_ID}, 
+                                        {ADDRESS.POSTAL_CODE}, 
+                                        {ADDRESS.PHONE}, 
+                                        {ADDRESS.CREATE_DATE}, 
+                                        {ADDRESS.CREATED_BY}, 
+                                        {ADDRESS.LAST_UPDATE}, 
+                                        {ADDRESS.LAST_UPDATE_BY})
                             VALUES
-                                (@Address1, @Address2, @CityId, @PostalCode, @Phone, @CreateDate, @CreatedBy, @LastUpdate, @LastUpdateBy);
+                                (
+                                        @Address1, 
+                                        @Address2, 
+                                        @CityId, 
+                                        @PostalCode, 
+                                        @Phone, 
+                                        @CreateDate, 
+                                        @CreatedBy, 
+                                        @LastUpdate, 
+                                        @LastUpdateBy);
                             SELECT LAST_INSERT_ID();
                             " ;
 
@@ -43,7 +58,7 @@ namespace AppointmentApp.Service
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
                     command.Parameters.AddWithValue("@Address1", address.Address);
-                    command.Parameters.AddWithValue("@Address2", address.Address2);
+                    command.Parameters.AddWithValue("@Address2", address.Address2 ?? string.Empty);
                     command.Parameters.AddWithValue("@CityId", address.CityId);
                     command.Parameters.AddWithValue("@PostalCode", address.PostalCode);
                     command.Parameters.AddWithValue("@Phone", address.Phone);

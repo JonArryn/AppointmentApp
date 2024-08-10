@@ -38,7 +38,7 @@ namespace AppointmentApp.Controls
 
             if (_userService.IsLoggedIn)
             {
-                EventMediator.Instance.Publish(LOGIN_EVENTS.LOGIN_SUCCESSFUL, this);
+                EventMediator.Instance.Publish(LOGIN_EVENTS.LOGIN_SUCCESSFUL);
             }
 
             if (!_userService.IsLoggedIn)

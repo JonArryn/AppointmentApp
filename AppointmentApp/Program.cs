@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AppointmentApp.Service;
 
-// TODO: Standardize service exception handling on each control and service method for each service
 
 namespace AppointmentApp
 {

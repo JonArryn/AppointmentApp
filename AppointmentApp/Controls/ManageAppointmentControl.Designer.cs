@@ -267,11 +267,12 @@
             // 
             // startTimePicker
             // 
-            this.startTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.startTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.startTimePicker.Location = new System.Drawing.Point(144, 185);
             this.startTimePicker.Name = "startTimePicker";
             this.startTimePicker.Size = new System.Drawing.Size(217, 20);
             this.startTimePicker.TabIndex = 3;
+            this.startTimePicker.Value = new System.DateTime(2024, 8, 10, 10, 21, 53, 0);
             this.startTimePicker.ValueChanged += new System.EventHandler(this.startTimePicker_ValueChanged);
             // 
             // backToApptsButton

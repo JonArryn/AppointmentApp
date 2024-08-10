@@ -26,7 +26,13 @@ namespace AppointmentApp.Controls
         private List<CustomerReadDTO> _customerList;
         private CustomerReadDTO _currentCustomer;
         private AppointmentReadDTO _appointment;
- 
+
+        private DateTime _businessHoursStart;
+        private DateTime _businessHoursEnd;
+
+        private List<AppointmentReadDTO> _overlappingAppointments;
+
+
         public ManageAppointmentControl(AppointmentReadDTO appointment = null)
         {
             InitializeComponent();
@@ -41,8 +47,9 @@ namespace AppointmentApp.Controls
             SetFormStyles();
             PopulateForm();
             SubscribeToEvents();
+            SetBusinessHours();
 
-        }
+    }
 
         // INITIALIZERS //
 
@@ -52,7 +59,7 @@ namespace AppointmentApp.Controls
             this.apptFormPanel.Dock = DockStyle.Fill;
             this.formErrorListLabel.Visible = false;
             this.startTimePicker.Format = DateTimePickerFormat.Custom;
-            this.startTimePicker.CustomFormat = "MM/dd/yyyy hh:mm";
+            this.startTimePicker.CustomFormat = "MM/dd/yyyy HH:mm";
 
             if(_isNewAppointment)
             {
@@ -101,9 +108,18 @@ namespace AppointmentApp.Controls
             
         }
 
+        private void SetBusinessHours()
+        {
+            DateTime date = DateTime.Now;
+            _businessHoursStart = new DateTime(date.Year, date.Month, date.Day, 8, 0, 0, DateTimeKind.Local);
+            _businessHoursEnd = new DateTime(date.Year, date.Month, date.Day, 17, 0, 0, DateTimeKind.Local);
+        }
+
         private void SubscribeToEvents()
         {
             EventMediator.Instance.Subscribe(APPT_EVENTS.APPT_FORM_INVALID, HandleFormErrors);
+            EventMediator.Instance.Subscribe(APPT_EVENTS.APPT_BIZ_HOURS, HandleBizHourError);
+            EventMediator.Instance.Subscribe(APPT_EVENTS.APPT_OVERLAPS, HandleOverlapError);
         }
 
         // SETTERS //
@@ -131,6 +147,15 @@ namespace AppointmentApp.Controls
             
         }
 
+        private void HandleBizHourError(object data)
+        {
+            Messages.ShowError("Appointment Outside Business Hours", "Appointment must be scheduled between 8:00 AM and 5:00 PM.");
+        }
+        private void HandleOverlapError(object data)
+        {
+            Messages.ShowError("Appointment Overlaps", "Appointment time overlaps with 1 or more existing appointments.");
+        }
+
 
         // BUTTON EVENTS //
         private void backToApptsButton_Click(object sender, EventArgs e)
@@ -150,6 +175,14 @@ namespace AppointmentApp.Controls
                 End = _appointment.End
             };
             if(ValidateForm(newAppointment) > 0)
+            {
+                return;
+            }
+            if(CheckOverlaps(newAppointment.Start.ToString(), newAppointment.End.ToString(), _appointment.AppointmentId) > 0)
+            {
+                return;
+            }
+            if(!IsWIthinBusinessHours(newAppointment))
             {
                 return;
             }
@@ -252,6 +285,35 @@ namespace AppointmentApp.Controls
             }
             return errors.Count;
         }
+
+        private int CheckOverlaps(string startTime, string endTime, int? appointmentId = null)
+        {
+            List<AppointmentReadDTO> overlappingAppointments = _appointmentService.GetAllAppointments(startTime, endTime);
+            if (appointmentId.HasValue)
+            {
+                overlappingAppointments.RemoveAll(a => a.AppointmentId == appointmentId);
+            }
+            if (overlappingAppointments.Count > 0)
+            {
+                Messages.ShowError("Appointment Overlaps", "Appointment time overlaps with one or more existing appointments.");
+            }
+            return overlappingAppointments.Count;
+        }
+
+        private bool IsWIthinBusinessHours(AppointmentCreateDTO appointment)
+        {
+            if (appointment.Start.TimeOfDay < _businessHoursStart.TimeOfDay || appointment.End.TimeOfDay > _businessHoursEnd.TimeOfDay)
+            {
+                Messages.ShowError("Appointment Outside Business Hours", "Appointment must be scheduled between 8:00 AM and 5:00 PM. Check the appointment start time and appointment duration. Appointment duration cannot push appointment end time beyond business hours.");
+                return false;
+            }else
+            {
+                return true;
+            }
+
+        }
+
+       
 
 
     }

@@ -2,6 +2,7 @@
 using AppointmentApp.Controls;
 using AppointmentApp.Database;
 using AppointmentApp.EventManager;
+using AppointmentApp.Model;
 using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;
@@ -88,6 +89,12 @@ namespace AppointmentApp
             _loginControl.Visible = false;
             this.mainLayoutPanel.Visible = true;
             LoadCustomerControl();
+            AppointmentService appointmentService = ServiceLocator.Instance.AppointmentService;
+           List<AppointmentReadDTO> upcomingAppointments = appointmentService.GetAllAppointments(DateTime.Now.ToString(), DateTime.Now.AddMinutes(15).ToString());
+            if(upcomingAppointments.Count > 0)
+            {
+                Messages.ShowInfo("Upcoming Appointments", "You have an appointment in the next 15 minutes.");
+            }
         }
 
         private void HandleCreateCustomer(object data = null)

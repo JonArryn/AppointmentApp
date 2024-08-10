@@ -44,7 +44,8 @@ namespace AppointmentApp.Controls
         private object _dateRangeList = new[] {
             new { Key = 0, Value = "All Appointments" },
             new { Key = 1, Value = "Current Month" },
-            new { Key = 2, Value = "Current Week" }
+            new { Key = 2, Value = "Current Week" },
+            new { Key = 3, Value = "Day" }
         };
 
         private AppointmentReadDTO _selectedAppointment;
@@ -56,6 +57,7 @@ namespace AppointmentApp.Controls
             _appointmentService = ServiceLocator.Instance.AppointmentService;
             PopulateDateRanges();
             PopulateAppointments();
+            SetInitialStyling();
             _isInitializing = false;
             
         }
@@ -92,6 +94,16 @@ namespace AppointmentApp.Controls
             this.apptRangeComboBox.SelectedValue = 0;
         }
 
+        // SETTERS //
+
+        private void SetInitialStyling()
+        {
+            this.chooseCalendarDayLabel.Visible = false;
+            this.chooseCalendarDayPicker.Visible = false;
+            this.chooseCalendarDayPicker.Format = DateTimePickerFormat.Custom;
+            this.chooseCalendarDayPicker.CustomFormat = "MM/dd/yyyy";
+        }
+
         // EVENT HANDLERS //
         private void HandleDateRangeChanged()
         {
@@ -114,8 +126,17 @@ namespace AppointmentApp.Controls
                     var lastDayOfWeek = firstDayOfWeek.AddDays(7).AddSeconds(-1);
                     PopulateAppointments(firstDayOfWeek.ToString(), lastDayOfWeek.ToString());
                     break;
+                case 3:
+                    HandleShowDayPicker();
+                    break;
             }
             
+        }
+
+        private void HandleShowDayPicker()
+        {
+            this.chooseCalendarDayPicker.Visible = true;
+            this.chooseCalendarDayLabel.Visible = true;
         }
 
         // LOCAL EVENTS //
@@ -160,6 +181,15 @@ namespace AppointmentApp.Controls
             {
                 HandleDateRangeChanged();
             }
+        }
+
+        private void chooseCalendarDayPicker_ValueChanged(object sender, EventArgs e)
+        {
+            var dayStart = this.chooseCalendarDayPicker.Value.Date;
+            Console.WriteLine(dayStart);
+            var dayEnd = dayStart.AddDays(1).AddSeconds(-1);
+            Console.WriteLine(dayEnd);
+            PopulateAppointments(dayStart.ToString(), dayEnd.ToString());
         }
     }
 }
