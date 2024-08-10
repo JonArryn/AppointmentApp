@@ -17,6 +17,8 @@ namespace AppointmentApp.Constant
         public const string CANCEL_MANAGE_APPT = "ManageAppointmentCanceled";
         public const string APPT_UPDATED = "AppointmentUpdated";
         public const string CREATE_APPT = "CreateAppointment";
+        public const string APPT_CREATED = "AppointmentCreated";
+        public const string APPT_FORM_INVALID = "AppointmentFormInvalid";
     }
 
     public static class CUSTOMER_EVENTS

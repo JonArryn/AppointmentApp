@@ -42,9 +42,8 @@
             this.updateAppointmentButton = new System.Windows.Forms.Button();
             this.deleteAppointmentButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.allApptsButton = new System.Windows.Forms.Button();
-            this.currentWeekApptsButton = new System.Windows.Forms.Button();
-            this.currentMonthApptsButton = new System.Windows.Forms.Button();
+            this.apptRangeComboBox = new System.Windows.Forms.ComboBox();
+            this.dateRangeLabel = new System.Windows.Forms.Label();
             this.appointmentLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentGridView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -174,6 +173,7 @@
             this.deleteAppointmentButton.TabIndex = 2;
             this.deleteAppointmentButton.Text = "Delete Selected";
             this.deleteAppointmentButton.UseVisualStyleBackColor = true;
+            this.deleteAppointmentButton.Click += new System.EventHandler(this.deleteAppointmentButton_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -181,9 +181,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Controls.Add(this.allApptsButton, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.currentWeekApptsButton, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.currentMonthApptsButton, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.apptRangeComboBox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dateRangeLabel, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(135, 43);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -192,35 +191,27 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(704, 34);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
-            // allApptsButton
+            // apptRangeComboBox
             // 
-            this.allApptsButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.allApptsButton.Location = new System.Drawing.Point(116, 5);
-            this.allApptsButton.Name = "allApptsButton";
-            this.allApptsButton.Size = new System.Drawing.Size(115, 23);
-            this.allApptsButton.TabIndex = 0;
-            this.allApptsButton.Text = "All Appointments";
-            this.allApptsButton.UseVisualStyleBackColor = true;
+            this.apptRangeComboBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.apptRangeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.apptRangeComboBox.FormattingEnabled = true;
+            this.apptRangeComboBox.Location = new System.Drawing.Point(267, 6);
+            this.apptRangeComboBox.Name = "apptRangeComboBox";
+            this.apptRangeComboBox.Size = new System.Drawing.Size(167, 21);
+            this.apptRangeComboBox.TabIndex = 0;
+            this.apptRangeComboBox.SelectedValueChanged += new System.EventHandler(this.apptRangeComboBox_SelectedValueChanged);
             // 
-            // currentWeekApptsButton
+            // dateRangeLabel
             // 
-            this.currentWeekApptsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.currentWeekApptsButton.Location = new System.Drawing.Point(293, 5);
-            this.currentWeekApptsButton.Name = "currentWeekApptsButton";
-            this.currentWeekApptsButton.Size = new System.Drawing.Size(115, 23);
-            this.currentWeekApptsButton.TabIndex = 0;
-            this.currentWeekApptsButton.Text = "Current Week";
-            this.currentWeekApptsButton.UseVisualStyleBackColor = true;
-            // 
-            // currentMonthApptsButton
-            // 
-            this.currentMonthApptsButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.currentMonthApptsButton.Location = new System.Drawing.Point(471, 5);
-            this.currentMonthApptsButton.Name = "currentMonthApptsButton";
-            this.currentMonthApptsButton.Size = new System.Drawing.Size(115, 23);
-            this.currentMonthApptsButton.TabIndex = 0;
-            this.currentMonthApptsButton.Text = "Current Month";
-            this.currentMonthApptsButton.UseVisualStyleBackColor = true;
+            this.dateRangeLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.dateRangeLabel.AutoSize = true;
+            this.dateRangeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateRangeLabel.Location = new System.Drawing.Point(151, 9);
+            this.dateRangeLabel.Name = "dateRangeLabel";
+            this.dateRangeLabel.Size = new System.Drawing.Size(80, 16);
+            this.dateRangeLabel.TabIndex = 1;
+            this.dateRangeLabel.Text = "Date Range";
             // 
             // AppointmentControl
             // 
@@ -232,6 +223,7 @@
             this.appointmentLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.appointmentGridView)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -244,14 +236,13 @@
         private System.Windows.Forms.Button updateAppointmentButton;
         private System.Windows.Forms.Button deleteAppointmentButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button allApptsButton;
-        private System.Windows.Forms.Button currentWeekApptsButton;
-        private System.Windows.Forms.Button currentMonthApptsButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn apptTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn apptCustomer;
         private System.Windows.Forms.DataGridViewTextBoxColumn apptDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn apptType;
         private System.Windows.Forms.DataGridViewTextBoxColumn apptStart;
         private System.Windows.Forms.DataGridViewTextBoxColumn apptEnd;
+        private System.Windows.Forms.ComboBox apptRangeComboBox;
+        private System.Windows.Forms.Label dateRangeLabel;
     }
 }

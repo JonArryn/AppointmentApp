@@ -13,7 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// TODO: Migrate LoginForm to MainView panel
 
 namespace AppointmentApp
 {
@@ -23,9 +22,9 @@ namespace AppointmentApp
 
         private LoginControl _loginControl;
         private CustomerControl _customerControl;
-        private ManageCustomerControl _manageCustomerControl;
         private AppointmentControl _appointmentControl;
         private ManageAppointmentControl _manageAppointmentControl;
+        private ManageCustomerControl _manageCustomerControl;
 
 
 
@@ -47,6 +46,7 @@ namespace AppointmentApp
             EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.CREATE_CUSTOMER, HandleCreateCustomer);
             EventMediator.Instance.Subscribe(CUSTOMER_EVENTS.CUSTOMER_CREATED, HandleCustomerUpdated);
 
+            EventMediator.Instance.Subscribe(APPT_EVENTS.APPT_CREATED, HandleAppointmentUpdated);
             EventMediator.Instance.Subscribe(APPT_EVENTS.APPT_UPDATED, HandleAppointmentUpdated);
             EventMediator.Instance.Subscribe(APPT_EVENTS.CREATE_APPT, HandleCreateAppointment);
             EventMediator.Instance.Subscribe(APPT_EVENTS.MANAGE_APPT, HandleManageAppointment);

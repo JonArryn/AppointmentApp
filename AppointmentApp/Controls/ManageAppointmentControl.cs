@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
 using AppointmentApp.Database;
+using AppointmentApp.Helper;
 
 namespace AppointmentApp.Controls
 {
@@ -20,20 +21,26 @@ namespace AppointmentApp.Controls
         private readonly bool _isNewAppointment;
 
         private CustomerService _customerService;
+        private AppointmentService _appointmentService;
 
         private List<CustomerReadDTO> _customerList;
         private CustomerReadDTO _currentCustomer;
-
         private AppointmentReadDTO _appointment;
  
         public ManageAppointmentControl(AppointmentReadDTO appointment = null)
         {
             InitializeComponent();
-            _appointment = appointment;
             _isNewAppointment = appointment == null;
+            _appointment = appointment;
+            if(_isNewAppointment)
+            {
+                _appointment = new AppointmentReadDTO();
+            }
             _customerService = ServiceLocator.Instance.CustomerService;
+            _appointmentService = ServiceLocator.Instance.AppointmentService;
             SetFormStyles();
             PopulateForm();
+            SubscribeToEvents();
 
         }
 
@@ -94,6 +101,11 @@ namespace AppointmentApp.Controls
             
         }
 
+        private void SubscribeToEvents()
+        {
+            EventMediator.Instance.Subscribe(APPT_EVENTS.APPT_FORM_INVALID, HandleFormErrors);
+        }
+
         // SETTERS //
 
         private void SetCurrentCustomer(int customerId)
@@ -102,10 +114,21 @@ namespace AppointmentApp.Controls
                 this.apptCustomerComboBox.SelectedValue = customerId;
         }
 
-        private void SetEndTime(int minutes)
+        private void SetEndTime()
         {
+            int minutes = Int32.Parse(this.apptDurationUpDown.Value.ToString());
             DateTime endTime = _appointment.Start.AddMinutes(minutes);
             _appointment.End = endTime;
+        }
+
+        // EVENT MEDIATOR HANDLERS //
+
+        private void HandleFormErrors(object data)
+        {
+            var errorList = (List<string>)data;
+            this.formErrorListLabel.Visible = true;
+            this.formErrorListLabel.Text = string.Join("\n", errorList);
+            
         }
 
 
@@ -117,9 +140,54 @@ namespace AppointmentApp.Controls
 
         private void apptSaveButton_Click(object sender, EventArgs e)
         {
+            AppointmentCreateDTO newAppointment = new AppointmentCreateDTO
+            {
+                CustomerId = _currentCustomer.CustomerId,
+                Title = _appointment.Title,
+                Description = _appointment.Description,
+                Type = _appointment.Type,
+                Start = _appointment.Start,
+                End = _appointment.End
+            };
+            if(ValidateForm(newAppointment) > 0)
+            {
+                return;
+            }
             if (_isNewAppointment)
             {
-
+                try
+                {
+                    _appointmentService.CreateAppointment(newAppointment);
+                    var confirm = Messages.ShowInfo("Appointment Created", "Appointment Saved!");
+                    if (confirm == DialogResult.OK) { EventMediator.Instance.Publish(APPT_EVENTS.APPT_CREATED); };
+                }
+                catch (Exception ex)
+                {
+                    Messages.ShowError("Error Creating Appointment", ex.Message);
+                }
+            }
+            else
+            {
+                AppointmentUpdateDTO updatedAppointment = new AppointmentUpdateDTO
+                {
+                    AppointmentId = _appointment.AppointmentId,
+                    CustomerId = _currentCustomer.CustomerId,
+                    Title = _appointment.Title,
+                    Description = _appointment.Description,
+                    Type = _appointment.Type,
+                    Start = _appointment.Start,
+                    End = _appointment.End
+                };
+                try
+                {
+                    _appointmentService.UpdateAppointment(updatedAppointment);
+                    var confirm = Messages.ShowInfo("Appointment Updated", "Appointment Updated!");
+                    if(confirm == DialogResult.OK) { EventMediator.Instance.Publish(APPT_EVENTS.APPT_UPDATED); };
+                }
+                catch (Exception ex)
+                {
+                    Messages.ShowError("Error Updating Appointment", ex.Message);
+                }
             }
         }
 
@@ -128,10 +196,9 @@ namespace AppointmentApp.Controls
             this.apptCustomerComboBox.Enabled = true;
         }
 
-        private void apptCustomerComboBox_SelectedValueChanged(object sender, EventArgs e)
+        private void apptCancelButton_Click(object sender, EventArgs e)
         {
-            _currentCustomer = (CustomerReadDTO)this.apptCustomerComboBox.SelectedItem;
-
+            EventMediator.Instance.Publish(APPT_EVENTS.CANCEL_MANAGE_APPT);
         }
 
 
@@ -147,6 +214,11 @@ namespace AppointmentApp.Controls
         {
             _appointment.Description = this.apptDescriptionTextBox.Text;
         }
+        private void apptCustomerComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            _currentCustomer = (CustomerReadDTO)this.apptCustomerComboBox.SelectedItem;
+
+        }
 
         private void apptTypeTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -160,12 +232,27 @@ namespace AppointmentApp.Controls
         private void startTimePicker_ValueChanged(object sender, EventArgs e)
         {
             _appointment.Start = this.startTimePicker.Value;
+            SetEndTime();
         }
 
         private void apptDurationUpDown_ValueChanged(object sender, EventArgs e)
         {
-            int minutes = Int32.Parse(this.apptDurationUpDown.Value.ToString());
-            SetEndTime(minutes);
+            SetEndTime();
         }
+
+        // HELPERS //
+
+        private int ValidateForm(AppointmentCreateDTO appointment)
+        {
+            AppointmentFormValidator validator = new AppointmentFormValidator(appointment);
+            List<string> errors = validator.ValidateApptForm();
+            if (errors.Count > 0)
+            {
+                EventMediator.Instance.Publish(APPT_EVENTS.APPT_FORM_INVALID, errors);
+            }
+            return errors.Count;
+        }
+
+
     }
 }

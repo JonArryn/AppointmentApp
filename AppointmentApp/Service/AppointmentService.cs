@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,7 +18,7 @@ namespace AppointmentApp.Service
         {
             _userService = userService;
         }
-        public List<AppointmentReadDTO> GetAllAppointments()
+        public List<AppointmentReadDTO> GetAllAppointments(string startDate = null, string endDate = null)
         {
             List<AppointmentReadDTO> appointments = new List<AppointmentReadDTO>();
             string query = $@"
@@ -42,12 +43,21 @@ namespace AppointmentApp.Service
                             WHERE   
                                     a.{APPOINTMENT.USER_ID} = @UserId
                             ";
-            
+            if(startDate != null && endDate != null)
+            {
+                query += $@"AND
+                            a.{APPOINTMENT.START} BETWEEN @StartDate AND @EndDate";
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
                     command.Parameters.AddWithValue("@UserId", _userService.UserID);
+                    if (startDate != null && endDate != null)
+                    {
+                        command.Parameters.AddWithValue("@StartDate", DateTime.Parse(startDate).ToUniversalTime());
+                        command.Parameters.AddWithValue("@EndDate", DateTime.Parse(endDate).ToUniversalTime());
+                    }
                     
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -66,6 +76,7 @@ namespace AppointmentApp.Service
                                 Type = reader.GetString(APPOINTMENT.TYPE),
                                 Start = reader.GetDateTime(APPOINTMENT.START).ToLocalTime(),
                                 End = reader.GetDateTime(APPOINTMENT.END).ToLocalTime()
+
 
                             };
                             appointments.Add(appointment);
@@ -87,14 +98,14 @@ namespace AppointmentApp.Service
                             SET
                                 {APPOINTMENT.CUSTOMER_ID} = @CustomerId,
                                 {APPOINTMENT.TITLE} = @Title,
-                                {APPOINTMENT.DESCRIPTION} @Description,
+                                {APPOINTMENT.DESCRIPTION} = @Description,
                                 {APPOINTMENT.TYPE} = @Type,
                                 {APPOINTMENT.START} = @Start,
                                 {APPOINTMENT.END} = @End,
                                 {APPOINTMENT.LAST_UPDATE} = @LastUpdate,
                                 {APPOINTMENT.LAST_UPDATE_BY} = @LastUpdateBy    
-,                           WHERE
-                                {APPOINTMENT.APPOINTMENT_ID} = @AppointmentId
+                            WHERE
+                                {APPOINTMENT.APPOINTMENT_ID} = @AppointmentId;
                             ";
             try
             {
@@ -122,22 +133,22 @@ namespace AppointmentApp.Service
         public int CreateAppointment(AppointmentCreateDTO appointment)
         {
             string query = $@"
-                            INSERT INTO {TABLES.APPOINTMENT}
-                                        
+                            INSERT INTO {TABLES.APPOINTMENT}     
                                  (
-                                    {APPOINTMENT.CUSTOMER_ID} @CustomerId,
-                                    {APPOINTMENT.USER_ID} @UserId,
-                                    {APPOINTMENT.TITLE} @Title,
-                                    {APPOINTMENT.DESCRIPTION} @Description,
-                                    {APPOINTMENT.TYPE} @Type,
-                                    {APPOINTMENT.START} @Start,
-                                    {APPOINTMENT.END} @End,
-                                    {APPOINTMENT.CREATE_DATE} @CreateDate,
-                                    {APPOINTMENT.CREATED_BY} @CreatedBy,
-                                    {APPOINTMENT.LAST_UPDATE} @LastUpdate,
-                                    {APPOINTMENT.LAST_UPDATE_BY} @LastUpdateBy,
-                                    {APPOINTMENT.CREATE_DATE} @CreateDate,
-                                    {APPOINTMENT.CREATED_BY} @CreatedBy
+                                    {APPOINTMENT.CUSTOMER_ID},
+                                    {APPOINTMENT.USER_ID},
+                                    {APPOINTMENT.TITLE},
+                                    {APPOINTMENT.DESCRIPTION},
+                                    {APPOINTMENT.TYPE},
+                                    {APPOINTMENT.START},
+                                    {APPOINTMENT.END},
+                                    {APPOINTMENT.CREATE_DATE},
+                                    {APPOINTMENT.CREATED_BY},
+                                    {APPOINTMENT.LAST_UPDATE},
+                                    {APPOINTMENT.LAST_UPDATE_BY},
+                                    {APPOINTMENT.LOCATION},
+                                    {APPOINTMENT.CONTACT},
+                                    {APPOINTMENT.URL}
                                  )
                             VALUES                                        
                                  (
@@ -152,14 +163,15 @@ namespace AppointmentApp.Service
                                     @CreatedBy,
                                     @LastUpdate,
                                     @LastUpdateBy,
-                                    @CreateDate,
-                                    @CreatedBy
+                                    @Location,
+                                    @Contact,
+                                    @Url
                                  );
                             SELECT LAST_INSERT_ID();
                             ";
             try
             {
-                using(MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
+                using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
                     command.Parameters.AddWithValue("@CustomerId", appointment.CustomerId);
                     command.Parameters.AddWithValue("@UserId", _userService.UserID);
@@ -172,8 +184,37 @@ namespace AppointmentApp.Service
                     command.Parameters.AddWithValue("@CreatedBy", _userService.Username);
                     command.Parameters.AddWithValue("@LastUpdate", DateTime.UtcNow);
                     command.Parameters.AddWithValue("@LastUpdateBy", _userService.Username);
-
+                    // UNUESD
+                    command.Parameters.AddWithValue("@Location", "NotUsed");
+                    command.Parameters.AddWithValue("@Contact", "NotUsed");
+                    command.Parameters.AddWithValue("@Url", "NotUsed");
                     return Convert.ToInt32(command.ExecuteScalar());
+                    
+                }
+            }catch(MySqlException ex)
+            {
+                throw new Exception($"MySql Error: {ex.Message}", ex);
+            }
+        }
+
+        public bool DeleteAppointment(int appointmentId)
+        {
+            string query = $@"
+                            DELETE FROM {TABLES.APPOINTMENT}
+                            WHERE
+                                {APPOINTMENT.APPOINTMENT_ID} = @AppointmentId;
+                            ";
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
+                {
+                    command.Parameters.AddWithValue("@AppointmentId", appointmentId);
+                    return command.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception($"MySql Error: {ex.Message}", ex);
             }
         }
     }

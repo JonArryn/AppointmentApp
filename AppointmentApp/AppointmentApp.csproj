@@ -107,11 +107,11 @@
     <Compile Include="Controls\AppointmentControl.Designer.cs">
       <DependentUpon>AppointmentControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CustomerFormControl.cs">
+    <Compile Include="Controls\ManageCustomerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CustomerFormControl.Designer.cs">
-      <DependentUpon>CustomerFormControl.cs</DependentUpon>
+    <Compile Include="Controls\ManageCustomerControl.Designer.cs">
+      <DependentUpon>ManageCustomerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ManageAppointmentControl.cs">
       <SubType>UserControl</SubType>
@@ -143,18 +143,13 @@
     <Compile Include="Controls\ManageCountryControl.Designer.cs">
       <DependentUpon>ManageCountryControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ManageCustomerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ManageCustomerControl.Designer.cs">
-      <DependentUpon>ManageCustomerControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\ManageEntityDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogs\ManageEntityDialog.Designer.cs">
       <DependentUpon>ManageEntityDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\AppointmentFormValidator.cs" />
     <Compile Include="Helper\CustomerFormValidator.cs" />
     <Compile Include="Model\AddressModel.cs" />
     <Compile Include="Model\AppointmentModel.cs" />
@@ -185,8 +180,8 @@
     <EmbeddedResource Include="Controls\AppointmentControl.resx">
       <DependentUpon>AppointmentControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\CustomerFormControl.resx">
-      <DependentUpon>CustomerFormControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\ManageCustomerControl.resx">
+      <DependentUpon>ManageCustomerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ManageAppointmentControl.resx">
       <DependentUpon>ManageAppointmentControl.cs</DependentUpon>
@@ -202,9 +197,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ManageCountryControl.resx">
       <DependentUpon>ManageCountryControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ManageCustomerControl.resx">
-      <DependentUpon>ManageCustomerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>

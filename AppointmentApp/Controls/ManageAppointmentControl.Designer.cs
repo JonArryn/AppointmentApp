@@ -69,6 +69,7 @@
             this.apptLayoutPanel.RowCount = 2;
             this.apptLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.apptLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.apptLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.apptLayoutPanel.Size = new System.Drawing.Size(986, 462);
             this.apptLayoutPanel.TabIndex = 4;
             // 
@@ -103,7 +104,7 @@
             // lengthMinutesLabel
             // 
             this.lengthMinutesLabel.AutoSize = true;
-            this.lengthMinutesLabel.Location = new System.Drawing.Point(153, 300);
+            this.lengthMinutesLabel.Location = new System.Drawing.Point(153, 246);
             this.lengthMinutesLabel.Name = "lengthMinutesLabel";
             this.lengthMinutesLabel.Size = new System.Drawing.Size(44, 13);
             this.lengthMinutesLabel.TabIndex = 8;
@@ -111,16 +112,26 @@
             // 
             // apptDurationUpDown
             // 
-            this.apptDurationUpDown.Location = new System.Drawing.Point(144, 277);
+            this.apptDurationUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.apptDurationUpDown.Location = new System.Drawing.Point(144, 223);
             this.apptDurationUpDown.Name = "apptDurationUpDown";
             this.apptDurationUpDown.Size = new System.Drawing.Size(76, 20);
             this.apptDurationUpDown.TabIndex = 7;
+            this.apptDurationUpDown.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.apptDurationUpDown.ValueChanged += new System.EventHandler(this.apptDurationUpDown_ValueChanged);
             // 
             // changeCustomerLink
             // 
             this.changeCustomerLink.AutoSize = true;
-            this.changeCustomerLink.Location = new System.Drawing.Point(367, 167);
+            this.changeCustomerLink.Location = new System.Drawing.Point(367, 113);
             this.changeCustomerLink.Name = "changeCustomerLink";
             this.changeCustomerLink.Size = new System.Drawing.Size(91, 13);
             this.changeCustomerLink.TabIndex = 5;
@@ -130,7 +141,7 @@
             // 
             // apptTitleTextBox
             // 
-            this.apptTitleTextBox.Location = new System.Drawing.Point(144, 110);
+            this.apptTitleTextBox.Location = new System.Drawing.Point(144, 56);
             this.apptTitleTextBox.Name = "apptTitleTextBox";
             this.apptTitleTextBox.Size = new System.Drawing.Size(217, 20);
             this.apptTitleTextBox.TabIndex = 1;
@@ -140,7 +151,7 @@
             // 
             this.apptTitleLabel.AutoSize = true;
             this.apptTitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.apptTitleLabel.Location = new System.Drawing.Point(102, 111);
+            this.apptTitleLabel.Location = new System.Drawing.Point(102, 57);
             this.apptTitleLabel.Name = "apptTitleLabel";
             this.apptTitleLabel.Size = new System.Drawing.Size(33, 16);
             this.apptTitleLabel.TabIndex = 0;
@@ -150,7 +161,7 @@
             // 
             this.apptCustomerLabel.AutoSize = true;
             this.apptCustomerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.apptCustomerLabel.Location = new System.Drawing.Point(74, 164);
+            this.apptCustomerLabel.Location = new System.Drawing.Point(74, 110);
             this.apptCustomerLabel.Name = "apptCustomerLabel";
             this.apptCustomerLabel.Size = new System.Drawing.Size(64, 16);
             this.apptCustomerLabel.TabIndex = 0;
@@ -160,7 +171,7 @@
             // 
             this.apptDescriptionLabel.AutoSize = true;
             this.apptDescriptionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.apptDescriptionLabel.Location = new System.Drawing.Point(63, 137);
+            this.apptDescriptionLabel.Location = new System.Drawing.Point(63, 83);
             this.apptDescriptionLabel.Name = "apptDescriptionLabel";
             this.apptDescriptionLabel.Size = new System.Drawing.Size(75, 16);
             this.apptDescriptionLabel.TabIndex = 0;
@@ -168,7 +179,7 @@
             // 
             // apptTypeTextBox
             // 
-            this.apptTypeTextBox.Location = new System.Drawing.Point(144, 190);
+            this.apptTypeTextBox.Location = new System.Drawing.Point(144, 136);
             this.apptTypeTextBox.Name = "apptTypeTextBox";
             this.apptTypeTextBox.Size = new System.Drawing.Size(218, 20);
             this.apptTypeTextBox.TabIndex = 1;
@@ -178,17 +189,18 @@
             // 
             this.apptCancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.apptCancelButton.ForeColor = System.Drawing.Color.Firebrick;
-            this.apptCancelButton.Location = new System.Drawing.Point(17, 373);
+            this.apptCancelButton.Location = new System.Drawing.Point(17, 319);
             this.apptCancelButton.Name = "apptCancelButton";
             this.apptCancelButton.Size = new System.Drawing.Size(75, 23);
             this.apptCancelButton.TabIndex = 4;
             this.apptCancelButton.Text = "Cancel";
             this.apptCancelButton.UseVisualStyleBackColor = true;
+            this.apptCancelButton.Click += new System.EventHandler(this.apptCancelButton_Click);
             // 
             // apptCustomerComboBox
             // 
             this.apptCustomerComboBox.FormattingEnabled = true;
-            this.apptCustomerComboBox.Location = new System.Drawing.Point(144, 163);
+            this.apptCustomerComboBox.Location = new System.Drawing.Point(144, 109);
             this.apptCustomerComboBox.Name = "apptCustomerComboBox";
             this.apptCustomerComboBox.Size = new System.Drawing.Size(217, 21);
             this.apptCustomerComboBox.TabIndex = 2;
@@ -198,7 +210,7 @@
             // 
             this.appointmentLengthLabel.AutoSize = true;
             this.appointmentLengthLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.appointmentLengthLabel.Location = new System.Drawing.Point(78, 277);
+            this.appointmentLengthLabel.Location = new System.Drawing.Point(78, 223);
             this.appointmentLengthLabel.Name = "appointmentLengthLabel";
             this.appointmentLengthLabel.Size = new System.Drawing.Size(57, 16);
             this.appointmentLengthLabel.TabIndex = 0;
@@ -207,7 +219,7 @@
             // apptSaveButton
             // 
             this.apptSaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.apptSaveButton.Location = new System.Drawing.Point(391, 373);
+            this.apptSaveButton.Location = new System.Drawing.Point(391, 319);
             this.apptSaveButton.Name = "apptSaveButton";
             this.apptSaveButton.Size = new System.Drawing.Size(75, 23);
             this.apptSaveButton.TabIndex = 4;
@@ -219,7 +231,7 @@
             // 
             this.startTimeLabel.AutoSize = true;
             this.startTimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startTimeLabel.Location = new System.Drawing.Point(70, 243);
+            this.startTimeLabel.Location = new System.Drawing.Point(70, 189);
             this.startTimeLabel.Name = "startTimeLabel";
             this.startTimeLabel.Size = new System.Drawing.Size(68, 16);
             this.startTimeLabel.TabIndex = 0;
@@ -229,7 +241,7 @@
             // 
             this.apptTypeLabel.AutoSize = true;
             this.apptTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.apptTypeLabel.Location = new System.Drawing.Point(93, 191);
+            this.apptTypeLabel.Location = new System.Drawing.Point(93, 137);
             this.apptTypeLabel.Name = "apptTypeLabel";
             this.apptTypeLabel.Size = new System.Drawing.Size(39, 16);
             this.apptTypeLabel.TabIndex = 0;
@@ -237,7 +249,7 @@
             // 
             // apptDescriptionTextBox
             // 
-            this.apptDescriptionTextBox.Location = new System.Drawing.Point(144, 136);
+            this.apptDescriptionTextBox.Location = new System.Drawing.Point(144, 82);
             this.apptDescriptionTextBox.Name = "apptDescriptionTextBox";
             this.apptDescriptionTextBox.Size = new System.Drawing.Size(217, 20);
             this.apptDescriptionTextBox.TabIndex = 1;
@@ -256,7 +268,7 @@
             // startTimePicker
             // 
             this.startTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.startTimePicker.Location = new System.Drawing.Point(144, 239);
+            this.startTimePicker.Location = new System.Drawing.Point(144, 185);
             this.startTimePicker.Name = "startTimePicker";
             this.startTimePicker.Size = new System.Drawing.Size(217, 20);
             this.startTimePicker.TabIndex = 3;

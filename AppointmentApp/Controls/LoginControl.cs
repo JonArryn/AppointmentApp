@@ -26,7 +26,6 @@ namespace AppointmentApp.Controls
             _userService = ServiceLocator.Instance.UserService;
             _translations = ServiceLocator.Instance.TranslationService;
             this.invalidLoginLabel.Visible = false;
-            this.currentLocationLabel.Text = $"Current Country: {_translations.CountryName}";
             TranslateLoginForm();
         }
 
@@ -47,8 +46,6 @@ namespace AppointmentApp.Controls
                 this.invalidLoginLabel.Visible = true;
                 return;
             }
-
-            
 
         }
 
@@ -71,6 +68,7 @@ namespace AppointmentApp.Controls
             this.passwordInputLabel.Text = formTranslations["Password"];
             this.invalidLoginLabel.Text = formTranslations["InvalidLogin"];
             this.loginButton.Text = formTranslations["Login"];
+            this.currentLocationLabel.Text = $"{formTranslations["Location"]}: {_translations.CountryName}";
         }
 
         // INVALID LOGIN LABEL
