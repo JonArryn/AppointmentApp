@@ -28,15 +28,12 @@ namespace AppointmentApp
         private ManageCustomerControl _manageCustomerControl;
         private ReportControl _reportControl;
 
-        private UserService _userService;
-
         public MainView()
         {
             InitializeComponent();
-            this.mainLayoutPanel.Visible = false;
-            InitializeLoginControl();
-            _userService = ServiceLocator.Instance.UserService;
+            LoadLoginControl();
             SubscribeToEvents();
+            CheckForUpcomingAppointments();
         }
 
         private void SubscribeToEvents()
@@ -57,8 +54,9 @@ namespace AppointmentApp
         }
 
         // INITIALIZE CONTROLS //
-        private void InitializeLoginControl()
+        private void LoadLoginControl()
         {
+            this.mainLayoutPanel.Visible = false;
             _loginControl = new LoginControl();
             _loginControl.Dock = DockStyle.Fill;
             this.Controls.Add(_loginControl);
@@ -97,18 +95,13 @@ namespace AppointmentApp
 
         private void HandleLoginSuccessful(object data = null)
         {
-            _loginControl.Visible = false;
+
             this.Controls.Remove(_loginControl);
-            this.mainLayoutPanel.Visible = true;
             _loginControl?.Dispose();
             _loginControl = null;
+            this.mainLayoutPanel.Visible = true;
             LoadCustomerControl();
-            AppointmentService appointmentService = ServiceLocator.Instance.AppointmentService;
-           List<AppointmentReadDTO> upcomingAppointments = appointmentService.GetAllAppointments(DateTime.Now.ToString(), DateTime.Now.AddMinutes(15).ToString());
-            if(upcomingAppointments.Count > 0)
-            {
-                Messages.ShowInfo("Upcoming Appointments", "You have an appointment in the next 15 minutes.");
-            }
+            
         }
 
         private void HandleCreateCustomer(object data = null)
@@ -163,7 +156,6 @@ namespace AppointmentApp
         private void HandleLogout(object data = null)
         {
            
-            _userService.EndSession();
             _customerControl?.Dispose();
             _customerControl = null;
             _appointmentControl?.Dispose();
@@ -174,8 +166,8 @@ namespace AppointmentApp
             _manageCustomerControl = null;
             _reportControl?.Dispose();
             _reportControl = null;
+            ServiceLocator.Instance.ResetServices();
             _loginControl = new LoginControl();
-            _loginControl.Visible = true;
             this.Controls.Add(_loginControl);
             this.mainLayoutPanel.Visible = false;
         }
@@ -214,6 +206,18 @@ namespace AppointmentApp
             if(this.mainTabControl.SelectedTab == this.reportsTab)
             {
                 LoadReportControl();
+            }
+        }
+
+        // HELPERS //
+
+        private void CheckForUpcomingAppointments()
+        {
+            AppointmentService appointmentService = ServiceLocator.Instance.AppointmentService;
+            List<AppointmentReadDTO> upcomingAppointments = appointmentService.GetAllAppointments(DateTime.Now.ToString(), DateTime.Now.AddMinutes(15).ToString());
+            if (upcomingAppointments.Count > 0)
+            {
+                Messages.ShowInfo("Upcoming Appointments", "You have an appointment in the next 15 minutes.");
             }
         }
     }

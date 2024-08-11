@@ -32,7 +32,7 @@ namespace AppointmentApp.Service
         }
 
         private void EndSession()
-        {
+        {  
             UserID = 0;
             Username = string.Empty;
         }

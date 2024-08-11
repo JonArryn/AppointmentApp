@@ -41,5 +41,10 @@ namespace AppointmentApp.Service
             }
 
         }
+
+        public void ResetServices()
+        {
+            _instance = null;
+        }
     }
 }

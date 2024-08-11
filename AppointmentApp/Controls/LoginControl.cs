@@ -44,18 +44,15 @@ namespace AppointmentApp.Controls
             {
                 EventMediator.Instance.Publish(LOGIN_EVENTS.LOGIN_SUCCESSFUL);
                 Logger.LogAuthentication(true, _userService.Username);
-                _userService = null;
             }
 
             if (!_userService.IsLoggedIn)
             {
                 this.invalidLoginLabel.Visible = true;
-               
                 string login = string.IsNullOrWhiteSpace(_userService.Username) ? this.usernameInputText.Text : _userService.Username;
                 Logger.LogAuthentication(false, login);
                 return;
             }
-            _userService = null;
 
         }
 

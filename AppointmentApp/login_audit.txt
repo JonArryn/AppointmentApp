@@ -48,3 +48,53 @@ Log Entry :  Date: Sunday, August 11, 2024 AT 8:59:57 PM UTC
  - 
  - User: test logged in successfully
 -------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:23:40 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:23:58 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:24:29 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:24:33 PM UTC 
+ - 
+ - User:  attempted to login unsuccessfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:24:39 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:24:41 PM UTC 
+ - 
+ - User:  attempted to login unsuccessfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:24:43 PM UTC 
+ - 
+ - User: test attempted to login unsuccessfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:26:26 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:32:07 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------
+
+Log Entry :  Date: Sunday, August 11, 2024 AT 9:32:31 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------
