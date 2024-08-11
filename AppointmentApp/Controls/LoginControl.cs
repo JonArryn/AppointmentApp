@@ -1,12 +1,14 @@
 ﻿using AppointmentApp.Constant;
 using AppointmentApp.Database;
 using AppointmentApp.EventManager;
+using AppointmentApp.Helper;
 using AppointmentApp.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,14 +18,14 @@ namespace AppointmentApp.Controls
 {
     public partial class LoginControl : UserControl
     {
-        private readonly UserService _userService;
+        private UserService _userService;
         private readonly TranslationService _translations;
 
 
         public LoginControl()
         {
             InitializeComponent();
-            _userService = ServiceLocator.Instance.UserService;
+           
             _translations = ServiceLocator.Instance.TranslationService;
             this.invalidLoginLabel.Visible = false;
             TranslateLoginForm();
@@ -34,18 +36,26 @@ namespace AppointmentApp.Controls
             string userName = usernameInputText.Text;
             string password = passwordInputText.Text;
 
+            _userService = ServiceLocator.Instance.UserService;
+
             _userService.StartSession(userName, password);
 
             if (_userService.IsLoggedIn)
             {
                 EventMediator.Instance.Publish(LOGIN_EVENTS.LOGIN_SUCCESSFUL);
+                Logger.LogAuthentication(true, _userService.Username);
+                _userService = null;
             }
 
             if (!_userService.IsLoggedIn)
             {
                 this.invalidLoginLabel.Visible = true;
+               
+                string login = string.IsNullOrWhiteSpace(_userService.Username) ? this.usernameInputText.Text : _userService.Username;
+                Logger.LogAuthentication(false, login);
                 return;
             }
+            _userService = null;
 
         }
 
@@ -93,5 +103,6 @@ namespace AppointmentApp.Controls
         {
             DbSeeder.ResetDatabaseTables();
         }
+
     }
 }

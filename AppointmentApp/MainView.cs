@@ -26,14 +26,16 @@ namespace AppointmentApp
         private AppointmentControl _appointmentControl;
         private ManageAppointmentControl _manageAppointmentControl;
         private ManageCustomerControl _manageCustomerControl;
+        private ReportControl _reportControl;
 
-
+        private UserService _userService;
 
         public MainView()
         {
             InitializeComponent();
             this.mainLayoutPanel.Visible = false;
             InitializeLoginControl();
+            _userService = ServiceLocator.Instance.UserService;
             SubscribeToEvents();
         }
 
@@ -82,12 +84,24 @@ namespace AppointmentApp
             }
         }
 
+        private void LoadReportControl()
+        {
+            if(this.reportsTab.Controls.Count == 0)
+            {
+                _reportControl = new ReportControl() { Dock = DockStyle.Fill };
+                this.reportsTab.Controls.Add(_reportControl);
+            }
+        }
+
         // EVENT MEDIATOR HANDLERS //
 
         private void HandleLoginSuccessful(object data = null)
         {
             _loginControl.Visible = false;
+            this.Controls.Remove(_loginControl);
             this.mainLayoutPanel.Visible = true;
+            _loginControl?.Dispose();
+            _loginControl = null;
             LoadCustomerControl();
             AppointmentService appointmentService = ServiceLocator.Instance.AppointmentService;
            List<AppointmentReadDTO> upcomingAppointments = appointmentService.GetAllAppointments(DateTime.Now.ToString(), DateTime.Now.AddMinutes(15).ToString());
@@ -146,12 +160,31 @@ namespace AppointmentApp
             _appointmentControl = null;
         }
 
+        private void HandleLogout(object data = null)
+        {
+           
+            _userService.EndSession();
+            _customerControl?.Dispose();
+            _customerControl = null;
+            _appointmentControl?.Dispose();
+            _appointmentControl = null;
+            _manageAppointmentControl?.Dispose();
+            _manageAppointmentControl = null;
+            _manageCustomerControl?.Dispose();
+            _manageCustomerControl = null;
+            _reportControl?.Dispose();
+            _reportControl = null;
+            _loginControl = new LoginControl();
+            _loginControl.Visible = true;
+            this.Controls.Add(_loginControl);
+            this.mainLayoutPanel.Visible = false;
+        }
 
         // LOCAL EVENTS //
 
-        private void button1_Click(object sender, EventArgs e)
+        private void logoutButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            HandleLogout();
         }
 
         private void MainView_FormClosing_1(object sender, FormClosingEventArgs e)
@@ -173,6 +206,14 @@ namespace AppointmentApp
             if(this.mainTabControl.SelectedTab == this.appointmentsTab)
             {
                 LoadAppointmentControl();
+            }
+            if(this.mainTabControl.SelectedTab == this.customersTab)
+            {
+                    LoadCustomerControl();
+            }
+            if(this.mainTabControl.SelectedTab == this.reportsTab)
+            {
+                LoadReportControl();
             }
         }
     }

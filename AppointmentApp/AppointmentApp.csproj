@@ -143,6 +143,12 @@
     <Compile Include="Controls\ManageCountryControl.Designer.cs">
       <DependentUpon>ManageCountryControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ReportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportControl.Designer.cs">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ManageEntityDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +157,7 @@
     </Compile>
     <Compile Include="Helper\AppointmentFormValidator.cs" />
     <Compile Include="Helper\CustomerFormValidator.cs" />
+    <Compile Include="Helper\Logger.cs" />
     <Compile Include="Model\AddressModel.cs" />
     <Compile Include="Model\AppointmentModel.cs" />
     <Compile Include="Model\CityModel.cs" />
@@ -160,6 +167,7 @@
     <Compile Include="Service\CityService.cs" />
     <Compile Include="Service\CountryService.cs" />
     <Compile Include="EventManager\EventMediator.cs" />
+    <Compile Include="Service\ReportService.cs" />
     <Compile Include="Service\ServiceLocator.cs" />
     <Compile Include="Model\CustomerModel.cs" />
     <Compile Include="Model\UserModel.cs" />
@@ -197,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ManageCountryControl.resx">
       <DependentUpon>ManageCountryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ReportControl.resx">
+      <DependentUpon>ReportControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>

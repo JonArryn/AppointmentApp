@@ -67,4 +67,10 @@ namespace AppointmentApp.Model
         public string Phone { get; set; }
     }
 
+    public class CustomerReportDTO
+    {
+        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
+    }
+
 }

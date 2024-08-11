@@ -62,4 +62,13 @@ namespace AppointmentApp.Model
         public DateTime End { get; set; }
     }
 
+    public class AppointmentReportDTO
+    {
+
+        public string CustomerName { get; set; }
+        public string Type { get; set; }
+        public DateTime Start { get; set; }
+    }
+
+
 }

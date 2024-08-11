@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AppointmentApp.Constant;
 using MySql.Data.MySqlClient;
+using AppointmentApp.Database;
+using System.IO;
 
 namespace AppointmentApp.Service
 {
@@ -31,7 +33,8 @@ namespace AppointmentApp.Service
 
         private void EndSession()
         {
-            throw new NotImplementedException();
+            UserID = 0;
+            Username = string.Empty;
         }
 
         private UserDTO Login(string userName, string password)
@@ -73,5 +76,7 @@ namespace AppointmentApp.Service
 
 
         }
+
+       
     }
 }

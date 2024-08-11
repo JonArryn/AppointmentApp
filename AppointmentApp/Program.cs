@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AppointmentApp.EventManager;
 using AppointmentApp.Service;
 
 
@@ -19,6 +20,7 @@ namespace AppointmentApp
         {
 
             var serviceLocator = ServiceLocator.Instance;
+            var eventMediator = EventMediator.Instance;
            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
