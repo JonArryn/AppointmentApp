@@ -33,3 +33,13 @@ Log Entry :  Date: Monday, August 12, 2024 AT 2:57:49 PM UTC
  - 
  - User: test logged in successfully
 -------------------------------
+
+Log Entry :  Date: Monday, August 12, 2024 AT 3:13:05 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------
+
+Log Entry :  Date: Monday, August 12, 2024 AT 3:15:23 PM UTC 
+ - 
+ - User: test logged in successfully
+-------------------------------

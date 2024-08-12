@@ -128,14 +128,21 @@ namespace AppointmentApp.Controls
 
         }
 
-        private void SetAppointmentCountText(int customerId) => _reportService.GetAppointmentCountByCustomer(customerId).ToString();
+        private void SetAppointmentCountText(int customerId) => this.customerAppointmentCountText.Text = _reportService.GetAppointmentCountByCustomer(customerId).ToString();
 
         private void customerComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_isInitializing || this.customerComboBox.SelectedIndex == 0) { return; }
             CustomerReportDTO selectedCustomer = (CustomerReportDTO)this.customerComboBox.SelectedItem;
 
-            SetAppointmentCountText(selectedCustomer.CustomerId);
+            try
+            {
+                SetAppointmentCountText(selectedCustomer.CustomerId);
+            }catch(Exception ex)
+            {
+                Messages.ShowError("Data Access Error", ex.Message);
+            }
+          
         }
         private void apptByMonthDatePicker_ValueChanged(object sender, EventArgs e)
         {
