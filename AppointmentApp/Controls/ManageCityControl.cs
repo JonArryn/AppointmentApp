@@ -133,7 +133,7 @@ namespace AppointmentApp.Controls
         {
             if (!_isInitializing)
             {
-                _city.CityName = cityNameTextbox.Text;
+                _city.CityName = cityNameTextbox.Text.Trim();
             }
             
         }

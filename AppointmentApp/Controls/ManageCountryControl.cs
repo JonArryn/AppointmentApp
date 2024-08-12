@@ -101,7 +101,7 @@ namespace AppointmentApp.Controls
         {
             if(_isInitializing == false)
             {
-                _country.CountryName = this.countryNameTextbox.Text;
+                _country.CountryName = this.countryNameTextbox.Text.Trim();
             }
             
         }

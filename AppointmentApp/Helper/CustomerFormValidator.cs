@@ -1,4 +1,5 @@
-﻿using AppointmentApp.Model;
+﻿using AppointmentApp.Constant;
+using AppointmentApp.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,15 @@ namespace AppointmentApp.Helper
             {
                 errors.Add("Phone is required");
             }
-            if(!string.IsNullOrWhiteSpace(Phone) && Phone.Length > 20)
+            if (!string.IsNullOrWhiteSpace(Phone))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(Phone, @"^[\d-]+$"))
+                {
+                    errors.Add("Phone number must contain only numbers and dashes.");
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(Phone) && Phone.Length > 20)
             {
                 errors.Add("Phone must be 20 characters or less");
             }

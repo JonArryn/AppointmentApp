@@ -71,6 +71,8 @@ namespace AppointmentApp.Controls
 
         // COMBO BOX EVENTS //
 
+
+        private void SetAppointmentCountType(string apptType, DateTime startMonth, DateTime endMonth) => _appointmentTypeCount = _reportService.GetAppointmentCountByType(apptType, startMonth, endMonth);
         private void HandleApptmentByTypeChange()
         {
             if (_isInitializing) { return; }
@@ -90,7 +92,7 @@ namespace AppointmentApp.Controls
             string selectedApptType = this.apptTypeComboBox.SelectedItem.ToString();
             try
             {
-                _appointmentTypeCount = _reportService.GetAppointmentCountByType(selectedApptType, startOfMonth, endOfMonth);
+                SetAppointmentCountType(selectedApptType, startOfMonth, endOfMonth);
                 this.typeCountText.Text = _appointmentTypeCount.ToString();
             }
             catch (Exception ex)
@@ -105,26 +107,36 @@ namespace AppointmentApp.Controls
 
         }
 
+        private List<AppointmentReportDTO> GetUserAppointments(int userId) => _reportService.GetAppointmentsByUser(userId);
+
         private void consultantComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_isInitializing) { return; }
             if (this.consultantComboBox.SelectedIndex == 0) { this.consultantApptsGridView.DataSource = null; return; }
 
             UserDTO selectedUser = (UserDTO)this.consultantComboBox.SelectedItem;
-            List<AppointmentReportDTO> appointments = _reportService.GetAppointmentsByUser(selectedUser.UserId);
-            this.consultantApptsGridView.DataSource= appointments;
+            try
+            {
+                List<AppointmentReportDTO> appointments = GetUserAppointments(selectedUser.UserId);
+                this.consultantApptsGridView.DataSource = appointments;
+            }catch(Exception ex)
+            {
+                Messages.ShowError("Data Access Error", ex.Message);
+            }
+
 
 
         }
+
+        private void SetAppointmentCountText(int customerId) => _reportService.GetAppointmentCountByCustomer(customerId).ToString();
 
         private void customerComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_isInitializing || this.customerComboBox.SelectedIndex == 0) { return; }
             CustomerReportDTO selectedCustomer = (CustomerReportDTO)this.customerComboBox.SelectedItem;
-            
-            this.customerAppointmentCountText.Text = _reportService.GetAppointmentCountByCustomer(selectedCustomer.CustomerId).ToString();
-        }
 
+            SetAppointmentCountText(selectedCustomer.CustomerId);
+        }
         private void apptByMonthDatePicker_ValueChanged(object sender, EventArgs e)
         {
             HandleApptmentByTypeChange();

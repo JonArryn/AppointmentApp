@@ -130,9 +130,17 @@ namespace AppointmentApp.Controls
 
         private void SetBusinessHours()
         {
-            DateTime date = DateTime.Now;
-            _businessHoursStart = new DateTime(date.Year, date.Month, date.Day, 8, 0, 0, DateTimeKind.Local);
-            _businessHoursEnd = new DateTime(date.Year, date.Month, date.Day, 17, 0, 0, DateTimeKind.Local);
+
+            TimeZoneInfo easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+
+            DateTime today = DateTime.Today;
+
+            DateTime businessHoursStartEastern = new DateTime(today.Year, today.Month, today.Day, 8, 0, 0, DateTimeKind.Unspecified);
+            _businessHoursStart = TimeZoneInfo.ConvertTime(businessHoursStartEastern, easternZone);
+
+            DateTime businessHoursEndEastern = new DateTime(today.Year, today.Month, today.Day, 17, 0, 0, DateTimeKind.Unspecified);
+            _businessHoursEnd = TimeZoneInfo.ConvertTime(businessHoursEndEastern, easternZone);
+
         }
 
         private void SubscribeToEvents()
@@ -260,12 +268,12 @@ namespace AppointmentApp.Controls
 
         private void apptTitleTextBox_TextChanged(object sender, EventArgs e)
         {
-            _appointment.Title = this.apptTitleTextBox.Text;
+            _appointment.Title = this.apptTitleTextBox.Text.Trim();
         }
 
         private void apptDescriptionTextBox_TextChanged(object sender, EventArgs e)
         {
-            _appointment.Description = this.apptDescriptionTextBox.Text;
+            _appointment.Description = this.apptDescriptionTextBox.Text.Trim();
         }
         private void apptCustomerComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -275,7 +283,7 @@ namespace AppointmentApp.Controls
 
         private void apptTypeTextBox_TextChanged(object sender, EventArgs e)
         {
-            _appointment.Type = this.apptTypeTextBox.Text;
+            _appointment.Type = this.apptTypeTextBox.Text.Trim();
         }
 
 
@@ -330,9 +338,15 @@ namespace AppointmentApp.Controls
 
         private bool IsWIthinBusinessHours(AppointmentCreateDTO appointment)
         {
-            if (appointment.Start.TimeOfDay < _businessHoursStart.TimeOfDay || appointment.End.TimeOfDay > _businessHoursEnd.TimeOfDay)
+            TimeSpan apptStart = appointment.Start.TimeOfDay;
+            TimeSpan apptEnd = appointment.End.TimeOfDay;
+            TimeSpan localBizHourStart = _businessHoursStart.ToLocalTime().TimeOfDay;
+            TimeSpan localBizHourEnd = _businessHoursEnd.ToLocalTime().TimeOfDay;
+
+            bool isInsideBizHours = apptStart >= localBizHourStart && apptEnd <= localBizHourEnd;
+            if (!isInsideBizHours)
             {
-                Messages.ShowError("Appointment Outside Business Hours", "Appointment must be scheduled between 8:00 AM and 5:00 PM. Check the appointment start time and appointment duration. Appointment duration cannot push appointment end time beyond business hours.");
+                Messages.ShowError("Appointment Outside Business Hours", "Appointment must be scheduled between 8:00 AM and 5:00 PM EST. Check the appointment start time and appointment duration. Appointment duration cannot push appointment end time beyond business hours.");
                 return false;
             }else
             {
