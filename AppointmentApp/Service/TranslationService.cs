@@ -26,7 +26,8 @@ namespace AppointmentApp {
             {"Password", "Password" },
             {"Login", "Login" },
             {"InvalidLogin", "Login Credentials Invalid" },
-            {"Location", "Current Country" }
+            {"Location", "Current Country" },
+            {"ExitApplication", "Exit Application" }
         };
 
         public Dictionary<string, string> SpanishLogin = new Dictionary<string, string> {
@@ -35,7 +36,8 @@ namespace AppointmentApp {
             {"Password", "Contraseña" },
             {"Login", "Acceso" },
             {"InvalidLogin", "Credenciales de usuario no válidas" },
-            {"Location", "País Actual" }
+            {"Location", "País Actual" },
+            {"ExitApplication", "Salir de la Aplicación" }
 
         };
       

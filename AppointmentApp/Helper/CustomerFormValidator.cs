@@ -61,7 +61,7 @@ namespace AppointmentApp.Helper
             {
                 errors.Add("Phone must be 20 characters or less");
             }
-            if(CityId < 0)
+            if(CityId <= 0)
             {
                 errors.Add("City is required");
             }

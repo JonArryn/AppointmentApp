@@ -1,5 +1,5 @@
 ﻿using AppointmentApp.Constant;
-using AppointmentApp.Database;
+using AppointmentApp.Helper;
 using AppointmentApp.EventManager;
 using AppointmentApp.Helper;
 using AppointmentApp.Service;
@@ -31,7 +31,7 @@ namespace AppointmentApp.Controls
             TranslateLoginForm();
         }
 
-        private void loginButton_Click(object sender, EventArgs e)
+        private void LogIn()
         {
             string userName = usernameInputText.Text;
             string password = passwordInputText.Text;
@@ -53,14 +53,17 @@ namespace AppointmentApp.Controls
                 Logger.LogAuthentication(false, login);
                 return;
             }
+        }
 
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+
+            LogIn();
         }
 
         private void TranslateLoginForm()
         {
             Dictionary<string, string> formTranslations;
-
-
 
             if (_translations.CurrentCultureAbv != "en")
             {
@@ -76,6 +79,7 @@ namespace AppointmentApp.Controls
             this.invalidLoginLabel.Text = formTranslations["InvalidLogin"];
             this.loginButton.Text = formTranslations["Login"];
             this.currentLocationLabel.Text = $"{formTranslations["Location"]}: {_translations.CountryName}";
+            this.exitAppButton.Text = formTranslations["ExitApplication"];
         }
 
         // INVALID LOGIN LABEL
@@ -101,5 +105,25 @@ namespace AppointmentApp.Controls
             DbSeeder.ResetDatabaseTables();
         }
 
+        private void passwordInputText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                LogIn();
+            }
+        }
+
+        private void usernameInputText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                LogIn();
+            }
+        }
+
+        private void exitAppButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

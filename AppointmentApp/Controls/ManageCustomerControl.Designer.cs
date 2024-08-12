@@ -50,8 +50,8 @@
             this.saveCustomerButton = new System.Windows.Forms.Button();
             this.cancelSaveCustomerButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.customerFormPanel = new System.Windows.Forms.Panel();
             this.backToCustomersButton = new System.Windows.Forms.Button();
+            this.customerFormPanel = new System.Windows.Forms.Panel();
             this.formErrorListLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -95,7 +95,7 @@
             this.addressTextBox.Location = new System.Drawing.Point(115, 109);
             this.addressTextBox.Name = "addressTextBox";
             this.addressTextBox.Size = new System.Drawing.Size(210, 22);
-            this.addressTextBox.TabIndex = 1;
+            this.addressTextBox.TabIndex = 3;
             this.addressTextBox.TextChanged += new System.EventHandler(this.addressTextBox_TextChanged);
             // 
             // address2Label
@@ -115,7 +115,7 @@
             this.address2TextBox.Location = new System.Drawing.Point(115, 157);
             this.address2TextBox.Name = "address2TextBox";
             this.address2TextBox.Size = new System.Drawing.Size(210, 22);
-            this.address2TextBox.TabIndex = 1;
+            this.address2TextBox.TabIndex = 4;
             this.address2TextBox.TextChanged += new System.EventHandler(this.address2TextBox_TextChanged);
             // 
             // cityLabel
@@ -146,7 +146,7 @@
             this.postalCodeTextBox.Location = new System.Drawing.Point(115, 253);
             this.postalCodeTextBox.Name = "postalCodeTextBox";
             this.postalCodeTextBox.Size = new System.Drawing.Size(210, 22);
-            this.postalCodeTextBox.TabIndex = 1;
+            this.postalCodeTextBox.TabIndex = 6;
             this.postalCodeTextBox.TextChanged += new System.EventHandler(this.postalCodeTextBox_TextChanged);
             // 
             // countryLabel
@@ -177,28 +177,30 @@
             this.customerPhoneTextBox.Location = new System.Drawing.Point(115, 61);
             this.customerPhoneTextBox.Name = "customerPhoneTextBox";
             this.customerPhoneTextBox.Size = new System.Drawing.Size(152, 22);
-            this.customerPhoneTextBox.TabIndex = 1;
+            this.customerPhoneTextBox.TabIndex = 2;
             this.customerPhoneTextBox.TextChanged += new System.EventHandler(this.customerPhoneTextBox_TextChanged);
             // 
             // countryComboBox
             // 
             this.countryComboBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.countryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.countryComboBox.FormattingEnabled = true;
-            this.countryComboBox.Location = new System.Drawing.Point(115, 300);
+            this.countryComboBox.Location = new System.Drawing.Point(115, 302);
             this.countryComboBox.Name = "countryComboBox";
             this.countryComboBox.Size = new System.Drawing.Size(210, 24);
-            this.countryComboBox.TabIndex = 2;
+            this.countryComboBox.TabIndex = 7;
             this.countryComboBox.SelectedValueChanged += new System.EventHandler(this.countryComboBox_SelectedValueChanged);
             // 
             // cityComboBox
             // 
             this.cityComboBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cityComboBox.FormattingEnabled = true;
-            this.cityComboBox.Location = new System.Drawing.Point(115, 204);
+            this.cityComboBox.Location = new System.Drawing.Point(115, 205);
             this.cityComboBox.Name = "cityComboBox";
             this.cityComboBox.Size = new System.Drawing.Size(210, 24);
-            this.cityComboBox.TabIndex = 2;
-            this.cityComboBox.SelectedIndexChanged += new System.EventHandler(this.cityComboBox_SelectedIndexChanged);
+            this.cityComboBox.TabIndex = 5;
+            this.cityComboBox.SelectedValueChanged += new System.EventHandler(this.cityComboBox_SelectedValueChanged);
             // 
             // tableLayoutPanel1
             // 
@@ -293,7 +295,7 @@
             this.saveCustomerButton.Location = new System.Drawing.Point(510, 371);
             this.saveCustomerButton.Name = "saveCustomerButton";
             this.saveCustomerButton.Size = new System.Drawing.Size(75, 23);
-            this.saveCustomerButton.TabIndex = 4;
+            this.saveCustomerButton.TabIndex = 8;
             this.saveCustomerButton.Text = "Save";
             this.saveCustomerButton.UseVisualStyleBackColor = true;
             this.saveCustomerButton.Click += new System.EventHandler(this.saveCustomerButton_Click);
@@ -305,7 +307,7 @@
             this.cancelSaveCustomerButton.Location = new System.Drawing.Point(48, 371);
             this.cancelSaveCustomerButton.Name = "cancelSaveCustomerButton";
             this.cancelSaveCustomerButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelSaveCustomerButton.TabIndex = 4;
+            this.cancelSaveCustomerButton.TabIndex = 9;
             this.cancelSaveCustomerButton.Text = "Cancel";
             this.cancelSaveCustomerButton.UseVisualStyleBackColor = true;
             this.cancelSaveCustomerButton.Click += new System.EventHandler(this.cancelSaveCustomerButton_Click);
@@ -327,19 +329,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(986, 462);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
-            // customerFormPanel
-            // 
-            this.customerFormPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.customerFormPanel.Controls.Add(this.tableLayoutPanel1);
-            this.customerFormPanel.Controls.Add(this.cancelSaveCustomerButton);
-            this.customerFormPanel.Controls.Add(this.saveCustomerButton);
-            this.customerFormPanel.Location = new System.Drawing.Point(210, 43);
-            this.customerFormPanel.Name = "customerFormPanel";
-            this.customerFormPanel.Size = new System.Drawing.Size(634, 416);
-            this.customerFormPanel.TabIndex = 3;
-            // 
             // backToCustomersButton
             // 
             this.backToCustomersButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -353,6 +342,19 @@
             this.backToCustomersButton.UseVisualStyleBackColor = true;
             this.backToCustomersButton.Click += new System.EventHandler(this.cancelUpdateCustomerButton_Click);
             // 
+            // customerFormPanel
+            // 
+            this.customerFormPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.customerFormPanel.Controls.Add(this.tableLayoutPanel1);
+            this.customerFormPanel.Controls.Add(this.cancelSaveCustomerButton);
+            this.customerFormPanel.Controls.Add(this.saveCustomerButton);
+            this.customerFormPanel.Location = new System.Drawing.Point(210, 43);
+            this.customerFormPanel.Name = "customerFormPanel";
+            this.customerFormPanel.Size = new System.Drawing.Size(634, 416);
+            this.customerFormPanel.TabIndex = 3;
+            // 
             // formErrorListLabel
             // 
             this.formErrorListLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -365,14 +367,14 @@
             this.formErrorListLabel.TabIndex = 4;
             this.formErrorListLabel.Text = "Form Errors";
             // 
-            // CustomerFormControl
+            // ManageCustomerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel2);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "CustomerFormControl";
+            this.Name = "ManageCustomerControl";
             this.Size = new System.Drawing.Size(986, 462);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

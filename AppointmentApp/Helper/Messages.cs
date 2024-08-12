@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AppointmentApp.Database
+namespace AppointmentApp.Helper
 {
     public static class Messages
     {

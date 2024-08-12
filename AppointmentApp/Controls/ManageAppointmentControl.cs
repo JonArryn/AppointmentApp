@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
-using AppointmentApp.Database;
+using AppointmentApp.Helper;
 using AppointmentApp.Helper;
 
 namespace AppointmentApp.Controls
@@ -19,6 +19,7 @@ namespace AppointmentApp.Controls
     public partial class ManageAppointmentControl : UserControl
     {
         private readonly bool _isNewAppointment;
+        private readonly bool _isInitializing;
 
         private CustomerService _customerService;
         private AppointmentService _appointmentService;
@@ -36,6 +37,7 @@ namespace AppointmentApp.Controls
         public ManageAppointmentControl(AppointmentReadDTO appointment = null)
         {
             InitializeComponent();
+            _isInitializing = true;
             _isNewAppointment = appointment == null;
             _appointment = appointment;
             if(_isNewAppointment)
@@ -45,11 +47,12 @@ namespace AppointmentApp.Controls
             _customerService = ServiceLocator.Instance.CustomerService;
             _appointmentService = ServiceLocator.Instance.AppointmentService;
             SetFormStyles();
-            PopulateForm();
             SubscribeToEvents();
             SetBusinessHours();
+            PopulateForm();
+            _isInitializing = false;
 
-    }
+        }
 
         // INITIALIZERS //
 
@@ -59,7 +62,7 @@ namespace AppointmentApp.Controls
             this.apptFormPanel.Dock = DockStyle.Fill;
             this.formErrorListLabel.Visible = false;
             this.startTimePicker.Format = DateTimePickerFormat.Custom;
-            this.startTimePicker.CustomFormat = "MM/dd/yyyy HH:mm";
+            this.startTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
 
             if(_isNewAppointment)
             {
@@ -78,7 +81,14 @@ namespace AppointmentApp.Controls
             PopulateCustomers();
             if (_isNewAppointment)
             {
+                this.startTimePicker.Value = DateTime.Now.AddMinutes(5);
+                if (_customerList.Count < 1)
+                {
+                    Messages.ShowError("No Customers Found", "No customers found in the database. Please add a customer before creating an appointment.");
+                    return;
+                }
                 SetCurrentCustomer(_customerList[0].CustomerId);
+                
             }
             else
             {
@@ -87,6 +97,10 @@ namespace AppointmentApp.Controls
                 this.apptDescriptionTextBox.Text = _appointment.Description;
                 this.apptTypeTextBox.Text = _appointment.Type;
                 this.startTimePicker.Value = _appointment.Start;
+                TimeSpan duration = _appointment.End - _appointment.Start;
+                decimal totalMinutes = (decimal)duration.TotalMinutes;
+                Console.WriteLine(totalMinutes);
+                this.apptDurationUpDown.Value = totalMinutes;
             }
 
         }
@@ -95,7 +109,13 @@ namespace AppointmentApp.Controls
         {
             try
             {
-                _customerList = _customerService.GetAllCustomers();
+                List<CustomerReadDTO> customers = _customerService.GetAllCustomers();
+                if (customers.Count < 1) 
+                {
+                    _customerList = new List<CustomerReadDTO>();
+                    return;
+                }
+                _customerList = customers;
                 this.apptCustomerComboBox.DataSource = _customerList;
                 this.apptCustomerComboBox.DisplayMember = "CustomerName";
                 this.apptCustomerComboBox.ValueMember = "CustomerId";
@@ -264,12 +284,20 @@ namespace AppointmentApp.Controls
 
         private void startTimePicker_ValueChanged(object sender, EventArgs e)
         {
+            if(_isInitializing)
+            {
+                return;
+            }
             _appointment.Start = this.startTimePicker.Value;
             SetEndTime();
         }
 
         private void apptDurationUpDown_ValueChanged(object sender, EventArgs e)
         {
+            if(_isInitializing)
+            {
+                return;
+            }
             SetEndTime();
         }
 

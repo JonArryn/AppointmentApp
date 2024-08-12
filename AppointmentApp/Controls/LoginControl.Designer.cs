@@ -39,13 +39,15 @@
             this.currentLocationLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.exitAppButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dbResetAndSeed
             // 
-            this.dbResetAndSeed.Location = new System.Drawing.Point(5, 5);
+            this.dbResetAndSeed.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.dbResetAndSeed.Location = new System.Drawing.Point(7, 455);
             this.dbResetAndSeed.Margin = new System.Windows.Forms.Padding(5);
             this.dbResetAndSeed.Name = "dbResetAndSeed";
             this.dbResetAndSeed.Size = new System.Drawing.Size(273, 34);
@@ -56,7 +58,8 @@
             // 
             // dbResetTables
             // 
-            this.dbResetTables.Location = new System.Drawing.Point(718, 5);
+            this.dbResetTables.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.dbResetTables.Location = new System.Drawing.Point(718, 455);
             this.dbResetTables.Margin = new System.Windows.Forms.Padding(5);
             this.dbResetTables.Name = "dbResetTables";
             this.dbResetTables.Size = new System.Drawing.Size(271, 34);
@@ -72,6 +75,7 @@
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(133, 34);
             this.loginButton.TabIndex = 3;
+            this.loginButton.TabStop = false;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
@@ -84,6 +88,7 @@
             this.usernameInputText.Size = new System.Drawing.Size(249, 22);
             this.usernameInputText.TabIndex = 1;
             this.usernameInputText.TextChanged += new System.EventHandler(this.usernameInputText_TextChanged);
+            this.usernameInputText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.usernameInputText_KeyDown);
             // 
             // passwordInputText
             // 
@@ -94,6 +99,7 @@
             this.passwordInputText.Size = new System.Drawing.Size(249, 22);
             this.passwordInputText.TabIndex = 2;
             this.passwordInputText.TextChanged += new System.EventHandler(this.passwordInputText_TextChanged);
+            this.passwordInputText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.passwordInputText_KeyDown);
             // 
             // usernameInputLabel
             // 
@@ -142,8 +148,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.75654F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.16901F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.dbResetTables, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.dbResetAndSeed, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dbResetTables, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.dbResetAndSeed, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.exitAppButton, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -166,6 +173,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(419, 427);
             this.panel1.TabIndex = 0;
+            // 
+            // exitAppButton
+            // 
+            this.exitAppButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.exitAppButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.exitAppButton.Location = new System.Drawing.Point(770, 13);
+            this.exitAppButton.Margin = new System.Windows.Forms.Padding(5);
+            this.exitAppButton.Name = "exitAppButton";
+            this.exitAppButton.Size = new System.Drawing.Size(167, 34);
+            this.exitAppButton.TabIndex = 0;
+            this.exitAppButton.Text = "Exit Application";
+            this.exitAppButton.UseVisualStyleBackColor = true;
+            this.exitAppButton.Click += new System.EventHandler(this.exitAppButton_Click);
             // 
             // LoginControl
             // 
@@ -196,5 +216,6 @@
         private System.Windows.Forms.Label currentLocationLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button exitAppButton;
     }
 }

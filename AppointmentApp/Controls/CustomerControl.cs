@@ -1,5 +1,5 @@
 ﻿using AppointmentApp.Constant;
-using AppointmentApp.Database;
+using AppointmentApp.Helper;
 using AppointmentApp.EventManager;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
@@ -19,13 +19,14 @@ namespace AppointmentApp.Controls
     {
         private CustomerService _customerService;
         private CustomerReadDTO _selectedCustomer;
+        private AppointmentService _appointmentService;
 
 
         public CustomerControl()
         {
             InitializeComponent();          
             _customerService = ServiceLocator.Instance.CustomerService;
-            
+            _appointmentService = ServiceLocator.Instance.AppointmentService;
             PopulateCustomers();
 
         }
@@ -61,7 +62,7 @@ namespace AppointmentApp.Controls
 
         private void deleteCustomerButton_Click(object sender, EventArgs e)
         {
-           var result = Messages.ShowQuestion("Confirm Customer Delete", $"Are you sure you want to delete this customer {_selectedCustomer.CustomerName}? ");
+           var result = Messages.ShowQuestion("Confirm Customer Delete", $"Are you sure you want to delete this customer {_selectedCustomer.CustomerName}? ALL APPOINTMENTS associated with this customer will be deleted.");
             if(result == DialogResult.Yes)
             {
                 _customerService.DeleteCustomer(_selectedCustomer.CustomerId);

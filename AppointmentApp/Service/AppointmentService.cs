@@ -42,6 +42,8 @@ namespace AppointmentApp.Service
                                     {TABLES.USER} u ON a.{APPOINTMENT.USER_ID} = u.{USER.USER_ID}
                             WHERE   
                                     a.{APPOINTMENT.USER_ID} = @UserId
+                            AND
+                                    c.{CUSTOMER.ACTIVE} = 1
                             ";
             if(startDate != null && endDate != null)
             {
@@ -217,5 +219,6 @@ namespace AppointmentApp.Service
                 throw new Exception($"MySql Error: {ex.Message}", ex);
             }
         }
+
     }
 }

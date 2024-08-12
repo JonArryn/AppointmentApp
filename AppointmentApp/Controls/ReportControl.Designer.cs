@@ -30,6 +30,7 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.appointmentTypesByMonthGroupBox = new System.Windows.Forms.GroupBox();
+            this.apptByMonthDatePicker = new System.Windows.Forms.DateTimePicker();
             this.typeCountText = new System.Windows.Forms.Label();
             this.typeCountLabel = new System.Windows.Forms.Label();
             this.apptTypeLabel = new System.Windows.Forms.Label();
@@ -39,11 +40,10 @@
             this.consultantComboBox = new System.Windows.Forms.ComboBox();
             this.selectConsultantLabel = new System.Windows.Forms.Label();
             this.customerApptCountGroupBox = new System.Windows.Forms.GroupBox();
-            this.customerComboBox = new System.Windows.Forms.ComboBox();
-            this.selectCustomerLabel = new System.Windows.Forms.Label();
-            this.customerAppointmentCountLabel = new System.Windows.Forms.Label();
             this.customerAppointmentCountText = new System.Windows.Forms.Label();
-            this.apptByMonthDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.customerComboBox = new System.Windows.Forms.ComboBox();
+            this.customerAppointmentCountLabel = new System.Windows.Forms.Label();
+            this.selectCustomerLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.appointmentTypesByMonthGroupBox.SuspendLayout();
             this.consultantScheduleGroupBox.SuspendLayout();
@@ -82,6 +82,15 @@
             this.appointmentTypesByMonthGroupBox.TabStop = false;
             this.appointmentTypesByMonthGroupBox.Text = "Appointment Types by Month";
             // 
+            // apptByMonthDatePicker
+            // 
+            this.apptByMonthDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.apptByMonthDatePicker.Location = new System.Drawing.Point(125, 27);
+            this.apptByMonthDatePicker.Name = "apptByMonthDatePicker";
+            this.apptByMonthDatePicker.Size = new System.Drawing.Size(175, 22);
+            this.apptByMonthDatePicker.TabIndex = 1;
+            this.apptByMonthDatePicker.ValueChanged += new System.EventHandler(this.apptByMonthDatePicker_ValueChanged);
+            // 
             // typeCountText
             // 
             this.typeCountText.AutoSize = true;
@@ -112,11 +121,12 @@
             // 
             // apptTypeComboBox
             // 
+            this.apptTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.apptTypeComboBox.FormattingEnabled = true;
             this.apptTypeComboBox.Location = new System.Drawing.Point(125, 55);
             this.apptTypeComboBox.Name = "apptTypeComboBox";
             this.apptTypeComboBox.Size = new System.Drawing.Size(175, 24);
-            this.apptTypeComboBox.TabIndex = 0;
+            this.apptTypeComboBox.TabIndex = 2;
             this.apptTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.apptTypeComboBox_SelectedIndexChanged);
             // 
             // consultantScheduleGroupBox
@@ -148,11 +158,12 @@
             // 
             // consultantComboBox
             // 
+            this.consultantComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.consultantComboBox.FormattingEnabled = true;
             this.consultantComboBox.Location = new System.Drawing.Point(6, 100);
             this.consultantComboBox.Name = "consultantComboBox";
             this.consultantComboBox.Size = new System.Drawing.Size(236, 24);
-            this.consultantComboBox.TabIndex = 0;
+            this.consultantComboBox.TabIndex = 3;
             this.consultantComboBox.SelectedIndexChanged += new System.EventHandler(this.consultantComboBox_SelectedIndexChanged);
             // 
             // selectConsultantLabel
@@ -179,33 +190,6 @@
             this.customerApptCountGroupBox.TabStop = false;
             this.customerApptCountGroupBox.Text = "Customer Appointment Counts";
             // 
-            // customerComboBox
-            // 
-            this.customerComboBox.FormattingEnabled = true;
-            this.customerComboBox.Location = new System.Drawing.Point(6, 49);
-            this.customerComboBox.Name = "customerComboBox";
-            this.customerComboBox.Size = new System.Drawing.Size(236, 24);
-            this.customerComboBox.TabIndex = 0;
-            this.customerComboBox.SelectedIndexChanged += new System.EventHandler(this.customerComboBox_SelectedIndexChanged);
-            // 
-            // selectCustomerLabel
-            // 
-            this.selectCustomerLabel.AutoSize = true;
-            this.selectCustomerLabel.Location = new System.Drawing.Point(3, 30);
-            this.selectCustomerLabel.Name = "selectCustomerLabel";
-            this.selectCustomerLabel.Size = new System.Drawing.Size(105, 16);
-            this.selectCustomerLabel.TabIndex = 1;
-            this.selectCustomerLabel.Text = "Select Customer";
-            // 
-            // customerAppointmentCountLabel
-            // 
-            this.customerAppointmentCountLabel.AutoSize = true;
-            this.customerAppointmentCountLabel.Location = new System.Drawing.Point(320, 52);
-            this.customerAppointmentCountLabel.Name = "customerAppointmentCountLabel";
-            this.customerAppointmentCountLabel.Size = new System.Drawing.Size(119, 16);
-            this.customerAppointmentCountLabel.TabIndex = 1;
-            this.customerAppointmentCountLabel.Text = "Appointment Count";
-            // 
             // customerAppointmentCountText
             // 
             this.customerAppointmentCountText.AutoSize = true;
@@ -216,13 +200,33 @@
             this.customerAppointmentCountText.TabIndex = 2;
             this.customerAppointmentCountText.Text = "0";
             // 
-            // apptByMonthDatePicker
+            // customerComboBox
             // 
-            this.apptByMonthDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.apptByMonthDatePicker.Location = new System.Drawing.Point(125, 27);
-            this.apptByMonthDatePicker.Name = "apptByMonthDatePicker";
-            this.apptByMonthDatePicker.Size = new System.Drawing.Size(175, 22);
-            this.apptByMonthDatePicker.TabIndex = 3;
+            this.customerComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.customerComboBox.FormattingEnabled = true;
+            this.customerComboBox.Location = new System.Drawing.Point(6, 49);
+            this.customerComboBox.Name = "customerComboBox";
+            this.customerComboBox.Size = new System.Drawing.Size(236, 24);
+            this.customerComboBox.TabIndex = 4;
+            this.customerComboBox.SelectedIndexChanged += new System.EventHandler(this.customerComboBox_SelectedIndexChanged);
+            // 
+            // customerAppointmentCountLabel
+            // 
+            this.customerAppointmentCountLabel.AutoSize = true;
+            this.customerAppointmentCountLabel.Location = new System.Drawing.Point(320, 52);
+            this.customerAppointmentCountLabel.Name = "customerAppointmentCountLabel";
+            this.customerAppointmentCountLabel.Size = new System.Drawing.Size(119, 16);
+            this.customerAppointmentCountLabel.TabIndex = 1;
+            this.customerAppointmentCountLabel.Text = "Appointment Count";
+            // 
+            // selectCustomerLabel
+            // 
+            this.selectCustomerLabel.AutoSize = true;
+            this.selectCustomerLabel.Location = new System.Drawing.Point(3, 30);
+            this.selectCustomerLabel.Name = "selectCustomerLabel";
+            this.selectCustomerLabel.Size = new System.Drawing.Size(105, 16);
+            this.selectCustomerLabel.TabIndex = 1;
+            this.selectCustomerLabel.Text = "Select Customer";
             // 
             // ReportControl
             // 

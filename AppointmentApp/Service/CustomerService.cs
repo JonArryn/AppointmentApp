@@ -1,5 +1,5 @@
 ﻿using AppointmentApp.Constant;
-using AppointmentApp.Database;
+using AppointmentApp.Helper;
 using AppointmentApp.Model;
 using MySql.Data.MySqlClient;
 using System;
@@ -20,7 +20,7 @@ namespace AppointmentApp.Service
             _addressService = addressService;
         }
 
-        public List<CustomerReadDTO> GetAllCustomers()
+        public List<CustomerReadDTO> GetAllCustomers(bool withInactive = false)
         {
 
             List<CustomerReadDTO> customers = new List<CustomerReadDTO>();
@@ -43,13 +43,16 @@ namespace AppointmentApp.Service
                                    JOIN {TABLES.CITY} ci ON a.{ADDRESS.CITY_ID} = ci.{CITY.CITY_ID}
 
                                    JOIN {TABLES.COUNTRY} co ON ci.{CITY.COUNTRY_ID} = co.{COUNTRY.COUNTRY_ID}
-                                    
-                                   WHERE c.{CUSTOMER.ACTIVE} = 1
                                           ";
+            if(!withInactive)
+            {
+                query += $" WHERE c.{CUSTOMER.ACTIVE} = 1";
+            }
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
+
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -291,10 +294,10 @@ namespace AppointmentApp.Service
                     }
                     catch(MySqlException rollbackEx)
                     {
-                        throw new Exception($"MySql Error: {rollbackEx.Message}", rollbackEx);
+                        throw new Exception($"MySql Error: {rollbackEx.Message} - InnerException: {ex.InnerException.Message}", rollbackEx);
                     }
                     
-                    throw new Exception($"MySql Error: {ex.Message}", ex);
+                    throw new Exception($"MySql Error: {ex.Message} - InnerException: {ex.InnerException.Message}", ex);
                 }
 
             }

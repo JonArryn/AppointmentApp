@@ -35,21 +35,24 @@ namespace AppointmentApp.Service
             }
             return types;
         }
-        public int GetAppointmentCountByType(string appointmentType, string month, string year) 
+        public int GetAppointmentCountByType(string appointmentType, DateTime monthStart, DateTime monthEnd) 
         {
+
             string query = $@"  SELECT COUNT(*) 
-                                FROM       {TABLES.APPOINTMENT}
-                                WHERE      {APPOINTMENT.TYPE}     = @AppointmentType
-                                AND YEAR  ({APPOINTMENT.START})   = @Year 
-                                AND MONTH ({APPOINTMENT.END})     = @Month;
+                                FROM       {TABLES.APPOINTMENT} a
+                                JOIN       {TABLES.CUSTOMER} c ON a.{APPOINTMENT.CUSTOMER_ID} = c.{CUSTOMER.CUSTOMER_ID}
+                                WHERE      a.{APPOINTMENT.TYPE}     = @AppointmentType
+                                AND        a.{APPOINTMENT.START}   >= @MonthStart 
+                                AND        a.{APPOINTMENT.END}     <= @MonthEnd
+                                AND c.{CUSTOMER.ACTIVE} = 1;
                             ";
             try
             {
                 using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
                 {
                     command.Parameters.AddWithValue("@AppointmentType", appointmentType);
-                    command.Parameters.AddWithValue("@Year", year);
-                    command.Parameters.AddWithValue("@Month", month);
+                    command.Parameters.AddWithValue("@MonthStart", monthStart.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss"));
+                    command.Parameters.AddWithValue("@MonthEnd", monthEnd.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss"));
                     object typeCount = command.ExecuteScalar();
                     if (typeCount != null)
                     {
@@ -148,6 +151,7 @@ namespace AppointmentApp.Service
                                     {CUSTOMER.CUSTOMER_NAME}
                                 FROM 
                                     {TABLES.CUSTOMER}
+                                WHERE {CUSTOMER.ACTIVE} = 1;
                             ";
 
             List<CustomerReportDTO> customers = new List<CustomerReportDTO>();

@@ -104,9 +104,9 @@
             // logoutButton
             // 
             this.logoutButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.logoutButton.Location = new System.Drawing.Point(897, 24);
+            this.logoutButton.Location = new System.Drawing.Point(897, 18);
             this.logoutButton.Name = "logoutButton";
-            this.logoutButton.Size = new System.Drawing.Size(100, 23);
+            this.logoutButton.Size = new System.Drawing.Size(100, 36);
             this.logoutButton.TabIndex = 1;
             this.logoutButton.Text = "Logout";
             this.logoutButton.UseVisualStyleBackColor = true;

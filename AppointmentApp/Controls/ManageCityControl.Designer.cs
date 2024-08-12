@@ -68,6 +68,7 @@
             // 
             // countryComboBox
             // 
+            this.countryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.countryComboBox.Enabled = false;
             this.countryComboBox.FormattingEnabled = true;
             this.countryComboBox.Location = new System.Drawing.Point(158, 113);
@@ -91,7 +92,7 @@
             this.saveEditCityButton.Location = new System.Drawing.Point(278, 183);
             this.saveEditCityButton.Name = "saveEditCityButton";
             this.saveEditCityButton.Size = new System.Drawing.Size(75, 23);
-            this.saveEditCityButton.TabIndex = 4;
+            this.saveEditCityButton.TabIndex = 3;
             this.saveEditCityButton.Text = "Save";
             this.saveEditCityButton.UseVisualStyleBackColor = true;
             this.saveEditCityButton.Click += new System.EventHandler(this.saveEditCityButton_Click);

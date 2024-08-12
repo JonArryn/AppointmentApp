@@ -1,5 +1,5 @@
 ﻿using AppointmentApp.Constant;
-using AppointmentApp.Database;
+using AppointmentApp.Helper;
 using AppointmentApp.Dialogs;
 using AppointmentApp.EventManager;
 using AppointmentApp.Helper;
@@ -85,8 +85,7 @@ namespace AppointmentApp.Controls
             {
                 PopulateCities(_customer.CountryId);
                 PopulateCustomerData();
-                SetCurrentCountry(_countries.Find(c => c.CountryId == _customer.CountryId));
-                SetCurrentCity(_cities.Find(c => c.CityId == _customer.CityId));
+
 
             }
             else
@@ -102,13 +101,15 @@ namespace AppointmentApp.Controls
 
         private void PopulateCustomerData()
         {
+            _isInitializing = true;
             this.customerNameTextBox.Text = _customer.CustomerName;
             this.customerPhoneTextBox.Text = _customer.Phone;
             this.addressTextBox.Text = _customer.Address;
             this.address2TextBox.Text = _customer.Address2;
             this.postalCodeTextBox.Text = _customer.PostalCode;
-            this.cityComboBox.SelectedValue = _customer.CityId;
-            this.countryComboBox.SelectedValue = _customer.CountryId;
+            SetCurrentCountry(_countries.Find(c => c.CountryId == _customer.CountryId));
+            SetCurrentCity(_cities.Find(c => c.CityId == _customer.CityId));
+            _isInitializing = false;
         }
 
         private void PopulateCountries()
@@ -129,12 +130,14 @@ namespace AppointmentApp.Controls
 
         private void PopulateCities(int countryId)
         {
+            _isInitializing = true;
             try
             {
                 _cities = _cityService.GetCitiesByCountry(countryId);
                 cityComboBox.DataSource = _cities;
                 this.cityComboBox.DisplayMember = "CityName";
                 this.cityComboBox.ValueMember = "CityId";
+                this.editCityLabel.Enabled = true;
                 if (_cities.Count <= 0)
                 {
                     _selectedCity = null;
@@ -142,6 +145,7 @@ namespace AppointmentApp.Controls
                     this.cityComboBox.SelectedIndex = -1;
                     this.cityComboBox.DisplayMember = "";
                     this.cityComboBox.ValueMember = "";
+                    this.editCityLabel.Enabled = false;
                 }
 
             }
@@ -151,6 +155,7 @@ namespace AppointmentApp.Controls
                 Messages.ShowError("Error Getting Cities",ex.Message);
                
             }
+            _isInitializing = false;
         }
 
         private void RefreshCustomer()
@@ -165,11 +170,20 @@ namespace AppointmentApp.Controls
             PopulateForm();
         }
 
-        private void SetCurrentCity(CityReadDTO city)
+        private void SetCurrentCity(CityReadDTO city = null)
         {
-            this.cityComboBox.SelectedValue = city.CityId;
-            _selectedCity = city;
-            _customer.CityId = city.CityId;
+            if(city == null)
+            {
+                _selectedCity = null; ;
+                _customer.CityId = -1;
+            }
+            else
+            {
+                this.cityComboBox.SelectedValue = city.CityId;
+                _selectedCity = city;
+                _customer.CityId = city.CityId;
+            }
+
         }
 
         private void SetCurrentCountry(CountryReadDTO country)
@@ -209,8 +223,8 @@ namespace AppointmentApp.Controls
             {
                 PopulateCities(_selectedCountry.CountryId);
             }
-            SetCurrentCity(city);
             SetCurrentCountry(_countries.Find(c => c.CountryId == city.CountryId));
+            SetCurrentCity(city);
 
         }
         private void HandleCountryCreated(object data)
@@ -233,15 +247,13 @@ namespace AppointmentApp.Controls
             this.formErrorListLabel.Text = string.Join("\n", errors);
         }
 
-        // COMBO BOX EVENT HANDLERS //
-        private void cityComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void cityComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
-
             if (_isInitializing == false)
             {
                 _selectedCity = (CityReadDTO)cityComboBox.SelectedItem;
+                _customer.CityId = _selectedCity.CityId;
             }
-
         }
 
         private void countryComboBox_SelectedValueChanged(object sender, EventArgs e)
@@ -249,7 +261,9 @@ namespace AppointmentApp.Controls
             if (_isInitializing == false)
             {
                 _selectedCountry = (CountryReadDTO)countryComboBox.SelectedItem;
+                _customer.CountryId = _selectedCountry.CountryId;
                 PopulateCities(_selectedCountry.CountryId);
+                SetCurrentCity((CityReadDTO)this.cityComboBox.SelectedItem);
             }
         }
 
@@ -402,5 +416,7 @@ namespace AppointmentApp.Controls
             }
             return errors.Count;
         }
+
+
     }
 }

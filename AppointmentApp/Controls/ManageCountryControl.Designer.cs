@@ -70,7 +70,7 @@
             this.saveEditCountryButton.Location = new System.Drawing.Point(312, 173);
             this.saveEditCountryButton.Name = "saveEditCountryButton";
             this.saveEditCountryButton.Size = new System.Drawing.Size(75, 23);
-            this.saveEditCountryButton.TabIndex = 4;
+            this.saveEditCountryButton.TabIndex = 2;
             this.saveEditCountryButton.Text = "Save";
             this.saveEditCountryButton.UseVisualStyleBackColor = true;
             this.saveEditCountryButton.Click += new System.EventHandler(this.saveEditCountryButton_Click);
@@ -81,7 +81,7 @@
             this.cancelEditCountryButton.Location = new System.Drawing.Point(118, 173);
             this.cancelEditCountryButton.Name = "cancelEditCountryButton";
             this.cancelEditCountryButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelEditCountryButton.TabIndex = 4;
+            this.cancelEditCountryButton.TabIndex = 3;
             this.cancelEditCountryButton.Text = "Cancel";
             this.cancelEditCountryButton.UseVisualStyleBackColor = true;
             this.cancelEditCountryButton.Click += new System.EventHandler(this.cancelEditCountryButton_Click);

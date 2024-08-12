@@ -120,7 +120,7 @@
             this.apptDurationUpDown.Location = new System.Drawing.Point(144, 223);
             this.apptDurationUpDown.Name = "apptDurationUpDown";
             this.apptDurationUpDown.Size = new System.Drawing.Size(76, 20);
-            this.apptDurationUpDown.TabIndex = 7;
+            this.apptDurationUpDown.TabIndex = 6;
             this.apptDurationUpDown.Value = new decimal(new int[] {
             5,
             0,
@@ -182,7 +182,7 @@
             this.apptTypeTextBox.Location = new System.Drawing.Point(144, 136);
             this.apptTypeTextBox.Name = "apptTypeTextBox";
             this.apptTypeTextBox.Size = new System.Drawing.Size(218, 20);
-            this.apptTypeTextBox.TabIndex = 1;
+            this.apptTypeTextBox.TabIndex = 4;
             this.apptTypeTextBox.TextChanged += new System.EventHandler(this.apptTypeTextBox_TextChanged);
             // 
             // apptCancelButton
@@ -192,18 +192,19 @@
             this.apptCancelButton.Location = new System.Drawing.Point(17, 319);
             this.apptCancelButton.Name = "apptCancelButton";
             this.apptCancelButton.Size = new System.Drawing.Size(75, 23);
-            this.apptCancelButton.TabIndex = 4;
+            this.apptCancelButton.TabIndex = 8;
             this.apptCancelButton.Text = "Cancel";
             this.apptCancelButton.UseVisualStyleBackColor = true;
             this.apptCancelButton.Click += new System.EventHandler(this.apptCancelButton_Click);
             // 
             // apptCustomerComboBox
             // 
+            this.apptCustomerComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.apptCustomerComboBox.FormattingEnabled = true;
             this.apptCustomerComboBox.Location = new System.Drawing.Point(144, 109);
             this.apptCustomerComboBox.Name = "apptCustomerComboBox";
             this.apptCustomerComboBox.Size = new System.Drawing.Size(217, 21);
-            this.apptCustomerComboBox.TabIndex = 2;
+            this.apptCustomerComboBox.TabIndex = 3;
             this.apptCustomerComboBox.SelectedValueChanged += new System.EventHandler(this.apptCustomerComboBox_SelectedValueChanged);
             // 
             // appointmentLengthLabel
@@ -222,7 +223,7 @@
             this.apptSaveButton.Location = new System.Drawing.Point(391, 319);
             this.apptSaveButton.Name = "apptSaveButton";
             this.apptSaveButton.Size = new System.Drawing.Size(75, 23);
-            this.apptSaveButton.TabIndex = 4;
+            this.apptSaveButton.TabIndex = 7;
             this.apptSaveButton.Text = "Save";
             this.apptSaveButton.UseVisualStyleBackColor = true;
             this.apptSaveButton.Click += new System.EventHandler(this.apptSaveButton_Click);
@@ -252,7 +253,7 @@
             this.apptDescriptionTextBox.Location = new System.Drawing.Point(144, 82);
             this.apptDescriptionTextBox.Name = "apptDescriptionTextBox";
             this.apptDescriptionTextBox.Size = new System.Drawing.Size(217, 20);
-            this.apptDescriptionTextBox.TabIndex = 1;
+            this.apptDescriptionTextBox.TabIndex = 2;
             this.apptDescriptionTextBox.TextChanged += new System.EventHandler(this.apptDescriptionTextBox_TextChanged);
             // 
             // manageApptLabel
@@ -271,7 +272,7 @@
             this.startTimePicker.Location = new System.Drawing.Point(144, 185);
             this.startTimePicker.Name = "startTimePicker";
             this.startTimePicker.Size = new System.Drawing.Size(217, 20);
-            this.startTimePicker.TabIndex = 3;
+            this.startTimePicker.TabIndex = 5;
             this.startTimePicker.Value = new System.DateTime(2024, 8, 10, 10, 21, 53, 0);
             this.startTimePicker.ValueChanged += new System.EventHandler(this.startTimePicker_ValueChanged);
             // 

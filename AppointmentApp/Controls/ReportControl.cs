@@ -1,5 +1,6 @@
 ﻿using AppointmentApp.Model;
 using AppointmentApp.Service;
+using AppointmentApp.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -70,17 +71,38 @@ namespace AppointmentApp.Controls
 
         // COMBO BOX EVENTS //
 
+        private void HandleApptmentByTypeChange()
+        {
+            if (_isInitializing) { return; }
+            if (this.apptTypeComboBox.SelectedIndex == 0) { this.typeCountText.Text = "0"; return; }
+
+            DateTime startOfMonth = new DateTime(
+                this.apptByMonthDatePicker.Value.Year,
+                this.apptByMonthDatePicker.Value.Month,
+                1, 0, 0, 0);
+
+            DateTime endOfMonth = new DateTime(
+                this.apptByMonthDatePicker.Value.Year,
+                this.apptByMonthDatePicker.Value.Month,
+                DateTime.DaysInMonth(this.apptByMonthDatePicker.Value.Year, this.apptByMonthDatePicker.Value.Month),
+                23, 59, 59);
+
+            string selectedApptType = this.apptTypeComboBox.SelectedItem.ToString();
+            try
+            {
+                _appointmentTypeCount = _reportService.GetAppointmentCountByType(selectedApptType, startOfMonth, endOfMonth);
+                this.typeCountText.Text = _appointmentTypeCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                Messages.ShowError("Error", ex.Message);
+            }
+        }
+
         private void apptTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(_isInitializing) { return; }
-            if(this.apptTypeComboBox.SelectedIndex == 0) { this.typeCountText.Text = "0"; return; }
+            HandleApptmentByTypeChange();
 
-            DateTime date = this.apptByMonthDatePicker.Value.ToUniversalTime();
-            string month = date.Month.ToString();
-            string year = date.Year.ToString();
-
-            _appointmentTypeCount = _reportService.GetAppointmentCountByType(this.apptTypeComboBox.SelectedItem.ToString(), month, year);
-            this.typeCountText.Text = _appointmentTypeCount.ToString();
         }
 
         private void consultantComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -101,6 +123,11 @@ namespace AppointmentApp.Controls
             CustomerReportDTO selectedCustomer = (CustomerReportDTO)this.customerComboBox.SelectedItem;
             
             this.customerAppointmentCountText.Text = _reportService.GetAppointmentCountByCustomer(selectedCustomer.CustomerId).ToString();
+        }
+
+        private void apptByMonthDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            HandleApptmentByTypeChange();
         }
     }
 }

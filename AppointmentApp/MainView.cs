@@ -1,6 +1,6 @@
 ﻿using AppointmentApp.Constant;
 using AppointmentApp.Controls;
-using AppointmentApp.Database;
+using AppointmentApp.Helper;
 using AppointmentApp.EventManager;
 using AppointmentApp.Model;
 using AppointmentApp.Service;
@@ -155,6 +155,11 @@ namespace AppointmentApp
 
         private void HandleLogout(object data = null)
         {
+            var confirm = Messages.ShowQuestion("Logout", "Are you sure you want to logout? All unsaved work will be lost.");
+            if(confirm == DialogResult.No)
+            {
+                return;
+            }
            
             _customerControl?.Dispose();
             _customerControl = null;
@@ -169,6 +174,7 @@ namespace AppointmentApp
             ServiceLocator.Instance.ResetServices();
             _loginControl = new LoginControl();
             this.Controls.Add(_loginControl);
+            this.mainTabControl.SelectedTab = this.customersTab;
             this.mainLayoutPanel.Visible = false;
         }
 
@@ -195,17 +201,25 @@ namespace AppointmentApp
 
         private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(this.mainTabControl.SelectedTab == this.appointmentsTab)
+
+            if (this.mainTabControl.SelectedTab == this.appointmentsTab)
             {
                 LoadAppointmentControl();
+                _customerControl?.Dispose();
+                _reportControl?.Dispose();
+       
             }
             if(this.mainTabControl.SelectedTab == this.customersTab)
             {
                     LoadCustomerControl();
+                    _appointmentControl?.Dispose();
+                    _reportControl?.Dispose();
             }
             if(this.mainTabControl.SelectedTab == this.reportsTab)
             {
                 LoadReportControl();
+                _appointmentControl?.Dispose();
+                _customerControl?.Dispose();
             }
         }
 
