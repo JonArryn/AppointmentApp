@@ -54,6 +54,7 @@
             this.dbResetAndSeed.TabIndex = 0;
             this.dbResetAndSeed.Text = "Reset And Seed DB";
             this.dbResetAndSeed.UseVisualStyleBackColor = true;
+            this.dbResetAndSeed.Visible = false;
             this.dbResetAndSeed.Click += new System.EventHandler(this.dbResetAndSeed_Click);
             // 
             // dbResetTables
@@ -66,6 +67,7 @@
             this.dbResetTables.TabIndex = 0;
             this.dbResetTables.Text = "Reset DB Tables";
             this.dbResetTables.UseVisualStyleBackColor = true;
+            this.dbResetTables.Visible = false;
             this.dbResetTables.Click += new System.EventHandler(this.dbResetTables_Click);
             // 
             // loginButton
