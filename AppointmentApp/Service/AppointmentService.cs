@@ -220,5 +220,54 @@ namespace AppointmentApp.Service
             }
         }
 
+        public int GetAppointmentCountByDateRange(string startDate, string endDate, int? excludeApptId = null) 
+        {
+            string query = $@"
+                            SELECT COUNT(*)                                    
+                                   
+                            FROM
+                                    {TABLES.APPOINTMENT} a
+                            JOIN
+                                    {TABLES.CUSTOMER} c ON a.{APPOINTMENT.CUSTOMER_ID} = c.{CUSTOMER.CUSTOMER_ID}
+                            JOIN    
+                                    {TABLES.USER} u ON a.{APPOINTMENT.USER_ID} = u.{USER.USER_ID}
+                            WHERE   
+                                    a.{APPOINTMENT.USER_ID} = @UserId
+                            AND
+                                    c.{CUSTOMER.ACTIVE} = 1
+                            AND 
+                                  ( a.{APPOINTMENT.START} BETWEEN @StartDate AND @EndDate
+                            OR      
+                                    a.{APPOINTMENT.END} BETWEEN @StartDate AND @EndDate
+                                  )
+                            ";
+            if(excludeApptId.HasValue)
+            {
+                query += $"AND a.{APPOINTMENT.APPOINTMENT_ID} != @ExcludeApptId";
+            }
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(query, DbConnection.Connection))
+                {
+                    if(excludeApptId.HasValue)
+                    {
+                        command.Parameters.AddWithValue("@ExcludeApptId", excludeApptId.Value);
+                    }
+                    command.Parameters.AddWithValue("@UserId", _userService.UserID);
+                    command.Parameters.AddWithValue("@StartDate", DateTime.Parse(startDate).ToUniversalTime());
+                    command.Parameters.AddWithValue("@EndDate", DateTime.Parse(endDate).ToUniversalTime());
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }catch (MySqlException ex)
+            {
+                string message = $"MySql Error: {ex.Message}";
+                if(ex.InnerException != null)
+                {
+                   message += $" - InnerException: {ex.InnerException.Message}";
+                }
+                throw new Exception(message);
+            }
+        }
+
     }
 }

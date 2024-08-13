@@ -33,7 +33,7 @@ namespace AppointmentApp
             InitializeComponent();
             LoadLoginControl();
             SubscribeToEvents();
-            CheckForUpcomingAppointments();
+            
         }
 
         private void SubscribeToEvents()
@@ -135,7 +135,6 @@ namespace AppointmentApp
             LoadAppointmentControl();
 
         }
-
         private void HandleManageAppointment(object data = null)
         {
             var appointment = _appointmentControl.GetSelectedAppointment();
@@ -223,16 +222,6 @@ namespace AppointmentApp
             }
         }
 
-        // HELPERS //
-
-        private void CheckForUpcomingAppointments()
-        {
-            AppointmentService appointmentService = ServiceLocator.Instance.AppointmentService;
-            List<AppointmentReadDTO> upcomingAppointments = appointmentService.GetAllAppointments(DateTime.Now.ToString(), DateTime.Now.AddMinutes(15).ToString());
-            if (upcomingAppointments.Count > 0)
-            {
-                Messages.ShowInfo("Upcoming Appointments", "You have an appointment in the next 15 minutes.");
-            }
-        }
+       
     }
 }

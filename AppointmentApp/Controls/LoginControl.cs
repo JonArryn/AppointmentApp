@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AppointmentApp.Model;
 
 namespace AppointmentApp.Controls
 {
@@ -42,8 +43,11 @@ namespace AppointmentApp.Controls
 
             if (_userService.IsLoggedIn)
             {
+                HasUpcomingAppointments();
+               
                 EventMediator.Instance.Publish(LOGIN_EVENTS.LOGIN_SUCCESSFUL);
                 Logger.LogAuthentication(true, _userService.Username);
+
             }
 
             if (!_userService.IsLoggedIn)
@@ -124,6 +128,18 @@ namespace AppointmentApp.Controls
         private void exitAppButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        // HELPERS //
+
+        private void HasUpcomingAppointments()
+        {
+            AppointmentService appointmentService = ServiceLocator.Instance.AppointmentService;
+            int upcomingAppointments = appointmentService.GetAppointmentCountByDateRange(DateTime.Now.ToString(), DateTime.Now.AddMinutes(15).ToString());
+            if (upcomingAppointments > 0)
+            {
+                    Messages.ShowInfo("Upcoming Apopintments", "You have appointments set to start within the next 15 minutes.");
+            }
         }
     }
 }

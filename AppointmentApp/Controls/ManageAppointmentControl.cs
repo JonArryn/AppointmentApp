@@ -135,11 +135,14 @@ namespace AppointmentApp.Controls
 
             DateTime today = DateTime.Today;
 
+            // Set business hours in local (Eastern) time, then convert to UTC
             DateTime businessHoursStartEastern = new DateTime(today.Year, today.Month, today.Day, 8, 0, 0, DateTimeKind.Unspecified);
-            _businessHoursStart = TimeZoneInfo.ConvertTime(businessHoursStartEastern, easternZone);
-
             DateTime businessHoursEndEastern = new DateTime(today.Year, today.Month, today.Day, 17, 0, 0, DateTimeKind.Unspecified);
-            _businessHoursEnd = TimeZoneInfo.ConvertTime(businessHoursEndEastern, easternZone);
+
+            // Convert Eastern time to UTC
+            _businessHoursStart = TimeZoneInfo.ConvertTimeToUtc(businessHoursStartEastern, easternZone);
+            _businessHoursEnd = TimeZoneInfo.ConvertTimeToUtc(businessHoursEndEastern, easternZone);
+
 
         }
 
@@ -324,16 +327,20 @@ namespace AppointmentApp.Controls
 
         private int CheckOverlaps(string startTime, string endTime, int? appointmentId = null)
         {
-            List<AppointmentReadDTO> overlappingAppointments = _appointmentService.GetAllAppointments(startTime, endTime);
-            if (appointmentId.HasValue)
+            int overlappingAppointments;
+            if (appointmentId > 0)
             {
-                overlappingAppointments.RemoveAll(a => a.AppointmentId == appointmentId);
+               overlappingAppointments = _appointmentService.GetAppointmentCountByDateRange(startTime, endTime, appointmentId);
+            }else
+            {
+                overlappingAppointments = _appointmentService.GetAppointmentCountByDateRange(startTime, endTime);
             }
-            if (overlappingAppointments.Count > 0)
+
+            if (overlappingAppointments > 0)
             {
                 Messages.ShowError("Appointment Overlaps", "Appointment time overlaps with one or more existing appointments.");
             }
-            return overlappingAppointments.Count;
+            return overlappingAppointments;
         }
 
         private bool IsWIthinBusinessHours(AppointmentCreateDTO appointment)

@@ -21,6 +21,7 @@ namespace AppointmentApp.Constant
         public const string APPT_FORM_INVALID = "AppointmentFormInvalid";
         public const string APPT_BIZ_HOURS = "AppointmentOutsideBusinessHours";
         public const string APPT_OVERLAPS = "AppointmentOverlap";
+        public const string UPCOMING_APPOINTMENTS = "HasUpcomingAppointments";
     }
 
     public static class CUSTOMER_EVENTS
